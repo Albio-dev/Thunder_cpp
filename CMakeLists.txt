@@ -7,15 +7,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)     # Require (at least) it
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_CXX_FLAGS " -g -O0 -Wall -Wextra -pedantic -Werror -fprofile-arcs -ftest-coverage")
+set(CMAKE_CXX_FLAGS " -g -O0 -Wall -Wextra -pedantic -Werror ")#-fprofile-arcs -ftest-coverage")
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 
 set(TARGET_NAME "outfile")
 add_executable(${TARGET_NAME} src/main.cpp src/ndarray.cpp)
 
 # Testing
-add_executable(test_outfile src/test_coverage.cpp)
-target_compile_options(test_outfile PRIVATE -coverage)
+#add_executable(test_outfile src/test_coverage.cpp)
+#target_compile_options(test_outfile PRIVATE -coverage)
 
 add_custom_target(
         test ALL
