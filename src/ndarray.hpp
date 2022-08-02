@@ -1,2 +1,3 @@
 
-struct ndarray;
+template<typename T>
+class NDArray;

@@ -1,29 +1,35 @@
 #include "ndarray.hpp"
 #include <vector>
+
 #include <iostream>
 
 using namespace std;
 
-class ndarray{
+template <class T>
+class NDArray{
 
     public:
-    vector<int> array;
+        vector<T> value;
+        vector<uint16_t> shape;
 
-    ndarray(vector<int> lengths, int* values){
+    NDArray(vector<uint16_t> lengths, T * values){
 
-        int values_length = 1;
-        for (uint j = 0; j < lengths.size(); j++)
-            values_length = j * values_length;
-        
-        for (int i = 0; i < values_length; i++){
-            array.push_back(values[i]);
+        assert(lengths.size() != 0);
+        shape = lengths;
+
+        uint16_t values_length = lengths.back();
+        lengths.pop_back();
+        for(uint16_t i : lengths)
+            values_length = values_length * i;
+
+        for (uint i = 0; i < values_length; i++){
+            value.push_back(values[i]);
         }
 
-        for (uint j = 0; j < array.size(); j++){
-
-            cout << array[j] << "\t";
-            
+        for (uint j = 0; j < value.size(); j++){
+            cout << value[j] << "\t";
         }
+
         cout << "\n";
 
     }
