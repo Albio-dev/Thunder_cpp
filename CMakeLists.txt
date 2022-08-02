@@ -15,7 +15,7 @@ add_executable(${TARGET_NAME} src/main.cpp src/ndarray.cpp)
 
 # Testing
 add_executable(test_thunder test/ndarray_test.cpp)
-target_compile_options(test_thunder PRIVATE -lgcov -fprofile-arcs -ftest-coverage)
+target_compile_options(test_thunder PRIVATE --coverage)
 target_link_libraries(test_thunder PRIVATE gcov)
 
 add_custom_target(
@@ -36,3 +36,6 @@ add_custom_target(
 
 set(CMAKE_INSTALL_PREFIX ".")
 install(TARGETS ${TARGET_NAME} DESTINATION ../bin)
+
+add_custom_target(coverage ALL
+                COMMAND ../utils/tester.sh)       
