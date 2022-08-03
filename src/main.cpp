@@ -29,6 +29,5 @@ int main() {
     cout << i;
     n.clip(3, 6);
 
-
     return 0;
 }

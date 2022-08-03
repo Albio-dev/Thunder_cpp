@@ -136,11 +136,15 @@ public:
      *
      * @return
      */
-    void dotdivide(const NDArray<T> other) {
-        vector<T> out = {};
+    template<class K>
+    vector<double> dotdivide(const NDArray<K> other) {
+        if(shape != other.shape)
+            throw "Array shape don't match";
+
+        vector<double> out = {};
 
         for(unsigned int i = 0; i < value.size(); i++){
-            out.push_back(value[i]/other.value[i]);
+            out.push_back(value[i]/(double)other.value[i]);
         }
 
         return out;
