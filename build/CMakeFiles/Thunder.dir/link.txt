@@ -1,1 +1,0 @@
-/usr/bin/g++ -O0 -Wall -Wextra -pedantic -Werror -g CMakeFiles/Thunder.dir/src/main.o CMakeFiles/Thunder.dir/src/ndarray.o -o Thunder 
