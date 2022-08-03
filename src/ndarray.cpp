@@ -59,27 +59,15 @@ public:
 
     }
 
-    NDArray(std::vector<uint16_t>& lengths, std::vector<int>& values){
+    /**
+     * @brief Construct a new NDArray object by moving vector pointers
+     * 
+     * @param lengths Vector of dimensions sizes
+     * @param values Vector of elements
+     */
+    NDArray(std::vector<uint16_t>& lengths, std::vector<T>& values){
         shape = lengths;
         value = values;
-    }
-
-    /**
-     * @brief Get the Data vector stored
-     * 
-     * @return vector<T> of data 
-     */
-    vector<T> getData() {
-        return this->value;
-    }
-
-    /**
-     * @brief Get the Shape vector
-     * 
-     * @return vector<uint16_t> shape vector: every position is the dimension size
-     */
-    vector<uint16_t> getShape() {
-        return this->shape;
     }
 
     /**
@@ -135,12 +123,43 @@ public:
         return new NDArray<int>(new_shape, output_temp);
     }
 
+    /**
+     * @brief Function to directly address the underlaying vector
+     * 
+     * @param index index of the referenced element
+     * @return T type of the element in the data structure
+     */
     T operator[](int index){
         return this->value[index];
     }
 
+    /**
+     * @brief Encapsulates underlaying vector size
+     * 
+     * @return int Number of elements in vector
+     */
     int size(){
         return this->value.size();
+    }
+
+    /**
+     * @brief Get the Data vector stored
+     *
+     * @return vector<T> of the contained data
+     */
+    vector<T> getData()
+    {
+        return this->value;
+    }
+
+    /**
+     * @brief Get the Shape vector
+     *
+     * @return vector<uint16_t> shape vector: every position is the dimension size
+     */
+    vector<uint16_t> getShape()
+    {
+        return this->shape;
     }
 
     /**

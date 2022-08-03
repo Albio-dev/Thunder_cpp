@@ -72,7 +72,7 @@ TEST_CASE("Index NDArray elements", "[Indexing]"){
     // Object creation
     NDArray<int> n = NDArray<int>(lengths, arr);
 
-    SECTION("Proper scalar indexing"){
+    SECTION("Proper scalar indexing"){        
         REQUIRE((*(n.getPosition({0, 0, 0})))[0] == 1);
         REQUIRE((*(n.getPosition({0, 1, 0})))[0] == 3);
         REQUIRE((*(n.getPosition({1, 0, 0})))[0] == 5);
@@ -80,10 +80,13 @@ TEST_CASE("Index NDArray elements", "[Indexing]"){
     }
 
     SECTION("Multidimensional indexing"){
-        NDArray output = *n.getPosition({1});
+        NDArray<int> output = *n.getPosition({1});
         for (int i = 0; i < 4; i++){
             REQUIRE(output[i] == arr[i+4]);
         }
+        REQUIRE(output.getShape().size() == 2);
+        REQUIRE(output.getShape()[0] == 2);
+        REQUIRE(output.getShape()[1] == 2);
 
         output = *n.getPosition({1, 1});
 
