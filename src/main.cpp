@@ -14,5 +14,6 @@ int main() {
     for (uint16_t i: n.shape)
         cout << i << "\t";
     cout << "\n";
+
     return 0;
 }

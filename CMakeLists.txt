@@ -14,14 +14,14 @@ set(TARGET_NAME "Thunder")
 add_executable(${TARGET_NAME} src/main.cpp src/ndarray.cpp)
 
 # Testing
-add_executable(test_thunder test/ndarray_test.cpp)
-target_compile_options(test_thunder PRIVATE --coverage)
-target_link_libraries(test_thunder PRIVATE gcov)
-
-add_custom_target(
-        test ALL
-        COMMAND ./test_thunder
-) 
+#add_executable(test_thunder test/ndarray_test.cpp)
+#target_compile_options(test_thunder PRIVATE --coverage)
+#target_link_libraries(test_thunder PRIVATE gcov)
+#
+#add_custom_target(
+#        test ALL
+#        COMMAND make test && ./test_thunder
+#)
 
 # add_custom_target(
 #         format ALL

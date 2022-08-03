@@ -3,6 +3,8 @@
 ### Personal folder ###
 data/*
 !data/.gitignore
+build/*
+!build/.gitignore
 bin/*
 !bin/.gitignore
 doc/*
