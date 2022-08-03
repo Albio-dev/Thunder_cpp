@@ -11,7 +11,7 @@ set(CMAKE_CXX_FLAGS "-O0 -Wall -Wextra -pedantic -Werror")
 set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 
 set(TARGET_NAME "Thunder")
-add_executable(${TARGET_NAME} src/main.cpp src/ndarray.cpp)
+add_executable(${TARGET_NAME} src/main.cpp src/ndarray.cpp src/series.cpp src/images.cpp)
 
 # Testing
 add_executable(test_thunder test/ndarray_test.cpp)
