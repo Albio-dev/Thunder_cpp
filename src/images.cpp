@@ -11,8 +11,8 @@ class Images : public NDArray<T> {
     }
 
     //ToDo
-    T frombinary() {
-        return NULL;
+    void frombinary() {
+        return;
     }
 
     //ToDo

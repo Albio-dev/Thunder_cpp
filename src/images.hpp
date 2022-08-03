@@ -6,6 +6,10 @@
 #define PROJ_CPP_2022_IMAGES_HPP
 #include "ndarray.hpp"
 
+#include <fstream>
+#include <iterator>
+#include <vector>
+
 
 template<class T> class Images;
 
