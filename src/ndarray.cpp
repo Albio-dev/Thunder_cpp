@@ -91,7 +91,7 @@ public:
                 return 0;
             int total = 1;
 
-            for (unsigned int k = shape.size()-1; k != i ; k--) {
+            for (unsigned int k = shape.size() - 1; k != i; k--) {
                 total = total * shape[k];
             }
 
@@ -101,4 +101,14 @@ public:
 
         return value[position];
     }
+
+    /**
+     * @brief Get the Shape vector
+     *
+     * @return vector<uint16_t> shape vector: every position is the dimension size
+     */
+    vector<uint16_t> count() {
+        return this->shape;
+    }
+
 };
