@@ -59,6 +59,11 @@ public:
 
     }
 
+    NDArray(std::vector<uint16_t>& lengths, std::vector<int>& values){
+        shape = lengths;
+        value = values;
+    }
+
     /**
      * @brief Get the Data vector stored
      * 
@@ -83,7 +88,7 @@ public:
      * @param pos a vector with a position
      * @return vector<T> value referenced by pos
      */
-    vector<T> getPosition(vector<T> pos) {
+    NDArray<T>* getPosition(vector<T> pos) {
 
         // Check indexing        
         if (pos.size() > shape.size())
@@ -109,10 +114,12 @@ public:
 
         }
 
+        vector<uint16_t> new_shape;
         // Starting from the missing dimension calculates the size of the identified matrix
         int endindex = 1;
         for (unsigned int i = lastdim; i < shape.size(); i++){
             endindex *= shape[i];
+            new_shape.push_back(shape[i]);
         }
         endindex += startIndex;
 
@@ -125,7 +132,15 @@ public:
             startIndex++;
         } while (startIndex < endindex);
 
-        return output_temp;
+        return new NDArray<int>(new_shape, output_temp);
+    }
+
+    T operator[](int index){
+        return this->value[index];
+    }
+
+    int size(){
+        return this->value.size();
     }
 
     /**

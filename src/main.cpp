@@ -13,9 +13,9 @@ int main() {
     vector<uint16_t> lengths = {1, 2, 3};
     NDArray<int> n = NDArray<int>(lengths, arr);
 
-    vector<int> data = n.getPosition({0});
+    NDArray<int> data = *n.getPosition({0, 1});
 
-    for (unsigned int i = 0; i < data.size(); i++){
+    for (int i = 0; i < data.size(); i++){
         cout << data[i] << "\t";
     }
     cout << "\n";
