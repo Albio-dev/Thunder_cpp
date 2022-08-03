@@ -37,11 +37,13 @@ class NDArray{
      */
     NDArray(vector<std::uint16_t> lengths, T * values){
 
-        //assert(lengths.size() != 0);
-        shape = lengths;
+        // Data checks
+        if (lengths.size() == 0)
+            throw "Requested 0 dimensioned array";
 
-        uint16_t values_length = lengths.back();
-        lengths.pop_back();
+        this->shape = lengths;
+
+        uint16_t values_length = 1;
         for(uint16_t i : lengths)
             values_length = values_length * i;
 

@@ -14,5 +14,7 @@ int main() {
     for (uint16_t i: n.shape)
         cout << i << "\t";
     cout << "\n";
+
+    cout << arr[5]<< "\n";
     return 0;
 }
