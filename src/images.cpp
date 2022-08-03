@@ -12,26 +12,26 @@ class Images : public NDArray<T> {
 
     //ToDo
     T frombinary() {
-        return NULL
+        return NULL;
     }
 
     //ToDo
     T fromtif() {
-        return NULL
+        return NULL;
     }
 
     //ToDo
     T frompath() {
-        return NULL
+        return NULL;
     }
 
     //ToDo
     T fromfile() {
-        return NULL
+        return NULL;
     }
 
     //ToDo
     T frompng() {
-        return NULL
+        return NULL;
     }
 };

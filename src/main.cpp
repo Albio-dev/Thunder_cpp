@@ -27,6 +27,7 @@ int main() {
     cout << i;
      i = n.getPosition({1, 1, 1});
     cout << i;
+    n.clip(3, 6);
 
 
     return 0;
