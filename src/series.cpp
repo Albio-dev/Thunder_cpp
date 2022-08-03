@@ -5,7 +5,9 @@
 #include "series.hpp"
 
 template<class T> class Series: public NDArray<T>{
-    T getPosition() {
+    T getPosition(std::vector<uint16_t> indexes) {
+        
+        NDArray<T>::getPosition(indexes);
         return NULL;
     }
 

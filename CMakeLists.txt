@@ -12,6 +12,8 @@ set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 
 set(TARGET_NAME "Thunder")
 add_executable(${TARGET_NAME} src/main.cpp src/ndarray.cpp src/series.cpp src/images.cpp)
+target_compile_options(${TARGET_NAME} PRIVATE --coverage)
+target_link_libraries(${TARGET_NAME} PRIVATE gcov)
 
 # Testing
 add_executable(test_thunder test/ndarray_test.cpp)
@@ -38,4 +40,12 @@ set(CMAKE_INSTALL_PREFIX ".")
 install(TARGETS ${TARGET_NAME} DESTINATION ../bin)
 
 add_custom_target(coverage ALL
-                COMMAND ../utils/tester.sh)       
+                COMMAND mkdir -p ../doc/coverage
+                COMMAND lcov --capture --directory .. --output-file coverage.info
+                COMMAND lcov --extract coverage.info '*/src/*' --output-file ../doc/coverage/coverage.info
+                COMMAND lcov --list ../doc/coverage/coverage.info
+                COMMAND genhtml -o ../doc/coverage ../doc/coverage/coverage.info 
+                )
+
+
+                #COMMAND ../utils/tester.sh)       

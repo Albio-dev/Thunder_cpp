@@ -15,7 +15,7 @@ TEST_CASE("Create an ndarray", "[Creation]")
 
         // Testing for data
         for (int i = 0; i < 4; i++){
-            REQUIRE(n.getData()[i] == inputArray[i]);
+            REQUIRE(n.getValue()[i] == inputArray[i]);
         }
 
         // Testing for shape
@@ -73,14 +73,15 @@ TEST_CASE("Index NDArray elements", "[Indexing]"){
     NDArray<int> n = NDArray<int>(lengths, arr);
 
     SECTION("Proper scalar indexing"){        
-        REQUIRE((*(n.getPosition({0, 0, 0})))[0] == 1);
-        REQUIRE((*(n.getPosition({0, 1, 0})))[0] == 3);
-        REQUIRE((*(n.getPosition({1, 0, 0})))[0] == 5);
-        REQUIRE((*(n.getPosition({1, 1, 1})))[0] == 8);
+        
+        REQUIRE(n.getPosition({0, 0, 0})[0] == 1);
+        REQUIRE(n.getPosition({0, 1, 0})[0] == 3);
+        REQUIRE(n.getPosition({1, 0, 0})[0] == 5);
+        REQUIRE(n.getPosition({1, 1, 1})[0] == 8);
     }
 
     SECTION("Multidimensional indexing"){
-        NDArray<int> output = *n.getPosition({1});
+        NDArray<int> output = n.getPosition({1});
         for (int i = 0; i < 4; i++){
             REQUIRE(output[i] == arr[i+4]);
         }
@@ -88,7 +89,7 @@ TEST_CASE("Index NDArray elements", "[Indexing]"){
         REQUIRE(output.getShape()[0] == 2);
         REQUIRE(output.getShape()[1] == 2);
 
-        output = *n.getPosition({1, 1});
+        output = n.getPosition({1, 1});
 
         REQUIRE(output[0] == 7);
         REQUIRE(output[1] == 8);
@@ -101,4 +102,21 @@ TEST_CASE("Index NDArray elements", "[Indexing]"){
     SECTION("Out of bounds indexing"){
         REQUIRE_THROWS(n.getPosition({3, 1, 1}));
     }
+}
+
+TEST_CASE("Counting test", "[Count]"){
+    NDArray<int> a = NDArray<int>({1, 2}, {1, 1});
+    REQUIRE(a.count() == 1);
+
+    a = NDArray<int>({2, 1}, {1, 1});    
+    REQUIRE(a.count() == 2);
+
+    a = NDArray<int>({5, 1}, {1, 1, 1, 1, 1});    
+    REQUIRE(a.count() == 5);
+
+    a = NDArray<int>({5, 2, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1});    
+    REQUIRE(a.count() == 10);
+
+    a = NDArray<int>({5}, {1, 1, 1, 1, 1});    
+    REQUIRE(a.count() == 1);
 }
