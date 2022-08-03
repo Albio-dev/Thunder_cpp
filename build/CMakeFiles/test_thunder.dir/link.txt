@@ -1,0 +1,1 @@
+/usr/bin/g++ -O0 -Wall -Wextra -pedantic -Werror -g CMakeFiles/test_thunder.dir/test/ndarray_test.o -o test_thunder  -lgcov 
