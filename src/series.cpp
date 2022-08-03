@@ -11,13 +11,13 @@ template<class T> class Series: public NDArray<T>{
 
     //ToDo
     T frombinary() {
-        return NULL
+        return NULL;
     }
 
 
     //ToDo
     T fromtext() {
-        return NULL
+        return NULL;
     }
 
 };

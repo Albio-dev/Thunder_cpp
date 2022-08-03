@@ -163,12 +163,40 @@ public:
     }
 
     /**
-     * @brief
+     * @brief Explicit count of elements. Return one default, I use only one matrix. Spark use multiple matrices
      *
-     * @return
+     * @return 1
      */
     int count() {
         return 1;
     }
+
+    /**
+     * @brief Clip values in an array above and below
+     *
+     * @param min_value min value to clip
+     * @param max_value max value to clip
+     */
+    void clip(const T& min_value, const T& max_value) {
+        std::transform(std::begin(value), std::end(value), std::begin(value),
+                       [&] (const T& v) { return std::clamp(v, min_value, max_value); });
+    }
+
+    /**
+     * @brief Dot devide and array with another. ToDo: Controlli grandezze array e valori siano corretti/compatibibli
+     *  tipo se un valore é di tipo int e l'altro tipo uint cast di che tipo (int imo)
+     *
+     * @return
+     */
+    void dotdivide(const NDArray<T> other) {
+        vector<T> out = {};
+
+        for(unsigned int i = 0; i < value.size(); i++){
+            out.push_back(value[i]/other.value[i]);
+        }
+
+        return out;
+    }
+
 
 };
