@@ -42,7 +42,7 @@ public:
      * @param values Actual matrix values
      */
     NDArray(vector<std::uint16_t> lengths, T *values) {
-
+// TODO: forse values può essere convertita direttamente in un vector?
         // Data checks
         if (lengths.size() == 0)
             throw "Requested 0 dimensioned array";
@@ -60,21 +60,14 @@ public:
     }
 
     /**
-     * @brief Get the Data vector stored
+     * @brief Construct a new NDArray object by moving vector pointers
      * 
-     * @return vector<T> of data 
+     * @param lengths Vector of dimensions sizes
+     * @param values Vector of elements
      */
-    vector<T> getData() {
-        return this->value;
-    }
-
-    /**
-     * @brief Get the Shape vector
-     * 
-     * @return vector<uint16_t> shape vector: every position is the dimension size
-     */
-    vector<uint16_t> getShape() {
-        return this->shape;
+    NDArray(std::vector<uint16_t>& lengths, std::vector<T>& values){
+        shape = lengths;
+        value = values;
     }
 
     /**
@@ -83,31 +76,90 @@ public:
      * @param pos a vector with a position
      * @return vector<T> value referenced by pos
      */
-    T getPosition(vector<int> pos) {
+    NDArray<T>* getPosition(vector<T> pos) {
 
-        // Check indexing
-        if (pos.size() != shape.size())
+        // Check indexing        
+        if (pos.size() > shape.size())
             throw "Wrong dimensional indexing: dimensions mismatch";
+        
+        int lastdim = pos.size();
 
-        // Calculate requested element's position
-        int position = 0;
-        for (unsigned int i = 0; i < shape.size(); i++) {
+        // Calculate requested element's position up to the specified dimension
+        int startIndex = 0;
+        for (unsigned int i = 0; i < pos.size(); i++) {
             // Check if index out of bounds
             if (pos[i] < 0 || pos[i] >= shape[i])
                 throw "Index out of bounds";
 
-            // Calculating chunk size
-            int total = 1;
+            // Calculating chunk size 
+            int subDimensionSize = 1;
             for (unsigned int k = shape.size()-1; k != i ; k--) {
-                total = total * shape[k];
+                subDimensionSize *= shape[k];
             }
 
             // Shift index by input * chunk size
-            position = position + pos[i] * total;
+            startIndex = startIndex + pos[i] * subDimensionSize;
 
         }
 
-        return value[position];
+        vector<uint16_t> new_shape;
+        // Starting from the missing dimension calculates the size of the identified matrix
+        int endindex = 1;
+        for (unsigned int i = lastdim; i < shape.size(); i++){
+            endindex *= shape[i];
+            new_shape.push_back(shape[i]);
+        }
+        endindex += startIndex;
+
+        // Temporary output structure
+        vector<T> output_temp;
+
+        // Extract data in range
+        do{
+            output_temp.push_back(this->value[startIndex]);
+            startIndex++;
+        } while (startIndex < endindex);
+
+        return new NDArray<int>(new_shape, output_temp);
+    }
+
+    /**
+     * @brief Function to directly address the underlaying vector
+     * 
+     * @param index index of the referenced element
+     * @return T type of the element in the data structure
+     */
+    T operator[](int index){
+        return this->value[index];
+    }
+
+    /**
+     * @brief Encapsulates underlaying vector size
+     * 
+     * @return int Number of elements in vector
+     */
+    int size(){
+        return this->value.size();
+    }
+
+    /**
+     * @brief Get the Data vector stored
+     *
+     * @return vector<T> of the contained data
+     */
+    vector<T> getData()
+    {
+        return this->value;
+    }
+
+    /**
+     * @brief Get the Shape vector
+     *
+     * @return vector<uint16_t> shape vector: every position is the dimension size
+     */
+    vector<uint16_t> getShape()
+    {
+        return this->shape;
     }
 
     /**
