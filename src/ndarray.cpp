@@ -42,7 +42,7 @@ public:
      * @param values Actual matrix values
      */
     NDArray(vector<std::uint16_t> lengths, T *values) {
-
+// TODO: forse values può essere convertita direttamente in un vector?
         // Data checks
         if (lengths.size() == 0)
             throw "Requested 0 dimensioned array";
@@ -83,31 +83,49 @@ public:
      * @param pos a vector with a position
      * @return vector<T> value referenced by pos
      */
-    T getPosition(vector<int> pos) {
+    vector<T> getPosition(vector<T> pos) {
 
-        // Check indexing
-        if (pos.size() != shape.size())
+        // Check indexing        
+        if (pos.size() > shape.size())
             throw "Wrong dimensional indexing: dimensions mismatch";
+        
+        int lastdim = pos.size();
 
-        // Calculate requested element's position
-        int position = 0;
-        for (unsigned int i = 0; i < shape.size(); i++) {
+        // Calculate requested element's position up to the specified dimension
+        int startIndex = 0;
+        for (unsigned int i = 0; i < pos.size(); i++) {
             // Check if index out of bounds
             if (pos[i] < 0 || pos[i] >= shape[i])
                 throw "Index out of bounds";
 
-            // Calculating chunk size
-            int total = 1;
+            // Calculating chunk size 
+            int subDimensionSize = 1;
             for (unsigned int k = shape.size()-1; k != i ; k--) {
-                total = total * shape[k];
+                subDimensionSize *= shape[k];
             }
 
             // Shift index by input * chunk size
-            position = position + pos[i] * total;
+            startIndex = startIndex + pos[i] * subDimensionSize;
 
         }
 
-        return value[position];
+        // Starting from the missing dimension calculates the size of the identified matrix
+        int endindex = 1;
+        for (unsigned int i = lastdim; i < shape.size(); i++){
+            endindex *= shape[i];
+        }
+        endindex += startIndex;
+
+        // Temporary output structure
+        vector<T> output_temp;
+
+        // Extract data in range
+        do{
+            output_temp.push_back(this->value[startIndex]);
+            startIndex++;
+        } while (startIndex < endindex);
+
+        return output_temp;
     }
 
     /**
