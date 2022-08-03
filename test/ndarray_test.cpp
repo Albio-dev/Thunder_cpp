@@ -57,3 +57,34 @@ TEST_CASE("Create an ndarray", "[Creation]")
     }
 
 }
+
+TEST_CASE("Index NDArray elements", "[Indexing]"){
+
+    // 8 long array
+    int arr[] = {1, 2,
+                 3, 4,
+
+                 5, 6,
+                 7, 8};
+
+    // 2x2x2 dimensions definition
+    vector<uint16_t> lengths = {2, 2, 2};
+    // Object creation
+    NDArray<int> n = NDArray<int>(lengths, arr);
+
+    SECTION("Proper indexing"){
+        REQUIRE(n.getPosition({0, 0, 0}) == 1);
+        REQUIRE(n.getPosition({0, 1, 0}) == 3);
+        REQUIRE(n.getPosition({1, 0, 0}) == 5);
+        REQUIRE(n.getPosition({1, 1, 1}) == 8);
+    }
+
+    SECTION("Wrong indexing"){
+        REQUIRE_THROWS(n.getPosition({1}));
+        REQUIRE_THROWS(n.getPosition({1, 1, 1, 1, 1}));
+    }
+
+    SECTION("Out of bounds indexing"){
+        REQUIRE_THROWS(n.getPosition({3, 1, 1}));
+    }
+}

@@ -84,19 +84,26 @@ public:
      * @return vector<T> value referenced by pos
      */
     T getPosition(vector<int> pos) {
-        assert(pos.size() == shape.size());
+
+        // Check indexing
+        if (pos.size() != shape.size())
+            throw "Wrong dimensional indexing: dimensions mismatch";
+
+        // Calculate requested element's position
         int position = 0;
         for (unsigned int i = 0; i < shape.size(); i++) {
+            // Check if index out of bounds
             if (pos[i] < 0 || pos[i] >= shape[i])
-                return 0;
+                throw "Index out of bounds";
+                
+            // Calculating chunk size
             int total = 1;
-
             for (unsigned int k = shape.size()-1; k != i ; k--) {
                 total = total * shape[k];
             }
 
+            // Shift index by input * chunk size
             position = position + pos[i] * total;
-
         }
 
         return value[position];
