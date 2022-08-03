@@ -15,6 +15,5 @@ int main() {
         cout << i << "\t";
     cout << "\n";
 
-    cout << arr[5]<< "\n";
     return 0;
 }
