@@ -2,11 +2,10 @@
 #include <cstdint>
 #include <cassert>
 #include <string>
-
+#include <algorithm>
 #include <iostream>
 
-
-template<typename T>
+template <typename T>
 class NDArray;
 /*
 class NDArray{

@@ -82,6 +82,7 @@ TEST_CASE("Index NDArray elements", "[Indexing]"){
 
     SECTION("Multidimensional indexing"){
         NDArray<int> output = n.getPosition({1});
+        
         for (int i = 0; i < 4; i++){
             REQUIRE(output[i] == arr[i+4]);
         }
@@ -104,7 +105,7 @@ TEST_CASE("Index NDArray elements", "[Indexing]"){
     }
 }
 
-TEST_CASE("Counting test", "[Count]"){
+TEST_CASE("Count function usage", "[Count]"){
     NDArray<int> a = NDArray<int>({1, 2}, {1, 1});
     REQUIRE(a.count() == 1);
 
@@ -119,4 +120,21 @@ TEST_CASE("Counting test", "[Count]"){
 
     a = NDArray<int>({5}, {1, 1, 1, 1, 1});    
     REQUIRE(a.count() == 1);
+}
+
+TEST_CASE("Clip function usage", "[Clip]"){
+    NDArray<int> a = NDArray<int>({10}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+
+    a.clip(5, 6);
+
+    int index = 0;
+    REQUIRE(a[index++] == 5);
+    REQUIRE(a[index++] == 5);
+    REQUIRE(a[index++] == 5);
+    REQUIRE(a[index++] == 5);
+    REQUIRE(a[index++] == 5);
+    REQUIRE(a[index++] == 5);
+    REQUIRE(a[index++] == 6);
+    REQUIRE(a[index++] == 6);
+    REQUIRE(a[index++] == 6);
 }

@@ -69,7 +69,6 @@ public:
      */
     NDArray(vector<std::uint16_t> lengths, vector<T> values)
     {
-        // TODO: forse values può essere convertita direttamente in un vector?
         // Data checks
         if (lengths.size() == 0)
             throw "Requested 0 dimensioned array";
@@ -82,6 +81,7 @@ public:
 
         if (values.size() != values_length)
             throw "Matrix dimensions and data length mismatch";
+
         this->value = values;
     }
 
@@ -96,6 +96,7 @@ public:
         // Check indexing        
         if (pos.size() > shape.size())
             throw "Wrong dimensional indexing: dimensions mismatch";
+        
         
         int lastdim = pos.size();
 
@@ -182,29 +183,6 @@ public:
         return this->shape;
     }
 
-    /**
-     * @brief Explicit count of elements. Return one default, I use only one matrix. Spark use multiple matrices
-     *
-     * @return 1
-     */
-    int count() {
-        // Count how many least-dimensioned elements are present
-        int size = 1;
-        for (unsigned int i = 0; i < this->shape.size()-1; i++)
-            size *= this->shape[i];
-        return size;
-    }
-
-    /**
-     * @brief Clip values in an array above and below
-     *
-     * @param min_value min value to clip
-     * @param max_value max value to clip
-     */
-    void clip(const T& min_value, const T& max_value) {
-        transform(std::begin(value), std::end(value), std::begin(value),
-                       [&] (const T& v) { return clamp(v, min_value, max_value); });
-    }
 
     /**
      * @brief Dot divide a matrix with another. ToDo: Controlli grandezze array e valori siano corretti/compatibibli
@@ -215,7 +193,7 @@ public:
     template<class K>
     vector<double> dotdivide(const NDArray<K> other) {
         if(shape != other.shape)
-            throw "Array shape don't match";
+            throw "Array shapes don't match";
 
         vector<double> out = {};
 
@@ -234,6 +212,9 @@ public:
      */
     vector<T> dottimes(const NDArray<T> other)
     {
+        if (shape != other.shape)
+            throw "Array shapes don't match";
+
         vector<T> out = {};
 
         for (unsigned int i = 0; i < value.size(); i++)
@@ -244,39 +225,16 @@ public:
         return out;
     }
 
-    // TODO: Controllo dimensioni
-    NDArray<T> operator+(const NDArray<T> other)
-    {
-        vector<T> out = {};
-
-        for (unsigned int i = 0; i < value.size(); i++)
-        {
-            out.push_back(value[i] + other.value[i]);
-        }
-
-        return NDArray(this->shape, out);
-    }
-
-    // TODO: Controllo dimensioni
-    NDArray<T> operator-(const NDArray<T> other)
-    {
-        vector<T> out = {};
-
-        for (unsigned int i = 0; i < value.size(); i++)
-        {
-            out.push_back(value[i] + other.value[i]);
-        }
-
-        return NDArray(this->shape, out);
-    }
     /**
-     * @brief Dot multiplication a matrix with another. 
+     * @brief Dot function a matrix with another.
      *
      * @return
      */
-    template<class OP>
+    template <class OP>
     vector<T> element_wise(const NDArray<T> other, OP op)
     {
+        if (shape != other.shape)
+            throw "Array shapes don't match";
         vector<T> out = {};
 
         for (unsigned int i = 0; i < value.size(); i++)
@@ -287,16 +245,79 @@ public:
         return out;
     }
 
-    vector<T> filter(bool (*func)(NDArray<T>)){
-        return {0};
+
+    /**
+     * @brief Clip values in an array above and below provided values
+     *
+     * @param min_value min value to clip
+     * @param max_value max value to clip
+     */
+    void clip(const T& min_value, const T& max_value) {
+                
+        transform(std::begin(value), std::end(value), std::begin(value),
+                       [&] (const T& v) { return clamp(v, min_value, max_value); });
     }
 
-    T first(){
+    NDArray<T> operator+(const NDArray<T> other)
+    {
+        if (shape != other.shape)
+            throw "Array shapes don't match";
+
+        vector<T> out = {};
+
+        for (unsigned int i = 0; i < value.size(); i++)
+        {
+            out.push_back(value[i] + other.value[i]);
+        }
+
+        return NDArray(this->shape, out);
+    }
+
+    NDArray<T> operator-(const NDArray<T> other)
+    {
+        if (shape != other.shape)
+            throw "Array shapes don't match";
+        vector<T> out = {};
+
+        for (unsigned int i = 0; i < value.size(); i++)
+        {
+            out.push_back(value[i] + other.value[i]);
+        }
+
+        return NDArray(this->shape, out);
+    }
+
+    T first()
+    {
         return this->value[0];
     }
 
-    NDArray<T> map(T (*func)(T)){
+    NDArray<T> map(T (*func)(T))
+    {
         return NULL;
+    }
+
+    T *toarray()
+    {
+        return &(this->value)[0];
+    }
+
+    /**
+     * @brief Count how many least dimension elements are stored
+     *
+     * @return multiplication of dimension sizes except last
+     */
+    int count()
+    {
+        // Count how many least-dimensioned elements are present
+        int size = 1;
+        for (unsigned int i = 0; i < this->shape.size() - 1; i++)
+            size *= this->shape[i];
+        return size;
+    }
+
+    vector<T> filter(bool (*func)(NDArray<T>)){
+        return {0};
     }
 
     T max()
@@ -323,7 +344,5 @@ public:
         double sq_sum = inner_product(value.begin(), value.end(), value.begin(), 0.0);
         return sq_sum / value.size() - mean() * mean();
     }
-    T* toarray(){
-        return &(this->value)[0];
-    }
+    
 };
