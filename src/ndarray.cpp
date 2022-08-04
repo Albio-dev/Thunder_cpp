@@ -263,9 +263,9 @@ public:
         return;
     }
 
-    NDArray<T> map(T (*func)(T)){
-        return NULL;
-    }
+//    NDArray<T> map(T (*func)(T)){ errors in compile time, cancel
+//        return NULL;
+//    }
 
     T max()
     {
@@ -280,7 +280,8 @@ public:
         return this->sum() / value.size();
     }
     T sum(){
-        return sum = accumulate(value.begin(), value.end(), 0.0);
+        // return sum = accumulate(value.begin(), value.end(), 0.0); old with error
+        return accumulate(value.begin(), value.end(), 0.0);
     }
     T std(){
         double sq_sum = inner_product(value.begin(), value.end(), value.begin(), 0.0);
