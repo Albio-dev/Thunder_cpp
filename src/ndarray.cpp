@@ -229,6 +229,10 @@ public:
         npartitions = 2;
 
         return out;
+    }
+
+    
+
     /**
      * @brief Dot function a matrix with another.
      *
@@ -300,15 +304,7 @@ public:
     {
         return NULL;
     }
-        std::random_device dev;
-        std::mt19937 rng(seed);
-        std::uniform_real_distribution<float> dist6(1,6); // distribution in range [1, 6]
-        for(int k=0; k < num_values; k++){
-            this->value.push_back(dist6(rng));
-        }
-        std::cout << "OK";
-        return;
-    }
+        
 
     /** @brief
      *
@@ -333,6 +329,8 @@ public:
     {
         return &(this->value)[0];
     }
+
+    
 
     /**
      * @brief Count how many least dimension elements are stored
