@@ -3,6 +3,9 @@
 #include <cassert>
 #include <string>
 #include <algorithm>
+#include <random>
+#include <list>
+
 #include <iostream>
 
 template <typename T>

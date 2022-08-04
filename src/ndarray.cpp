@@ -24,12 +24,12 @@ using namespace std;
 template<class T>
 class NDArray {
 
+public:
     /// @var Actual values vector
     vector<T> value;
     /// @var Matrix size
     vector<uint16_t> shape;
 
-public:
     /**
      * @brief Construct a new NDArray object
      */
@@ -43,6 +43,7 @@ public:
      * @param values Actual matrix values, C array format (T*)
      */
     NDArray(vector<std::uint16_t> lengths, T *values) {
+// TODO: forse values può essere convertita direttamente in un vector?
         // Data checks
         if (lengths.size() == 0)
             throw "Requested 0 dimensioned array";
@@ -204,11 +205,8 @@ public:
         return out;
     }
 
-    /**
-     * @brief Dot multiplication a matrix with another. ToDo: Controlli grandezze array e valori siano corretti/compatibibli
-     *  tipo se un valore é di tipo int e l'altro tipo uint cast di che tipo (int imo)
+    /** @brief
      *
-     * @return
      */
     vector<T> dottimes(const NDArray<T> other)
     {
@@ -220,11 +218,17 @@ public:
         for (unsigned int i = 0; i < value.size(); i++)
         {
             out.push_back(value[i] * other.value[i]);
-        }
-
-        return out;
     }
 
+    void fromrandom(std::vector<uint16_t> shape={1}, int npartitions=1, int seed=42) {
+        this->shape = shape;
+        int num_values = 1;
+        for(uint16_t i: shape){
+            num_values = num_values * i;
+        }
+        npartitions = 2;
+
+        return out;
     /**
      * @brief Dot function a matrix with another.
      *
@@ -296,6 +300,34 @@ public:
     {
         return NULL;
     }
+        std::random_device dev;
+        std::mt19937 rng(seed);
+        std::uniform_real_distribution<float> dist6(1,6); // distribution in range [1, 6]
+        for(int k=0; k < num_values; k++){
+            this->value.push_back(dist6(rng));
+        }
+        std::cout << "OK";
+        return;
+    }
+
+    /** @brief
+     *
+     */
+    void fromlist(std::list<T> l={}) {
+        this->shape = {l.size()};
+        this->value.reserve(l.size());
+        this->value.assign(l.begin(), l.end());
+
+//        for (char const &c: l) {
+//            this->value.push_back(c);
+//        }
+
+        return;
+    }
+
+//    NDArray<T> map(T (*func)(T)){ errors in compile time, cancel
+//        return NULL;
+//    }
 
     T *toarray()
     {
@@ -333,7 +365,8 @@ public:
         return this->sum() / value.size();
     }
     T sum(){
-        return sum = accumulate(value.begin(), value.end(), 0.0);
+        // return sum = accumulate(value.begin(), value.end(), 0.0); old with error
+        return accumulate(value.begin(), value.end(), 0.0);
     }
     T std(){
         double sq_sum = inner_product(value.begin(), value.end(), value.begin(), 0.0);

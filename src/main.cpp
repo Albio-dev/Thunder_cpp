@@ -1,4 +1,6 @@
 #include "ndarray.cpp"
+#include "images.cpp"
+#include "series.cpp"
 
 #include <stdio.h>
 #include <iostream>
@@ -15,10 +17,9 @@ int main() {
 
     NDArray<int> data = n.getPosition({0, 1});
 
-    for (int i = 0; i < data.size(); i++){
-        cout << data[i] << "\t";
-    }
-    cout << "\n";
+    Series<float> q = Series<float>();
+    q.fromtext("../data/values.txt");
+    q.fromrandom();
 
     return 0;
 }
