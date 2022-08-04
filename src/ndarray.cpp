@@ -42,7 +42,7 @@ public:
      * @param values Actual matrix values
      */
     NDArray(vector<std::uint16_t> lengths, T *values) {
-// TODO: forse values può essere convertita direttamente in un vector?
+        // TODO: forse values può essere convertita direttamente in un vector?
         // Data checks
         if (lengths.size() == 0)
             throw "Requested 0 dimensioned array";
@@ -202,5 +202,40 @@ public:
         return out;
     }
 
+    /** @brief
+     *
+     */
+    void fromrandom(std::vector<uint16_t> shape={1}, int npartitions=1, int seed=42) {
+        this->shape = shape;
+        int num_values = 1;
+        for(uint16_t i: shape){
+            num_values = num_values * i;
+        }
+        npartitions = 2;
+
+        std::random_device dev;
+        std::mt19937 rng(seed);
+        std::uniform_real_distribution<float> dist6(1,6); // distribution in range [1, 6]
+        for(int k=0; k < num_values; k++){
+            this->value.push_back(dist6(rng));
+        }
+        std::cout << "OK";
+        return;
+    }
+
+    /** @brief
+     *
+     */
+    void fromlist(std::list<T> l={}) {
+        this->shape = {l.size()};
+        this->value.reserve(l.size());
+        this->value.assign(l.begin(), l.end());
+
+//        for (char const &c: l) {
+//            this->value.push_back(c);
+//        }
+
+        return;
+    }
 
 };

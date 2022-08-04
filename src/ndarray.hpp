@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <cassert>
 #include <string>
+#include <random>
+#include <list>
 
 #include <iostream>
 
