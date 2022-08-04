@@ -36,13 +36,14 @@ public:
     NDArray() = default;
 
     /**
-     * @brief Construct a new NDArray object
+     * @brief Construct a new NDArray object when values are given in a C array
+     * Basically a copy constructor since it copies the elements in the array in a vector
      *
-     * @param lengths Dimensions vector object, basically a reshape
-     * @param values Actual matrix values
+     * @param lengths Dimensions vector of the resulting object
+     * @param values Actual matrix values, C array format (T*)
      */
     NDArray(vector<std::uint16_t> lengths, T *values) {
-        // TODO: forse values può essere convertita direttamente in un vector?
+// TODO: forse values può essere convertita direttamente in un vector?
         // Data checks
         if (lengths.size() == 0)
             throw "Requested 0 dimensioned array";
@@ -60,14 +61,29 @@ public:
     }
 
     /**
-     * @brief Construct a new NDArray object by moving vector pointers
-     * 
-     * @param lengths Vector of dimensions sizes
-     * @param values Vector of elements
+     * @brief Construct a new NDArray object when values are already in a vector
+     * Almost a move constructor, since it copies the address of both
+     * vectors
+     *
+     * @param lengths Dimensions vector of the resulting object
+     * @param values Actual matrix values, already in vector format
      */
-    NDArray(std::vector<uint16_t>& lengths, std::vector<T>& values){
-        shape = lengths;
-        value = values;
+    NDArray(vector<std::uint16_t> lengths, vector<T> values)
+    {
+        // TODO: forse values può essere convertita direttamente in un vector?
+        // Data checks
+        if (lengths.size() == 0)
+            throw "Requested 0 dimensioned array";
+
+        this->shape = lengths;
+
+        uint16_t values_length = 1;
+        for (uint16_t i : lengths)
+            values_length = values_length * i;
+
+        if (values.size() != values_length)
+            throw "Matrix dimensions and data length mismatch";
+        this->value = values;
     }
 
     /**
@@ -76,7 +92,7 @@ public:
      * @param pos a vector with a position
      * @return vector<T> value referenced by pos
      */
-    NDArray<T>* getPosition(vector<T> pos) {
+    NDArray<T> getPosition(vector<T> pos) {
 
         // Check indexing        
         if (pos.size() > shape.size())
@@ -120,7 +136,9 @@ public:
             startIndex++;
         } while (startIndex < endindex);
 
-        return new NDArray<int>(new_shape, output_temp);
+        if (new_shape.size() == 0)
+            new_shape.push_back(1);
+        return NDArray<T>(new_shape, output_temp);
     }
 
     /**
@@ -129,8 +147,11 @@ public:
      * @param index index of the referenced element
      * @return T type of the element in the data structure
      */
-    T operator[](int index){
-        return this->value[index];
+    T operator[](unsigned int index){
+        if (index < this->value.size())
+            return this->value[index];
+        else
+            throw "Out of bound indexing";
     }
 
     /**
@@ -147,7 +168,7 @@ public:
      *
      * @return vector<T> of the contained data
      */
-    vector<T> getData()
+    vector<T> getValue()
     {
         return this->value;
     }
@@ -168,7 +189,11 @@ public:
      * @return 1
      */
     int count() {
-        return 1;
+        // Count how many least-dimensioned elements are present
+        int size = 1;
+        for (unsigned int i = 0; i < this->shape.size()-1; i++)
+            size *= this->shape[i];
+        return size;
     }
 
     /**
@@ -178,12 +203,12 @@ public:
      * @param max_value max value to clip
      */
     void clip(const T& min_value, const T& max_value) {
-        std::transform(std::begin(value), std::end(value), std::begin(value),
-                       [&] (const T& v) { return std::clamp(v, min_value, max_value); });
+        transform(std::begin(value), std::end(value), std::begin(value),
+                       [&] (const T& v) { return clamp(v, min_value, max_value); });
     }
 
     /**
-     * @brief Dot devide and array with another. ToDo: Controlli grandezze array e valori siano corretti/compatibibli
+     * @brief Dot divide a matrix with another. ToDo: Controlli grandezze array e valori siano corretti/compatibibli
      *  tipo se un valore é di tipo int e l'altro tipo uint cast di che tipo (int imo)
      *
      * @return
@@ -238,4 +263,35 @@ public:
         return;
     }
 
+    NDArray<T> map(T (*func)(T)){
+        return NULL;
+    }
+
+    T max()
+    {
+        return max(this->value);
+    }
+    T min()
+    {
+        return min(this->value);
+    }
+    T mean()
+    {
+        return this->sum() / value.size();
+    }
+    T sum(){
+        return sum = accumulate(value.begin(), value.end(), 0.0);
+    }
+    T std(){
+        double sq_sum = inner_product(value.begin(), value.end(), value.begin(), 0.0);
+        return sqrt(sq_sum / value.size() - mean() * mean());
+    }
+    T var()
+    {
+        double sq_sum = inner_product(value.begin(), value.end(), value.begin(), 0.0);
+        return sq_sum / value.size() - mean() * mean();
+    }
+    T* toarray(){
+        return &(this->value)[0];
+    }
 };

@@ -15,7 +15,7 @@ int main() {
     vector<uint16_t> lengths = {1, 2, 3};
     NDArray<int> n = NDArray<int>(lengths, arr);
 
-    NDArray<int> data = *n.getPosition({0, 1});
+    NDArray<int> data = n.getPosition({0, 1});
 
     Series<float> q = Series<float>();
     q.fromtext("../data/values.txt");
