@@ -10,7 +10,6 @@
  */
 
 #include "ndarray.hpp"
-
 using namespace std;
 
 /**
@@ -143,6 +142,51 @@ public:
     }
 
     /**
+     * @brief Sum operation between two NDArrays
+     * 
+     * @param other Other NDArray summed to this one
+     * @return NDArray<T> Result of sum
+     */
+    NDArray<T> operator+(const NDArray<T> other)
+    {
+        // Compatibility shape check
+        if (shape != other.shape)
+            throw "Array shapes don't match";
+
+        // Output vector
+        vector<T> out;
+
+
+        for (unsigned int i = 0; i < value.size(); i++)
+        {
+            out.push_back(value[i] + other.value[i]);
+        }
+
+        return NDArray(this->shape, out);
+    }
+
+    /**
+     * @brief Subtraction operation between two NDArrays
+     *
+     * @param other Other NDArray subtracted to this one
+     * @return NDArray<T> Result of subtraction
+     */
+    NDArray<T> operator-(const NDArray<T> other)
+    {
+        // Compatibility shape check
+        if (shape != other.shape)
+            throw "Array shapes don't match";
+        vector<T> out = {};
+// TODO: forse snellire? copiare un vector in output ed eseguire l'operazione in loco
+        for (unsigned int i = 0; i < value.size(); i++)
+        {
+            out.push_back(value[i] - other.value[i]);
+        }
+
+        return NDArray(this->shape, out);
+    }
+
+    /**
      * @brief Function to directly address the underlaying vector
      * 
      * @param index index of the referenced element
@@ -222,6 +266,7 @@ public:
     }
 
     // TODO: errore di compilazione     parameter ‘npartitions’ set but not used [-Werror=unused-but-set-parameter]
+    /*
     void fromrandom(std::vector<uint16_t> shape={1}, int npartitions=1, int seed=42) {
         this->shape = shape;
         int num_values = 1;
@@ -239,7 +284,7 @@ public:
         }
         std::cout << "OK";
         return;
-    }
+    }*/
 
     
 
@@ -276,43 +321,48 @@ public:
                        [&] (const T& v) { return clamp(v, min_value, max_value); });
     }
 
-    NDArray<T> operator+(const NDArray<T> other)
-    {
-        if (shape != other.shape)
-            throw "Array shapes don't match";
-
-        vector<T> out = {};
-
-        for (unsigned int i = 0; i < value.size(); i++)
-        {
-            out.push_back(value[i] + other.value[i]);
-        }
-
-        return NDArray(this->shape, out);
-    }
-
-    NDArray<T> operator-(const NDArray<T> other)
-    {
-        if (shape != other.shape)
-            throw "Array shapes don't match";
-        vector<T> out = {};
-
-        for (unsigned int i = 0; i < value.size(); i++)
-        {
-            out.push_back(value[i] + other.value[i]);
-        }
-
-        return NDArray(this->shape, out);
-    }
-
     T first()
     {
         return this->value[0];
     }
 
+    /**
+     * @brief Function to keep interface consistent. Just a pointwise sum
+     * 
+     * @param other Structure to sum to caller
+     * @return NDArray<T> Object result of sum
+     */
+    NDArray<T> plus(NDArray<T> other){
+        return *this + other;
+    }
+
+    /**
+     * @brief Function to keep interface consistent. Just a pointwise subtraction
+     *
+     * @param other Structure to subtract to caller
+     * @return NDArray<T> Object result of subtraction
+     */
+    NDArray<T> minus(NDArray<T> other)
+    {
+        return *this - other;
+    }
+
+// TODO: Output object o in place? (come clip)
+// TODO: scorrere più dimensioni (value_shape)?
+    /**
+     * @brief Applied the supplied function to every element in matrix
+     * 
+     * @param func Unary function 
+     * @return NDArray<T> Structure with result
+     */
     NDArray<T> map(T (*func)(T))
     {
-        return NULL;
+        //transform(std::begin(value), std::end(value), value.begin(), func);
+        vector<T> output = value;
+        output.reserve(this->value.size());
+        transform(output.begin(), output.end(), output.begin(), func);
+        
+        return NDArray(this->shape, output);
     }
         
 
@@ -331,12 +381,12 @@ public:
         return;
     }
 
-//    NDArray<T> map(T (*func)(T)){ errors in compile time, cancel
-//        return NULL;
-//    }
-
-    T *toarray()
-    {
+    /**
+     * @brief Extract the underlaying array
+     * 
+     * @return T* pointer to start of array (same as contained vector)
+     */
+    T *toarray(){
         return &(this->value)[0];
     }
 
@@ -351,8 +401,8 @@ public:
     {
         // Count how many least-dimensioned elements are present
         int size = 1;
-        for (unsigned int i = 0; i < this->shape.size() - 1; i++)
-            size *= this->shape[i];
+        for (unsigned int i = 1; i < shape.size(); i++)
+            size *= shape[i];
         return size;
     }
 

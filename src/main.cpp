@@ -18,8 +18,8 @@ int main() {
     NDArray<int> data = n.getPosition({0, 1});
 
     Series<float> q = Series<float>();
-    q.fromtext("../data/values.txt");
-    q.fromrandom();
+    //q.fromtext("../data/values.txt");
+    //q.fromrandom();
 
     return 0;
 }

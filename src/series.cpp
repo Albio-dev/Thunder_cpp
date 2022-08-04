@@ -23,10 +23,11 @@ public:
     /** @brief
      *
      */
+    /* Disabled for compile errors
     void fromrandom(std::vector<uint16_t> shape={100, 10}, int npartitions=1, int seed=42) {
         NDArray<T>::fromrandom(shape, npartitions, seed);
         return;
-    }
+    }*/
 
 
     /** @brief Loads series data from text files. Assumes data are formatted as rows,
