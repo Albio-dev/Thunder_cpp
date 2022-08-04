@@ -44,7 +44,7 @@ public:
     NDArray(vector<std::uint16_t> lengths, T *values) {
 // TODO: forse values può essere convertita direttamente in un vector?
         // Data checks
-        if (lengths.size() == 0)
+        if (lengths.size() == 0 || lengths[0] == 0)
             throw "Requested 0 dimensioned array";
 
         this->shape = lengths;
@@ -70,7 +70,7 @@ public:
     NDArray(vector<std::uint16_t> lengths, vector<T> values)
     {
         // Data checks
-        if (lengths.size() == 0)
+        if (lengths.size() == 0 || lengths[0] == 0)
             throw "Requested 0 dimensioned array";
 
         this->shape = lengths;
@@ -411,8 +411,37 @@ public:
         return size;
     }
 
-    vector<T> filter(bool (*func)(NDArray<T>)){
-        return {0};
+    /**
+     * @brief Applies a function which should evaluate to boolean, along the first axis
+     *
+     * @param func A function that accepts data of type NDArray<T>
+     * @return NDArray<T> Filtered data
+     */
+    NDArray<T> filter(bool (*func)(NDArray<T>)){
+        int count = 0;
+        vector<T> output;
+
+        // Cycling through the first dimension
+        for (int i = 0; i < shape[0]; i++){
+            NDArray<T> temp = this->getPosition({i});
+            if (func(temp))
+            {
+                for (int j = 0; j < temp.size(); j++){
+                    output.push_back(temp[j]);
+                }
+                //output.insert(output.end(), temp.getValue().begin(), temp.getValue().end());
+                count++;
+            }
+        }
+
+        // Generating new shape. Overwrites only first dimension
+        vector<uint16_t> new_shape = this->shape;
+        if (count == 0)
+            new_shape = {0};
+        else
+            new_shape[0] = count;
+
+        return NDArray(new_shape, output);
     }
 
     T max()

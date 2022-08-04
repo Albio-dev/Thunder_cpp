@@ -194,3 +194,29 @@ TEST_CASE("Count function usage", "[Count]")
     a = NDArray<int>({5}, {1, 1, 1, 1, 1});
     REQUIRE(a.count() == 1);
 }
+
+TEST_CASE("Filter function usage", "[Filter"){
+
+    NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
+
+    // Test nothing left
+    REQUIRE_THROWS(a.filter([](NDArray<int> input)
+                            { input.getShape(); return false; }));
+
+    // Test useful filtering
+    NDArray<int> output = a.filter([](NDArray<int> input){
+        for (int i = 0; i < input.size(); i++)
+            if (input[i] <= 2)
+                return false;
+        return true;
+        });
+
+    
+    REQUIRE(output.getShape()[0] == 3);
+
+    for (int i = 0; i < output.size()-2; i++){
+        REQUIRE(output[i] == a[2+i]);
+    }
+
+    
+}

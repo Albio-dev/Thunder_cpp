@@ -21,5 +21,9 @@ int main() {
     //q.fromtext("../data/values.txt");
     //q.fromrandom();
 
+    NDArray<int> a = NDArray<int>({5, 1}, {1, 2, 3, 4, 5});
+    a.filter([](NDArray<int> input)
+                           { input.getShape(); return false; });
+
     return 0;
 }
