@@ -321,6 +321,11 @@ public:
                        [&] (const T& v) { return clamp(v, min_value, max_value); });
     }
 
+    /**
+     * @brief Retrieves first element if matrix
+     * 
+     * @return T First value
+     */
     T first()
     {
         return this->value[0];
@@ -393,13 +398,13 @@ public:
     
 
     /**
-     * @brief Count how many least dimension elements are stored
+     * @brief Count how many elements there are in every matrix along the first dimension
      *
-     * @return multiplication of dimension sizes except last
+     * @return multiplication of dimension sizes except first
      */
     int count()
     {
-        // Count how many least-dimensioned elements are present
+        // Multiplication of elements indexed [1 .. shape.size())
         int size = 1;
         for (unsigned int i = 1; i < shape.size(); i++)
             size *= shape[i];
