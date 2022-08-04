@@ -218,8 +218,10 @@ public:
         for (unsigned int i = 0; i < value.size(); i++)
         {
             out.push_back(value[i] * other.value[i]);
+        }
     }
 
+    // TODO: errore di compilazione     parameter ‘npartitions’ set but not used [-Werror=unused-but-set-parameter]
     void fromrandom(std::vector<uint16_t> shape={1}, int npartitions=1, int seed=42) {
         this->shape = shape;
         int num_values = 1;
@@ -228,7 +230,15 @@ public:
         }
         npartitions = 2;
 
-        return out;
+        std::random_device dev;
+        std::mt19937 rng(seed);
+        std::uniform_real_distribution<float> dist6(1, 6); // distribution in range [1, 6]
+        for (int k = 0; k < num_values; k++)
+        {
+            this->value.push_back(dist6(rng));
+        }
+        std::cout << "OK";
+        return;
     }
 
     
