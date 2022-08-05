@@ -331,6 +331,14 @@ public:
         return this->value[0];
     }
 
+    auto begin(){
+        return value.begin();
+    }
+
+    auto end(){
+        return value.end();
+    }
+
     /**
      * @brief Function to keep interface consistent. Just a pointwise sum
      * 
@@ -444,21 +452,77 @@ public:
         return NDArray(new_shape, output);
     }
 
-    T max()
+
+    /**
+     * @brief Returns a vector of max values.
+     * If matrix is monodimensional returns a single max value, if there is more than a 
+     * dimension, it cycles through the first returning the maximum along all other dimensions.
+     * 
+     * @return NDArray<T> Structure containing the vector of maximum value(s)
+     */
+    NDArray<T> max()
     {
-        return max(this->value);
+        vector<T> output;
+        vector<uint16_t> new_shape;
+
+        // Single dimension case
+        if (shape.size() == 1){
+            // The maximum along the only dimension present
+            output.push_back(*max_element(value.begin(), value.end()));
+            new_shape = {1};
+        } else {
+            for (int i = 0; i < shape[0]; i++)
+            {
+                // Extract all other dimensions
+                NDArray<T> temp = this->getPosition({i});
+                // Append maximum along those dimensions
+                output.push_back(*max_element(temp.begin(), temp.end()));
+        
+                new_shape = {shape[0]};
+            }
+        }
+        
+        return NDArray(new_shape, output);
     }
-    T min()
+    /**
+     * @brief Returns a vector of min values.
+     * If matrix is monodimensional returns a single min value, if there is more than a 
+     * dimension, it cycles through the first returning the minimum along all other dimensions.
+     * 
+     * @return NDArray<T> Structure containing the vector of minimum value(s)
+     */
+    NDArray<T> min()
     {
-        return min(this->value);
+        vector<T> output;
+        vector<uint16_t> new_shape;
+
+        // Single dimension case
+        if (shape.size() == 1){
+            // The maximum along the only dimension present
+            output.push_back(*min_element(value.begin(), value.end()));
+            new_shape = {1};
+        } else {
+            for (int i = 0; i < shape[0]; i++)
+            {
+                // Extract all other dimensions
+                NDArray<T> temp = this->getPosition({i});
+                // Append maximum along those dimensions                
+                output.push_back(*min_element(temp.begin(), temp.end()));
+
+                new_shape = {shape[0]};
+            }
+        }
+        
+        return NDArray(new_shape, output);
+    }
+    
+    T sum(){
+        // return sum = accumulate(value.begin(), value.end(), 0.0); old with error
+        return accumulate(value.begin(), value.end(), 0.0);
     }
     T mean()
     {
         return this->sum() / value.size();
-    }
-    T sum(){
-        // return sum = accumulate(value.begin(), value.end(), 0.0); old with error
-        return accumulate(value.begin(), value.end(), 0.0);
     }
     T std(){
         double sq_sum = inner_product(value.begin(), value.end(), value.begin(), 0.0);
