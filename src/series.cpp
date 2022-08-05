@@ -20,14 +20,16 @@ public:
         return NULL;
     }
 
-    /** @brief
+    /** @brief The only use of this class is for auto instancing these three default values to a standard. Then call
+     * subclass constructor to create the real values
      *
+     * @param shape a vector with the desired dimension
+     * @param seed seed value for the random function
      */
-    /* Disabled for compile errors
-    void fromrandom(std::vector<uint16_t> shape={100, 10}, int npartitions=1, int seed=42) {
-        NDArray<T>::fromrandom(shape, npartitions, seed);
+    void fromrandom(std::vector<uint16_t> shape={100, 10}, int seed=42) {
+        NDArray<T>::fromrandom(shape, seed);
         return;
-    }*/
+    }
 
 
     /** @brief Loads series data from text files. Assumes data are formatted as rows,

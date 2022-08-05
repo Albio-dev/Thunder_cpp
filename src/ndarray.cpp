@@ -297,26 +297,29 @@ public:
         return out;
     }
 
-    // TODO: errore di compilazione     parameter ‘npartitions’ set but not used [-Werror=unused-but-set-parameter]
-    /*
-    void fromrandom(std::vector<uint16_t> shape={1}, int npartitions=1, int seed=42) {
+    /** @brief Initialize with random values this->value
+     *
+     * @param shape a vector with the desired dimension
+     * @param seed seed value for the random function
+     */
+    void fromrandom(std::vector<uint16_t> shape={2, 2}, int seed=42) {
         this->shape = shape;
         int num_values = 1;
         for(uint16_t i: shape){
             num_values = num_values * i;
         }
-        npartitions = 2;
 
+        // ToDo: Works only with float values not int
         std::random_device dev;
-        std::mt19937 rng(seed);
-        std::uniform_real_distribution<float> dist6(1, 6); // distribution in range [1, 6]
+        std::default_random_engine rng(seed);
+        std::uniform_real_distribution<T> dist6(1, 100);
         for (int k = 0; k < num_values; k++)
         {
             this->value.push_back(dist6(rng));
         }
-        std::cout << "OK";
+
         return;
-    }*/
+    }
 
     
 

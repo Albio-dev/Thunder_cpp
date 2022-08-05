@@ -71,11 +71,14 @@ public:
         return NULL;
     }
 
-    /** @brief
- *
- */
-    void fromrandom(std::vector<uint16_t> shape = {10, 50, 50}, int npartitions = 1, int seed = 42) {
-        NDArray<T>::fromrandom(shape, npartitions, seed);
+    /** @brief The only use of this class is for auto instancing these three default values to a standard. Then call
+     * subclass constructor to create the real values
+     *
+     * @param shape a vector with the desired dimension
+     * @param seed seed value for the random function
+     */
+    void fromrandom(std::vector<uint16_t> shape = {10, 50, 50}, int seed = 42) {
+        NDArray<T>::fromrandom(shape, seed);
         return;
     }
 
