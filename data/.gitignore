@@ -3,3 +3,4 @@
 # Except this file
 !.gitignore
 !binary_values.txt
+!./singlelayer_png/*

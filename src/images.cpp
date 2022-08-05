@@ -52,6 +52,15 @@ public:
         return;
     }
 
+    /** @brief Construct this class with an example image. Default is "dot1_grey.png", usable images are:
+     * "dot2_grey.png" and "dot3_grey.png".
+     *
+     */
+    void fromexample(std::string image_name="dot1_grey.png") {
+        frompng("../data/" + image_name);
+        return;
+    }
+
     //ToDo
     T fromtif() {
         return NULL;

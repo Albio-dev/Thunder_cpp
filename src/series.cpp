@@ -71,4 +71,13 @@ public:
         return ;
     }
 
+    /** @brief Construct this class with a default base series from random.
+     *
+     */
+    void fromexample() {
+        fromrandom({25}, 42);
+        return;
+    }
+
+
 };
