@@ -22,8 +22,8 @@ int main() {
     //q.fromrandom();
 
     NDArray<int> a = NDArray<int>({5, 1}, {1, 2, 3, 4, 5});
-    a.filter([](NDArray<int> input)
-                           { input.getShape(); return false; });
+//    a.filter([](NDArray<int> input)
+//                           { input.getShape(); return false; });
 
     Images<int> p = Images<int>();
     p.frombinary({3}, "../data/binary_values.txt");

@@ -22,7 +22,7 @@ public:
      * @param path path to a file
      */
     void frombinary(std::vector<uint16_t> shape, std::string path) {
-        this->shape=shape;
+        this->shape = shape;
 
         std::ifstream file(path, std::ios::in | std::ios::binary);
         if (!file.is_open())
@@ -38,14 +38,14 @@ public:
         file.seekg(0, std::ios::beg);
 
         // reserve capacity in vector
-        int dimension = (int)(fileSize / sizeof(T));
+        int dimension = (int) (fileSize / sizeof(T));
 //        this->value.reserve(dimension); // Maybe I should use this code for file.read directly on this->value
 
-        if(NDArray<T>::get_current_dimension() != dimension)
+        if (NDArray<T>::get_current_dimension() != dimension)
             throw "File is larger or shorter then expected.";
 
-        std::vector<T> vec(fileSize/sizeof(T) );
-        file.read(reinterpret_cast<char*>(vec.data()), vec.size()*sizeof(T));
+        std::vector<T> vec(fileSize / sizeof(T));
+        file.read(reinterpret_cast<char *>(vec.data()), vec.size() * sizeof(T));
 
         this->value = vec;
 
@@ -58,12 +58,14 @@ public:
     }
 
     //ToDo
-    T frompath() {
+    T frompng() {
         return NULL;
     }
 
-    //ToDo
-    T frompng() {
+    /** @brief ToDo: implement when fromtif and frompng and frombinary works so I can redirect input to correct function
+     *
+     */
+    T frompath() {
         return NULL;
     }
 
