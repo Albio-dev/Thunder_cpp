@@ -40,23 +40,30 @@ public:
      */
     void fromtext(std::string path) {
         std::string line;
-        std::ifstream myfile2 (path);
-        if (myfile2.is_open())
+        std::ifstream text_file (path);
+        if (text_file.is_open())
         {
-            while ( getline (myfile2,line) )
+            while ( getline (text_file,line) )
             {
                 std::istringstream stream(line);
                 std::string segment;
 
                 while(std::getline(stream, segment, ' '))
                 {
-                    std::cout << std::stod(segment) << " ";
-                    this->value.push_back(std::stod(segment));
+                    if (std::is_same<T, float>::value) {
+                        std::cout << std::stof(segment) << " ";
+                        this->value.push_back(std::stof(segment));
+
+                    }
+                    if (std::is_same<T, int>::value) {
+                        std::cout << std::stoi(segment) << " ";
+                        this->value.push_back(std::stoi(segment));
+                    }
                 }
 
             }
 
-            myfile2.close();
+            text_file.close();
         }else{
             throw "Unable to open file. Some error occurred!";
         }
