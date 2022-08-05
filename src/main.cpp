@@ -26,7 +26,7 @@ int main() {
                            { input.getShape(); return false; });
 
     Images<int> p = Images<int>();
-    n.frombinary({3}, "../data/binary_values.txt");
+    p.frombinary({3}, "../data/binary_values.txt");
 
     return 0;
 }

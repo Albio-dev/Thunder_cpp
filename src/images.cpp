@@ -63,11 +63,6 @@ public:
     }
 
     //ToDo
-    T fromfile() {
-        return NULL;
-    }
-
-    //ToDo
     T frompng() {
         return NULL;
     }
