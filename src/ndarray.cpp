@@ -91,7 +91,7 @@ public:
      * @param pos a vector with a position
      * @return vector<T> value referenced by pos
      */
-    NDArray<T> getPosition(vector<T> pos) {
+    NDArray<T> getPosition(vector<uint16_t> pos) {
 
         // Check indexing        
         if (pos.size() > shape.size())
@@ -176,11 +176,41 @@ public:
         // Compatibility shape check
         if (shape != other.shape)
             throw "Array shapes don't match";
-        vector<T> out = {};
+        vector<T> out;
 // TODO: forse snellire? copiare un vector in output ed eseguire l'operazione in loco
         for (unsigned int i = 0; i < value.size(); i++)
         {
             out.push_back(value[i] - other.value[i]);
+        }
+
+        return NDArray(this->shape, out);
+    }
+
+    NDArray<T> operator*(const NDArray<T> other)
+    {
+        // Compatibility shape check
+        if (shape != other.shape)
+            throw "Array shapes don't match";
+        vector<T> out;
+// TODO: forse snellire? copiare un vector in output ed eseguire l'operazione in loco
+        for (unsigned int i = 0; i < value.size(); i++)
+        {
+            out.push_back(value[i] * other.value[i]);
+        }
+
+        return NDArray(this->shape, out);
+    }
+
+    NDArray<T> operator/(const NDArray<T> other)
+    {
+        // Compatibility shape check
+        if (shape != other.shape)
+            throw "Array shapes don't match";
+        vector<T> out;
+// TODO: forse snellire? copiare un vector in output ed eseguire l'operazione in loco
+        for (unsigned int i = 0; i < value.size(); i++)
+        {
+            out.push_back(value[i] / other.value[i]);
         }
 
         return NDArray(this->shape, out);
@@ -263,6 +293,8 @@ public:
         {
             out.push_back(value[i] * other.value[i]);
         }
+
+        return out;
     }
 
     // TODO: errore di compilazione     parameter ‘npartitions’ set but not used [-Werror=unused-but-set-parameter]
@@ -430,7 +462,7 @@ public:
         vector<T> output;
 
         // Cycling through the first dimension
-        for (int i = 0; i < shape[0]; i++){
+        for (uint16_t i = 0; i < shape[0]; i++){
             NDArray<T> temp = this->getPosition({i});
             if (func(temp))
             {
@@ -471,7 +503,7 @@ public:
             output.push_back(*max_element(value.begin(), value.end()));
             new_shape = {1};
         } else {
-            for (int i = 0; i < shape[0]; i++)
+            for (uint16_t i = 0; i < shape[0]; i++)
             {
                 // Extract all other dimensions
                 NDArray<T> temp = this->getPosition({i});
@@ -502,7 +534,7 @@ public:
             output.push_back(*min_element(value.begin(), value.end()));
             new_shape = {1};
         } else {
-            for (int i = 0; i < shape[0]; i++)
+            for (uint16_t i = 0; i < shape[0]; i++)
             {
                 // Extract all other dimensions
                 NDArray<T> temp = this->getPosition({i});
@@ -533,7 +565,7 @@ public:
             output.push_back(accumulate(value.begin(), value.end(), 0.0));
             new_shape = {1};
         } else {
-            for (int i = 0; i < shape[0]; i++)
+            for (uint16_t i = 0; i < shape[0]; i++)
             {
                 // Extract all other dimensions
                 NDArray<T> temp = this->getPosition({i});
@@ -564,7 +596,7 @@ public:
             output.push_back(accumulate(value.begin(), value.end(), 0.0)/shape[0]);
             new_shape = {1};
         } else {
-            for (int i = 0; i < shape[0]; i++)
+            for (uint16_t i = 0; i < shape[0]; i++)
             {
                 // Extract all other dimensions
                 NDArray<T> temp = this->getPosition({i});
@@ -576,16 +608,91 @@ public:
         }
         
         return NDArray(new_shape, output);
-        //return this->sum() / value.size();
     }
-    T std(){
-        double sq_sum = inner_product(value.begin(), value.end(), value.begin(), 0.0);
-        return sqrt(sq_sum / value.size() - mean() * mean());
+    /**
+     * @brief Returns a vector of standard deviation values.
+     * If matrix is monodimensional returns a single standard deviation value, if there is more than a 
+     * dimension, it cycles through the first returning the standard deviation along all other dimensions.
+     * 
+     * @return NDArray<T> Structure containing the vector of standard deviation value(s)
+     */
+    NDArray<T> std(){
+        vector<T> output;
+        vector<uint16_t> new_shape;
+
+        // Single dimension case
+        if (shape.size() == 1){
+            // The standard deviation along the only dimension present
+            T total = 0;
+            for (int i = 0; i < shape[0]; i++){
+                total += (value[i] - mean()[0]) * (value[i] - mean()[0]);
+            }
+            output.push_back(sqrt(total/(shape[0]-1)));
+            new_shape = {1};
+        } else {
+            for (uint16_t i = 0; i < shape[0]; i++)
+            {
+                // Extract all other dimensions
+                NDArray<T> temp = this->getPosition({i});
+                T total = 0;
+                for (int j = 0; j < count(); j++)
+                {
+                    total += (temp[j] - mean()[i]) * (temp[j] - mean()[i]);
+                }
+                output.push_back(sqrt(total / (count()-1)));
+                // Append standard deviation along those dimensions
+                
+                new_shape = {shape[0]};
+            }
+        }
+        
+        return NDArray(new_shape, output);
+        
+        //double sq_sum = inner_product(value.begin(), value.end(), value.begin(), 0.0);
+        //return sqrt(inner_product(value.begin(), value.end(), value.begin(), 0.0) / value.size() - mean() * mean());
     }
-    T var()
+    /**
+     * @brief Returns a vector of variance values.
+     * If matrix is monodimensional returns a single variance value, if there is more than a
+     * dimension, it cycles through the first returning the variance along all other dimensions.
+     *
+     * @return NDArray<T> Structure containing the vector of variance value(s)
+     */
+    NDArray<T> var()
     {
-        double sq_sum = inner_product(value.begin(), value.end(), value.begin(), 0.0);
-        return sq_sum / value.size() - mean() * mean();
+        vector<T> output;
+        vector<uint16_t> new_shape;
+
+        // Single dimension case
+        if (shape.size() == 1)
+        {
+            // The standard deviation along the only dimension present
+            T total = 0;
+            for (int i = 0; i < shape[0]; i++)
+            {
+                total += (value[i] - mean()[0]) * (value[i] - mean()[0]);
+            }
+            output.push_back(total / (shape[0] - 1));
+            new_shape = {1};
+        }
+        else
+        {
+            for (uint16_t i = 0; i < shape[0]; i++)
+            {
+                // Extract all other dimensions
+                NDArray<T> temp = this->getPosition({i});
+                T total = 0;
+                for (int j = 0; j < count(); j++)
+                {
+                    total += (temp[j] - mean()[i]) * (temp[j] - mean()[i]);
+                }
+                output.push_back(total / (count() - 1));
+                // Append standard deviation along those dimensions
+
+                new_shape = {shape[0]};
+            }
+        }
+
+        return NDArray(new_shape, output);
     }
-    
 };

@@ -307,3 +307,91 @@ TEST_CASE("Mean function usage", "[Mean]")
     REQUIRE(output[1] == 6);
     REQUIRE(output[2] == 10);
 }
+
+TEST_CASE("Std integer function usage", "[Std]")
+{
+
+    NDArray<int> a = NDArray<int>({5}, {1, 4, 3, 10, 5});
+
+    NDArray<int32_t> output = a.std();
+    REQUIRE(output[0] == 3);
+
+    a = NDArray<int>({3, 2, 2}, {11, 12,
+                                 5, 6,
+
+                                 3, 4,
+                                 7, 8,
+
+                                 9, 10,
+                                 1, 2});
+    output = a.std();
+    REQUIRE(output[0] == 3);
+    REQUIRE(output[1] == 2);
+    REQUIRE(output[2] == 4);
+}
+
+TEST_CASE("Std double function usage", "[Std]")
+{
+
+    NDArray<double> a = NDArray<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
+
+    NDArray<double> output = a.std();
+    REQUIRE(output[0] == Approx(3.361547));
+
+    a = NDArray<double>({3, 2, 2}, {11.0, 12.0,
+                                    5.0, 6.0,
+
+                                    3.0, 4.0,
+                                    7.0, 8.0,
+
+                                    9.0, 10.0,
+                                    1.0, 2.0});
+    output = a.std();
+    REQUIRE(output[0] == Approx(3.511884));
+    REQUIRE(output[1] == Approx(2.380476));
+    REQUIRE(output[2] == Approx(4.654746));
+}
+
+TEST_CASE("Var integer function usage", "[Var]")
+{
+
+    NDArray<int> a = NDArray<int>({5}, {1, 4, 3, 10, 5});
+
+    NDArray<int32_t> output = a.var();
+    REQUIRE(output[0] == 11);
+
+    a = NDArray<int>({3, 2, 2}, {11, 12,
+                                 5, 6,
+
+                                 3, 4,
+                                 7, 8,
+
+                                 9, 10,
+                                 1, 2});
+    output = a.var();
+    REQUIRE(output[0] == 12);
+    REQUIRE(output[1] == 6); // TODO: Should be 5?
+    REQUIRE(output[2] == 22); // TODO: should be 21?
+}
+
+TEST_CASE("Var double function usage", "[Var]")
+{
+
+    NDArray<double> a = NDArray<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
+
+    NDArray<double> output = a.var();
+    REQUIRE(output[0] == Approx(11.3));
+
+    a = NDArray<double>({3, 2, 2}, {11.0, 12.0,
+                                    5.0, 6.0,
+
+                                    3.0, 4.0,
+                                    7.0, 8.0,
+
+                                    9.0, 10.0,
+                                    1.0, 2.0});
+    output = a.var();
+    REQUIRE(output[0] == Approx(12.333333));
+    REQUIRE(output[1] == Approx(5.666666));
+    REQUIRE(output[2] == Approx(21.666666));
+}
