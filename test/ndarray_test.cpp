@@ -263,3 +263,47 @@ TEST_CASE("Min function usage", "[Min]")
     REQUIRE(output[1] == 5);
     REQUIRE(output[2] == 9);
 }
+
+TEST_CASE("Sum function usage", "[Sum]")
+{
+
+    NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
+
+    NDArray<int> output = a.sum();
+    REQUIRE(output[0] == 15);
+
+    a = NDArray<int>({3, 2, 2}, {1, 2,
+                                 3, 4,
+
+                                 5, 6,
+                                 7, 8,
+
+                                 9, 10,
+                                 11, 12});
+    output = a.sum();
+    REQUIRE(output[0] == 10);
+    REQUIRE(output[1] == 26);
+    REQUIRE(output[2] == 42);
+}
+
+TEST_CASE("Mean function usage", "[Mean]")
+{
+
+    NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
+
+    NDArray<int> output = a.mean();
+    REQUIRE(output[0] == 3);
+
+    a = NDArray<int>({3, 2, 2}, {1, 2,
+                                 3, 4,
+
+                                 5, 6,
+                                 7, 8,
+
+                                 9, 10,
+                                 11, 12});
+    output = a.mean();
+    REQUIRE(output[0] == 2);
+    REQUIRE(output[1] == 6);
+    REQUIRE(output[2] == 10);
+}

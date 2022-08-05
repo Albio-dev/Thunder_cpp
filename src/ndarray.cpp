@@ -498,7 +498,7 @@ public:
 
         // Single dimension case
         if (shape.size() == 1){
-            // The maximum along the only dimension present
+            // The minimum along the only dimension present
             output.push_back(*min_element(value.begin(), value.end()));
             new_shape = {1};
         } else {
@@ -506,7 +506,7 @@ public:
             {
                 // Extract all other dimensions
                 NDArray<T> temp = this->getPosition({i});
-                // Append maximum along those dimensions                
+                // Append minimum along those dimensions                
                 output.push_back(*min_element(temp.begin(), temp.end()));
 
                 new_shape = {shape[0]};
@@ -515,14 +515,68 @@ public:
         
         return NDArray(new_shape, output);
     }
-    
-    T sum(){
-        // return sum = accumulate(value.begin(), value.end(), 0.0); old with error
-        return accumulate(value.begin(), value.end(), 0.0);
+
+    /**
+     * @brief Returns a vector of sum values.
+     * If matrix is monodimensional returns a single sum value, if there is more than a 
+     * dimension, it cycles through the first returning the sum along all other dimensions.
+     * 
+     * @return NDArray<T> Structure containing the vector of sum value(s)
+     */
+    NDArray<T> sum(){
+        vector<T> output;
+        vector<uint16_t> new_shape;
+
+        // Single dimension case
+        if (shape.size() == 1){
+            // The sum along the only dimension present
+            output.push_back(accumulate(value.begin(), value.end(), 0.0));
+            new_shape = {1};
+        } else {
+            for (int i = 0; i < shape[0]; i++)
+            {
+                // Extract all other dimensions
+                NDArray<T> temp = this->getPosition({i});
+                // Append sum along those dimensions                
+                output.push_back(accumulate(temp.begin(), temp.end(), 0.0));
+
+                new_shape = {shape[0]};
+            }
+        }
+        
+        return NDArray(new_shape, output);
     }
-    T mean()
+    /**
+     * @brief Returns a vector of mean values.
+     * If matrix is monodimensional returns a single mean value, if there is more than a 
+     * dimension, it cycles through the first returning the mean along all other dimensions.
+     * 
+     * @return NDArray<T> Structure containing the vector of mean value(s)
+     */
+    NDArray<T> mean()
     {
-        return this->sum() / value.size();
+        vector<T> output;
+        vector<uint16_t> new_shape;
+
+        // Single dimension case
+        if (shape.size() == 1){
+            // The mean along the only dimension present
+            output.push_back(accumulate(value.begin(), value.end(), 0.0)/shape[0]);
+            new_shape = {1};
+        } else {
+            for (int i = 0; i < shape[0]; i++)
+            {
+                // Extract all other dimensions
+                NDArray<T> temp = this->getPosition({i});
+                // Append mean along those dimensions                
+                output.push_back(accumulate(temp.begin(), temp.end(), 0.0)/count());
+
+                new_shape = {shape[0]};
+            }
+        }
+        
+        return NDArray(new_shape, output);
+        //return this->sum() / value.size();
     }
     T std(){
         double sq_sum = inner_product(value.begin(), value.end(), value.begin(), 0.0);
