@@ -15,40 +15,41 @@ public:
         return NULL;
     }
 
-    //ToDo
-    std::vector<int> frombinary(std::string path) {
-        std::ofstream myfile;
-        myfile.open(path);
-        myfile << "Writing this to a file.\n";
-        myfile.close();
-        std::string line;
-        std::ifstream myfile2(path);
-        if (myfile2.is_open()) {
-            while (getline(myfile2, line)) {
-                std::cout << line << '\n';
-            }
-            myfile2.close();
-        } else std::cout << "Unable to open file";
+    // ToDo: https://en.cppreference.com/w/cpp/filesystem/path
+    /** @brief Read a file as is to the class with some checks on possible errors
+     *
+     * @param shape a vector with the desired dimension
+     * @param path path to a file
+     */
+    void frombinary(std::vector<uint16_t> shape, std::string path) {
+        this->shape=shape;
 
+        std::ifstream file(path, std::ios::in | std::ios::binary);
+        if (!file.is_open())
+            throw "Can't open file. Some error occurred.";
 
-        return std::vector<int>();
+        // Disables skipping of leading whitespace by the formatted input functions
+        // https://en.cppreference.com/w/cpp/io/manip/skipws
+        file.unsetf(std::ios::skipws);
 
-        std::ifstream in(path, std::ios::binary);
-        while (!in.eof()) {
-            std::string text;
+        std::streampos fileSize;
+        file.seekg(0, std::ios::end);
+        fileSize = file.tellg();
+        file.seekg(0, std::ios::beg);
 
-            getline(in, text);
-            std::cout << "" << text << "\n";
-        }
+        // reserve capacity in vector
+        int dimension = (int)(fileSize / sizeof(T));
+//        this->value.reserve(dimension); // Maybe I should use this code for file.read directly on this->value
 
-        std::vector<int> numbers;
-        int number;
-        while (in >> number)
-            numbers.push_back(number);
+        if(NDArray<T>::get_current_dimension() != dimension)
+            throw "File is larger or shorter then expected.";
 
+        std::vector<T> vec(fileSize/sizeof(T) );
+        file.read(reinterpret_cast<char*>(vec.data()), vec.size()*sizeof(T));
 
-        return numbers;
+        this->value = vec;
 
+        return;
     }
 
     //ToDo

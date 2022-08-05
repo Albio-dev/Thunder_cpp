@@ -698,4 +698,21 @@ public:
 
         return NDArray(new_shape, output);
     }
+
+    /**
+     * @brief Check if shape is correct or plausibile and return number of elements
+     *
+     * @return values_length Number of elements in vector
+     */
+
+    int get_current_dimension(){
+        if (this->shape.size() == 0 || this->shape[0] == 0)
+            throw "Requested 0 dimensioned array";
+
+        int values_length = 1;
+        for (int i: this->shape)
+            values_length = values_length * i;
+
+        return values_length;
+    }
 };
