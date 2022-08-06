@@ -7,11 +7,17 @@
 
 using namespace std;
 
-void printMat(NDArray<int> input){
+template <typename T>
+void printMat(NDArray<T> input)
+{
     for (uint16_t i = 0; i < input.size(); i++)
     {
+        if  (i % (input.count()) == 0)
+            cout << "\n";
+        
         if (i % input.getShape()[1] == 0)
             cout << "\n";
+        
         cout << input[i] << "\t";
     }
     
@@ -20,6 +26,7 @@ void printMat(NDArray<int> input){
 
 int main() {
 
+/*
     NDArray<int> a = NDArray<int>({3, 2, 2}, {1, 2,
                                               3, 4,
 
@@ -31,6 +38,18 @@ int main() {
     NDArray<int> output;
     NDArray<int> input;
     NDArray<int>  temp;
+*/
+    //Series<double> output;
+    Series<double> intput;
+
+    Series<double> a;
+    a.fromrandom({3, 3, 3});
+    printMat(a);
+
+    int output = a.count();
+    cout << output << "\n";
+
+    
 
 /*
     a.reshape({6, 2}); // Prendere ultima dimensione e moltiplicazione di tutte le altre
@@ -63,10 +82,11 @@ int main() {
     output.reshape({2, 2});
     printMat(output);
 */
+/*
     NDArray<int> b = NDArray<int>({5, 1}, {1, 2, 3, 4, 5});
 
     Images<int> p = Images<int>();
     p.frombinary({3}, "../data/binary_values.txt");
-
+*/
     return 0;
 }

@@ -468,6 +468,9 @@ public:
             size *= shape[i];
         return size;
     }
+    int count(NDArray<T> input){
+        return input.count();
+    }
 
     /**
      * @brief Applies a function which should evaluate to boolean, along the first axis
