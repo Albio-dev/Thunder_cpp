@@ -140,6 +140,12 @@ public:
     {
         return NDArray<T>::max(prepareMat());
     }
+    /**
+     * @brief Gets the min of all least-dimensioned elements
+     * Given a series (2, 3, 2) -> (2)
+     * 
+     * @return Series<T> Serie of min elements 
+     */
     Series<T> min()
     {
         return NDArray<T>::min(prepareMat());

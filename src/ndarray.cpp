@@ -576,6 +576,10 @@ public:
 
         return NDArray(new_shape, output);
     }
+    static NDArray<T> min(NDArray<T> input)
+    {
+        return input.min();
+    }
 
     /**
      * @brief Returns a vector of sum values.
