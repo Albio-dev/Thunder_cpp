@@ -46,7 +46,7 @@ int main() {
     output = temp.max(); 
     printMat(output);
 */
-    
+/*
     // Test images
     a.reshape({3, 4}); // Prendere moltiplicazione di tutte le dimensioni tranne le ultime 2 e la moltiplicazione delle ultime 2
     cout << "\nOriginal";
@@ -60,9 +60,10 @@ int main() {
     cout << "\nMax:";
     printMat(output);
 
-    NDArray<int> a = NDArray<int>({5, 1}, {1, 2, 3, 4, 5});
-//    a.filter([](NDArray<int> input)
-//                           { input.getShape(); return false; });
+    output.reshape({2, 2});
+    printMat(output);
+*/
+    NDArray<int> b = NDArray<int>({5, 1}, {1, 2, 3, 4, 5});
 
     Images<int> p = Images<int>();
     p.frombinary({3}, "../data/binary_values.txt");
