@@ -132,7 +132,7 @@ public:
     }
     /**
      * @brief Gets the max of all least-dimensioned elements
-     * Given a series (2, 3, 2) -> (2)
+     * Given a series (2, 3, 2) -> (1, 1, 2) -> (2)
      * 
      * @return Series<T> Serie of max elements 
      */
@@ -142,7 +142,7 @@ public:
     }
     /**
      * @brief Gets the min of all least-dimensioned elements
-     * Given a series (2, 3, 2) -> (2)
+     * Given a series (2, 3, 2) -> (1, 1, 2) -> (2)
      * 
      * @return Series<T> Serie of min elements 
      */
@@ -150,6 +150,22 @@ public:
     {
         return NDArray<T>::min(prepareMat());
     }
+    /**
+     * @brief Gets the sum of all least-dimensioned elements
+     * Given a series (2, 3, 2) -> (1, 1, 2) -> (2)
+     * 
+     * @return Series<T> Serie of sum elements 
+     */
+    Series<T> sum()
+    {
+        return NDArray<T>::sum(prepareMat());
+    }
+    /**
+     * @brief Gets the mean of all least-dimensioned elements
+     * Given a series (2, 3, 2) -> (1, 1, 2) -> (2)
+     * 
+     * @return Series<T> Serie of means 
+     */
     Series<T> mean()
     {
         return NDArray<T>::mean(prepareMat());
@@ -157,10 +173,6 @@ public:
     Series<T> std()
     {
         return NDArray<T>::std(prepareMat());
-    }
-    Series<T> sum()
-    {
-        return NDArray<T>::sum(prepareMat());
     }
     Series<T> var()
     {

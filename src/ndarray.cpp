@@ -610,6 +610,10 @@ public:
 
         return NDArray(new_shape, output);
     }
+    static NDArray<T> sum(NDArray<T> input)
+    {
+        return input.sum();
+    }
 
     /**
      * @brief Returns a vector of mean values.
