@@ -3,6 +3,10 @@ Project for 2022 c++ course
 
 TODO:
 https://docs.google.com/spreadsheets/d/1LiChLrq4bcnkJ4THrf_JW7a9WtJHMnwi73i_noTHzc0/edit#gid=0
+THUNDER:
+https://github.com/thunder-project/thunder
+PROGETTO:
+https://github.com/Albio-uni/Proj_cpp_2022
 
 # Report stub
 Creata la repository git 
@@ -19,3 +23,10 @@ implementate le classi figlie di ndarray: immagini e serie
 NDArray si basa su vector che contiene informazioni sui dati sullo stack e i dati veri e propri sullo heap quindi anche la nostra struttura NDArray contiene solo poche informazioni sullo stack e, all'interno dei vector, puntatori ai dati veri e propri sullo heap
 NDArray si può creare a partire da vector, o anche array initializer {n1, n2...}. La cosa migliore è che dal punto di vista dell'indirizzamento un vettore {5, 1} è esattamente equivalente ad uno {5}
 ho aggiunto un controllo in modo che anche {0} non sia una dimensione di vettore accettabile
+
+[[[[1, 2], [3, 4]], [[5, 6], [7, 8]], [[9, 10], [11, 12]]],        [[[13, 14], [15, 16]], [[17, 18], [19, 20]],
+[[21, 22], [23, 24]]]]
+classe base: 
+    tutte le operazioni possono essere svolte su un singolo vettore o lungo la prima dimensione (comprime tutte le altre) così da ottenere un vettore di risultati contenenti la spremuta delle altre dimensioni.   esempio: [2, 3, 2] -> [2]
+classe series:
+    tutte le dimensioni vengono 
