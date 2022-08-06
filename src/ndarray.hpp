@@ -7,6 +7,8 @@
 #include <list>
 
 #include <iostream>
+#include "series.hpp"
+
 
 template <typename T>
 class NDArray;

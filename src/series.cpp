@@ -7,12 +7,9 @@
 template<class T>
 class Series: public NDArray<T>{
 public:
-    Series() = default;
+    //Series() = default;
 
-    Series(std::vector<uint16_t> shape, std::vector<T> input){
-        NDArray<T>::shape = shape;
-        NDArray<T>::value = input;           
-    }
+    Series(std::vector<uint16_t> shape, std::vector<T> input) : NDArray<T>(shape, input){}
 
     static Series<T> fromArray(std::vector<uint16_t> shape, std::vector<T> input){
         return Series<T>(shape, input);
@@ -98,7 +95,7 @@ public:
     NDArray<T> prepareMat(){
 
         // Saving previous dimensions for restoring them later
-        std::vector<uint16_t> old_shape = NDArray<T>::shape;
+        std::vector<uint16_t> old_shape = NDArray<T>::getShape();
         // Collapses all dimensions but last
         NDArray<T>::reshape({count(), NDArray<T>::getShape()[NDArray<T>::getShape().size()-1]});
 
@@ -129,9 +126,16 @@ public:
         return output;
     }
 
-    Series<T> filter(){
-        return NDArray<T>::filter(prepareMat());
+
+    Series<T> filter(bool (*func)(NDArray<T>)){
+        return (Series<T>)NDArray<T>::filter(prepareMat(), func);
     }
+    /**
+     * @brief Gets the max of all least-dimensioned elements
+     * Given a series (2, 3, 2) -> (2)
+     * 
+     * @return Series<T> Serie of max elements 
+     */
     Series<T> max()
     {
         return NDArray<T>::max(prepareMat());

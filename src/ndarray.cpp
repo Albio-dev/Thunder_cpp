@@ -33,7 +33,8 @@ public:
     /**
      * @brief Construct a new NDArray object
      */
-    NDArray() = default;
+    //NDArray() = default;
+    virtual ~NDArray() = default;
 
     /**
      * @brief Construct a new NDArray object when values are given in a C array
@@ -83,6 +84,11 @@ public:
             throw "Matrix dimensions and data length mismatch";
 
         this->value = values;
+    }
+
+    operator Series<T>() {
+        cout << "Called NDArray->Series conversion operator!\n";
+        return Series<T>(shape, value);
     }
 
     /**
@@ -504,6 +510,10 @@ public:
         return NDArray(new_shape, output);
     }
 
+    NDArray<T> filter(NDArray<T> input, bool (*func)(NDArray<T>))
+    {
+        return input.filter(func);
+    }
 
     /**
      * @brief Returns a vector of max values.

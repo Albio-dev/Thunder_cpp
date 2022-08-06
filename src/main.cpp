@@ -25,21 +25,21 @@ void printMat(NDArray<T> input)
 }
 
 int main() {
+    /*
+        NDArray<int> a = NDArray<int>({3, 2, 2}, {1, 2,
+                                                  3, 4,
 
-/*
-    NDArray<int> a = NDArray<int>({3, 2, 2}, {1, 2,
-                                              3, 4,
+                                                  5, 6,
+                                                  7, 8,
 
-                                              5, 6,
-                                              7, 8,
-
-                                              9, 10,
-                                              11, 12});
-    NDArray<int> output;
-    NDArray<int> input;
-    NDArray<int>  temp;
-*/
+                                                  9, 10,
+                                                  11, 12});
+        NDArray<int> output;
+        NDArray<int> input;
+        NDArray<int>  temp;
+    */
     //Series<double> output;
+    /*
     Series<double> intput;
 
     Series<double> a;
@@ -48,7 +48,7 @@ int main() {
 
     int output = a.count();
     cout << output << "\n";
-
+*/
     
 
 /*
