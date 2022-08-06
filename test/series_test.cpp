@@ -154,29 +154,31 @@ TEST_CASE("Sum function usage", "[Sum]")
     REQUIRE(output[0] == 36);
     REQUIRE(output[1] == 42);
 }
-/*
+
 TEST_CASE("Mean function usage", "[Mean]")
 {
 
-    NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
+    Series<int> a = Series<int>({5}, {1, 2, 3, 4, 5});
 
-    NDArray<int> output = a.mean();
-    REQUIRE(output[0] == 3);
+    Series<int> output = a.mean();
+    for (int i = 0; i < output.size(); i++)
+    {
+        REQUIRE(output[i] == a[i]);
+    }
 
-    a = NDArray<int>({3, 2, 2}, {1, 2,
-                                 3, 4,
+    a = Series<int>({3, 2, 2}, {1, 2,
+                                3, 4,
 
-                                 5, 6,
-                                 7, 8,
+                                5, 6,
+                                7, 8,
 
-                                 9, 10,
-                                 11, 12});
+                                9, 10,
+                                11, 12});
     output = a.mean();
-    REQUIRE(output[0] == 2);
-    REQUIRE(output[1] == 6);
-    REQUIRE(output[2] == 10);
+    REQUIRE(output[0] == 6);
+    REQUIRE(output[1] == 7);
 }
-
+/*
 TEST_CASE("Std integer function usage", "[Std]")
 {
 

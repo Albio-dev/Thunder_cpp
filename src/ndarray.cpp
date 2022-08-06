@@ -644,6 +644,10 @@ public:
 
         return NDArray(new_shape, output);
     }
+    static NDArray<T> mean(NDArray<T> input)
+    {
+        return input.mean();
+    }
 
     /**
      * @brief Returns a vector of standard deviation values.
