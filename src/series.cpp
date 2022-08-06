@@ -111,10 +111,17 @@ public:
         return temp;
     }
 
+    /**
+     * @brief Counts how many least-dimensioned elements there are. 
+     * e.g (2, 3, 2) = 6
+     * 
+     * @return int Number of least dimensioned elements
+     */
     int count(){
         
         int output = 1;
 
+        // Multiplies all dimensions except last
         for (int i = 0; i < NDArray<T>::getShape().size() -1; i++){
             output *= NDArray<T>::shape[i];
         }

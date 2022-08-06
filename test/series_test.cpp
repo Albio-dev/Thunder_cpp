@@ -30,3 +30,21 @@ TEST_CASE("Prepare mat function test", "[PrepareMat"){
     }
 
 }
+
+TEST_CASE("Count function test", "[Count]"){
+
+    Series<int> a = Series<int>::fromArray({1, 2}, {1, 1});
+    REQUIRE(a.count() == 1);
+
+    a = Series<int>::fromArray({2, 1}, {1, 1});
+    REQUIRE(a.count() == 2);
+
+    a = Series<int>::fromArray({5, 1}, {1, 1, 1, 1, 1});
+    REQUIRE(a.count() == 5);
+
+    a = Series<int>::fromArray({3, 2, 3}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+    REQUIRE(a.count() == 6);
+
+    a = Series<int>::fromArray({5}, {1, 1, 1, 1, 1});
+    REQUIRE(a.count() == 1);
+}
