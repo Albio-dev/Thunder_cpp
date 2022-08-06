@@ -3,6 +3,10 @@ Project for 2022 c++ course
 
 TODO:
 https://docs.google.com/spreadsheets/d/1LiChLrq4bcnkJ4THrf_JW7a9WtJHMnwi73i_noTHzc0/edit#gid=0
+THUNDER:
+https://github.com/thunder-project/thunder
+PROGETTO:
+https://github.com/Albio-uni/Proj_cpp_2022
 
 # Report stub
 Creata la repository git 

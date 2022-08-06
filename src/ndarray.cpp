@@ -221,6 +221,12 @@ public:
             throw "Out of bound indexing";
     }
 
+/*
+    ostream& operator<<(ostream& stream, const NDArray& a){
+        for 
+
+    }
+*/
     /**
      * @brief Encapsulates underlaying vector size
      * 
@@ -419,10 +425,36 @@ public:
      * 
      * @return T* pointer to start of array (same as contained vector)
      */
-    T *toarray() {
-        return &(this->value)[0];
+    T *toarray(){
+        vector<T> new_value = value;
+        return &(new_value)[0];
     }
 
+// TODO: To be protected, internal function
+    static NDArray<T> transpose(NDArray<T> input){
+
+        if (input.getShape().size() != 2){
+            throw "Wrong size for transposition. Expected NxM";
+        }
+
+        int N = input.getShape()[0];
+        int M = input.getShape()[1];
+        int size = (N * M);
+
+// TODO: attenzione allo 0 per altri tipi
+        vector<T> output(size, 0);
+
+        for (uint16_t i = 0; i < size; i++){
+            output[i] = input[M * (i % N) + (i / N)];
+        }
+
+        return NDArray<T>({M, N}, output);
+    }
+
+    void reshape(vector<uint16_t> new_shape)
+    {
+        shape = new_shape;
+    }
 
     /**
      * @brief Count how many elements there are in every matrix along the first dimension
@@ -499,7 +531,9 @@ public:
 
         return NDArray(new_shape, output);
     }
-
+    static NDArray<T> max(NDArray<T> input){
+        return input.max();
+    }
     /**
      * @brief Returns a vector of min values.
      * If matrix is monodimensional returns a single min value, if there is more than a 

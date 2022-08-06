@@ -4,6 +4,7 @@
         "string": "cpp",
         "cassert": "cpp",
         "vector": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "iostream": "cpp"
     }
 }
