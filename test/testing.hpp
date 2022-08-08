@@ -6,4 +6,5 @@
 
 #include "../src/ndarray.cpp"
 #include "../src/series.cpp"
+#include "../src/images.cpp"
 
