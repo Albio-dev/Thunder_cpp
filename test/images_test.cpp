@@ -88,7 +88,7 @@ TEST_CASE("Filter function usage", "[Filter")
 TEST_CASE("Max function usage", "[Max]")
 {
 
-    Images<int> a = Images<int>({3, 2}, {1, 2, 3, 4, 5, 6});
+    Images<int> a = Images<int>({6, 1}, {1, 2, 3, 4, 5, 6});
 
     Images<int> output = a.max();
     for (int i = 0; i < output.size(); i++)
@@ -114,7 +114,7 @@ TEST_CASE("Max function usage", "[Max]")
 TEST_CASE("Min function usage", "[Min]")
 {
 
-    Images<int> a = Images<int>({3, 2}, {1, 2, 3, 4, 5, 6});
+    Images<int> a = Images<int>({6, 1}, {1, 2, 3, 4, 5, 6});
 
     Images<int> output = a.min();
     for (int i = 0; i < output.size(); i++)
@@ -136,11 +136,11 @@ TEST_CASE("Min function usage", "[Min]")
     REQUIRE(output[2] == 3);
     REQUIRE(output[3] == 4);
 }
-/*
+
 TEST_CASE("Sum function usage", "[Sum]")
 {
 
-    Images<int> a = Images<int>({5}, {1, 2, 3, 4, 5});
+    Images<int> a = Images<int>({6, 1}, {1, 2, 3, 4, 5, 6});
 
     Images<int> output = a.sum();
     for (int i = 0; i < output.size(); i++)
@@ -157,14 +157,16 @@ TEST_CASE("Sum function usage", "[Sum]")
                                 9, 10,
                                 11, 12});
     output = a.sum();
-    REQUIRE(output[0] == 36);
-    REQUIRE(output[1] == 42);
+    REQUIRE(output[0] == 15);
+    REQUIRE(output[1] == 18);    
+    REQUIRE(output[2] == 21);
+    REQUIRE(output[3] == 24);
 }
 
 TEST_CASE("Mean function usage", "[Mean]")
 {
 
-    Images<int> a = Images<int>({5}, {1, 2, 3, 4, 5});
+    Images<int> a = Images<int>({6, 1}, {1, 2, 3, 4, 5, 6});
 
     Images<int> output = a.mean();
     for (int i = 0; i < output.size(); i++)
@@ -181,10 +183,12 @@ TEST_CASE("Mean function usage", "[Mean]")
                                 9, 10,
                                 11, 12});
     output = a.mean();
-    REQUIRE(output[0] == 6);
-    REQUIRE(output[1] == 7);
+    REQUIRE(output[0] == 5);
+    REQUIRE(output[1] == 6);
+    REQUIRE(output[2] == 7);
+    REQUIRE(output[3] == 8);
 }
-
+/*
 TEST_CASE("Std integer function usage", "[Std]")
 {
     // TODO: La funzione std usa il count di NDArray e non di Images

@@ -145,40 +145,40 @@ public:
         return (Images<T>)NDArray<T>::filter(prepareMat(), func);
     }
     /**
-     * @brief Gets the max of all least-dimensioned elements
-     * Given a series (2, 3, 2) -> (1, 1, 2) -> (2)
+     * @brief Gets the max of all matrices in the last 2 dimensions.
+     * Given an image (2, 3, 2) -> (1, 1, 2) -> (2)
      *
-     * @return Series<T> Serie of max elements
+     * @return Images<T> Contains maximum 2D matrix
      */
     Images<T> max()
     {
         return NDArray<T>::max(prepareMat());
     }
     /**
-     * @brief Gets the min of all least-dimensioned elements
-     * Given a series (2, 3, 2) -> (1, 1, 2) -> (2)
+     * @brief Gets the min of all matrices in the last 2 dimensions.
+     * Given an image (2, 3, 2) -> (1, 1, 2) -> (2)
      *
-     * @return Series<T> Serie of min elements
+     * @return Images<T> Contains minimum 2D matrix
      */
     Images<T> min()
     {
         return NDArray<T>::min(prepareMat());
     }
     /**
-     * @brief Gets the sum of all least-dimensioned elements
-     * Given a series (2, 3, 2) -> (1, 1, 2) -> (2)
+     * @brief Gets the sum of all matrices in the last 2 dimensions.
+     * Given an image (2, 3, 2) -> (1, 1, 2) -> (2)
      *
-     * @return Series<T> Serie of sum elements
+     * @return Images<T> Contains sum of 2D matrices
      */
     Images<T> sum()
     {
         return NDArray<T>::sum(prepareMat());
     }
     /**
-     * @brief Gets the mean of all least-dimensioned elements
-     * Given a series (2, 3, 2) -> (1, 1, 2) -> (2)
+     * @brief Gets the mean of all matrices in the last 2 dimensions.
+     * Given an image (2, 3, 2) -> (1, 1, 2) -> (2)
      *
-     * @return Series<T> Serie of means
+     * @return Images<T> Contains mean of 2D matrices
      */
     Images<T> mean()
     {
