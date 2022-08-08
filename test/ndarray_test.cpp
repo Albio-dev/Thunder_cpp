@@ -395,3 +395,12 @@ TEST_CASE("Var double function usage", "[Var]")
     REQUIRE(output[1] == Approx(5.666666));
     REQUIRE(output[2] == Approx(21.666666));
 }
+
+TEST_CASE("Get current object errors and length", "[get_current_dimension]")
+{
+    NDArray<int> n = NDArray<int>({2, 2}, {1,1,1,1});
+    REQUIRE(n.get_current_dimension() == 4);
+    n = NDArray<int>({2}, {1,1});
+    REQUIRE(n.get_current_dimension() == 2);
+
+}

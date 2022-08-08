@@ -752,8 +752,12 @@ public:
             throw "Requested 0 dimensioned array";
 
         int values_length = 1;
-        for (int i: this->shape)
+        for (int i: this->shape){
+            if( i < 1)
+                throw "One or more dimension less than 1";
+
             values_length = values_length * i;
+        }
 
         return values_length;
     }
