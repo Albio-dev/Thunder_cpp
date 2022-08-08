@@ -416,3 +416,16 @@ TEST_CASE("Test from binary function", "[from_binary]")
     std::vector<int> vecOfNums1{ 11, 12, 13 };
     REQUIRE(n.getValue() == vecOfNums1);
 }
+
+TEST_CASE("Test random function for generating data", "[fromrandom]")
+{
+    NDArray<float> n = NDArray<float>({1}, {1});
+    REQUIRE_NOTHROW(n.fromrandom());
+    for (int i = 0; i < 2; i++)
+    {
+        REQUIRE(n.getShape()[i] == 2);
+    }
+    REQUIRE_THROWS(n.fromrandom({0}));
+    REQUIRE_THROWS(n.fromrandom({12, 0}));
+
+}

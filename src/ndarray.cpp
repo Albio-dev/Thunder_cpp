@@ -315,10 +315,8 @@ public:
      */
     void fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42) {
         this->shape = shape;
-        int num_values = 1;
-        for (uint16_t i: shape) {
-            num_values = num_values * i;
-        }
+        this->value.clear();
+        int num_values = get_current_dimension();
 
         // ToDo: Works only with float values not int
         std::random_device dev;
