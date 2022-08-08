@@ -112,6 +112,8 @@ public:
         // Get the transpose
         NDArray<T> temp = NDArray<T>::transpose(*this);
 
+        
+
         // Restore old dimensions
         NDArray<T>::reshape(old_shape);
 

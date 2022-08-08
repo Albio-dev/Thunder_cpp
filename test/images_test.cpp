@@ -84,11 +84,11 @@ TEST_CASE("Filter function usage", "[Filter")
             return true; });
             */
 }
-/*
+
 TEST_CASE("Max function usage", "[Max]")
 {
 
-    Images<int> a = Images<int>({5}, {1, 2, 3, 4, 5});
+    Images<int> a = Images<int>({3, 2}, {1, 2, 3, 4, 5, 6});
 
     Images<int> output = a.max();
     for (int i = 0; i < output.size(); i++)
@@ -105,14 +105,16 @@ TEST_CASE("Max function usage", "[Max]")
                                 9, 10,
                                 11, 12});
     output = a.max();
-    REQUIRE(output[0] == 11);
-    REQUIRE(output[1] == 12);
+    REQUIRE(output[0] == 9);   
+    REQUIRE(output[1] == 10);    
+    REQUIRE(output[2] == 11);
+    REQUIRE(output[3] == 12);
 }
 
 TEST_CASE("Min function usage", "[Min]")
 {
 
-    Images<int> a = Images<int>({5}, {1, 2, 3, 4, 5});
+    Images<int> a = Images<int>({3, 2}, {1, 2, 3, 4, 5, 6});
 
     Images<int> output = a.min();
     for (int i = 0; i < output.size(); i++)
@@ -131,8 +133,10 @@ TEST_CASE("Min function usage", "[Min]")
     output = a.min();
     REQUIRE(output[0] == 1);
     REQUIRE(output[1] == 2);
+    REQUIRE(output[2] == 3);
+    REQUIRE(output[3] == 4);
 }
-
+/*
 TEST_CASE("Sum function usage", "[Sum]")
 {
 

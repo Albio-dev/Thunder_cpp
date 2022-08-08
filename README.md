@@ -38,3 +38,6 @@ o cose simili ..... AH per migliorare il tutto il link della libreria portabile 
 
 implementate tutte le funzioni base e cominciato a portarle nelle classi figlie
 problema tipo. quando dalla classe figlia di chiama la classe base passando la classe figlia nessun problema (downcasting) ma quando bisogna accettare il risultato della classe padre e trasformarlo in una classe figlia si rompe di brutto (upcasting). soluzione: implementato nella classe figlia l'operatore di conversione che è anche molto semplice, ma c++ da solo non era capace di gestirlo
+
+
+[[[1, 2], [3, 4]], [[5, 6], [7, 8]], [[9, 10], [11, 12]]]
