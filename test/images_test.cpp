@@ -188,11 +188,10 @@ TEST_CASE("Mean function usage", "[Mean]")
     REQUIRE(output[2] == 7);
     REQUIRE(output[3] == 8);
 }
-/*
+
 TEST_CASE("Std integer function usage", "[Std]")
 {
-    // TODO: La funzione std usa il count di NDArray e non di Images
-    Images<int> a = Images<int>({5}, {1, 4, 3, 10, 5});
+    Images<int> a = Images<int>({5, 1}, {1, 4, 3, 10, 5});
 
     Images<int32_t> output = a.std();
     for (int i = 0; i < output.size(); i++)
@@ -211,12 +210,14 @@ TEST_CASE("Std integer function usage", "[Std]")
     output = a.std();
     REQUIRE(output[0] == 3);
     REQUIRE(output[1] == 3);
+    REQUIRE(output[2] == 2);
+    REQUIRE(output[3] == 2);
 }
 
 TEST_CASE("Std double function usage", "[Std]")
 {
 
-    Images<double> a = Images<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
+    Images<double> a = Images<double>({5, 1}, {1.0, 4.0, 3.0, 10.0, 5.0});
 
     Images<double> output = a.std();
     for (int i = 0; i < output.size(); i++)
@@ -233,14 +234,16 @@ TEST_CASE("Std double function usage", "[Std]")
                                    9.0, 10.0,
                                    1.0, 2.0});
     output = a.std();
-    REQUIRE(output[0] == Approx(3.415650));
-    REQUIRE(output[1] == Approx(3.415650));
+    REQUIRE(output[0] == Approx(3.399346));
+    REQUIRE(output[1] == Approx(3.399346));
+    REQUIRE(output[2] == Approx(2.494438));
+    REQUIRE(output[3] == Approx(2.494438));
 }
 
 TEST_CASE("Var integer function usage", "[Var]")
 {
 
-    Images<int> a = Images<int>({5}, {1, 4, 3, 10, 5});
+    Images<int> a = Images<int>({5, 1}, {1, 4, 3, 10, 5});
 
     Images<int32_t> output = a.var();
     for (int i = 0; i < output.size(); i++)
@@ -257,14 +260,16 @@ TEST_CASE("Var integer function usage", "[Var]")
                                 9, 10,
                                 1, 2});
     output = a.var();
-    REQUIRE(output[0] == 11);
-    REQUIRE(output[1] == 11); // TODO: Should be 5?
+    REQUIRE(output[0] == 12);
+    REQUIRE(output[1] == 12); 
+    REQUIRE(output[2] == 6); 
+    REQUIRE(output[3] == 6); 
 }
 
 TEST_CASE("Var double function usage", "[Var]")
 {
 
-    Images<double> a = Images<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
+    Images<double> a = Images<double>({5, 1}, {1.0, 4.0, 3.0, 10.0, 5.0});
 
     Images<double> output = a.var();
     for (int i = 0; i < output.size(); i++)
@@ -281,7 +286,8 @@ TEST_CASE("Var double function usage", "[Var]")
                                    9.0, 10.0,
                                    1.0, 2.0});
     output = a.var();
-    REQUIRE(output[0] == Approx(11.666666));
-    REQUIRE(output[1] == Approx(11.666666));
+    REQUIRE(output[0] == Approx(11.555555));
+    REQUIRE(output[1] == Approx(11.555555));
+    REQUIRE(output[2] == Approx(6.222222));
+    REQUIRE(output[3] == Approx(6.222222));
 }
-*/
