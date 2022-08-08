@@ -94,6 +94,9 @@ public:
     operator Series<T>() {
         return Series<T>(shape, value);
     }
+    operator Images<T>() {
+        return Images<T>(shape, value);
+    }
 
     /**
      * @brief Get the value in position given a vector with a precise location

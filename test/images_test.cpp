@@ -49,11 +49,11 @@ TEST_CASE("Count function test", "[Count]")
 
     REQUIRE_THROWS(Images<int>({5}, {1, 1, 1, 1, 1}));
 }
-/*
+
 TEST_CASE("Filter function usage", "[Filter")
 {
 
-    Images<int> a = Images<int>::fromArray({5}, {1, 2, 3, 4, 5});
+    Images<int> a = Images<int>({5, 1}, {1, 2, 3, 4, 5});
 
     // Test nothing left
 
@@ -82,9 +82,9 @@ TEST_CASE("Filter function usage", "[Filter")
                 if (input[i] <= 2)
                     return false;
             return true; });
-            *//*
+            */
 }
-
+/*
 TEST_CASE("Max function usage", "[Max]")
 {
 
