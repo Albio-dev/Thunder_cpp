@@ -16,13 +16,18 @@ target_compile_options(${TARGET_NAME} PRIVATE --coverage)
 target_link_libraries(${TARGET_NAME} PRIVATE gcov)
 
 # Testing
-add_executable(test_thunder test/ndarray_test.cpp)
-target_compile_options(test_thunder PRIVATE --coverage)
-target_link_libraries(test_thunder PRIVATE gcov)
+add_executable(test_ndarray test/ndarray_test.cpp)
+target_compile_options(test_ndarray PRIVATE --coverage)
+target_link_libraries(test_ndarray PRIVATE gcov)
+
+add_executable(test_series  test/series_test.cpp)
+target_compile_options(test_series PRIVATE --coverage)
+target_link_libraries(test_series PRIVATE gcov)
 
 add_custom_target(
         test ALL
-        COMMAND ./test_thunder
+        COMMAND ./test_ndarray
+        COMMAND ./test_series
 )
 
 # add_custom_target(

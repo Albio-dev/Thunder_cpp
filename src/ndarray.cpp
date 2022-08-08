@@ -30,6 +30,8 @@ public:
     /// @var Matrix size
     vector<uint16_t> shape;
 
+    uint16_t dimCount;
+
     /**
      * @brief Construct a new NDArray object
      */
@@ -59,6 +61,7 @@ public:
             value.push_back(values[i]);
         }
 
+        this->dimCount = count();
     }
 
     /**
@@ -84,10 +87,11 @@ public:
             throw "Matrix dimensions and data length mismatch";
 
         this->value = values;
+
+        this->dimCount = count();
     }
 
     operator Series<T>() {
-        cout << "Called NDArray->Series conversion operator!\n";
         return Series<T>(shape, value);
     }
 
@@ -240,6 +244,10 @@ public:
      */
     int size() {
         return this->value.size();
+    }
+
+    uint16_t getCount(){
+        return this->dimCount;
     }
 
     /**
@@ -443,8 +451,8 @@ public:
             throw "Wrong size for transposition. Expected NxM";
         }
 
-        int N = input.getShape()[0];
-        int M = input.getShape()[1];
+        uint16_t N = input.getShape()[0];
+        uint16_t M = input.getShape()[1];
         int size = (N * M);
 
 // TODO: attenzione allo 0 per altri tipi
@@ -674,10 +682,11 @@ public:
                 // Extract all other dimensions
                 NDArray<T> temp = this->getPosition({i});
                 T total = 0;
-                for (int j = 0; j < count(); j++) {
+                for (int j = 0; j < getCount(); j++)
+                {
                     total += (temp[j] - mean()[i]) * (temp[j] - mean()[i]);
                 }
-                output.push_back(sqrt(total / (count() - 1)));
+                output.push_back((T) sqrt(total / getCount()/*((getCount() == 1) ? (getCount()) : (getCount() - 1))*/));
                 // Append standard deviation along those dimensions
 
                 new_shape = {shape[0]};
@@ -685,9 +694,10 @@ public:
         }
 
         return NDArray(new_shape, output);
-
-        //double sq_sum = inner_product(value.begin(), value.end(), value.begin(), 0.0);
-        //return sqrt(inner_product(value.begin(), value.end(), value.begin(), 0.0) / value.size() - mean() * mean());
+    }
+    static NDArray<T> std(NDArray<T> input)
+    {
+        return input.std();
     }
 
     /**
@@ -718,7 +728,7 @@ public:
                 for (int j = 0; j < count(); j++) {
                     total += (temp[j] - mean()[i]) * (temp[j] - mean()[i]);
                 }
-                output.push_back(total / (count() - 1));
+                output.push_back(total / (count()/* - 1*/));
                 // Append standard deviation along those dimensions
 
                 new_shape = {shape[0]};
@@ -726,6 +736,10 @@ public:
         }
 
         return NDArray(new_shape, output);
+    }
+    static NDArray<T> var(NDArray<T> input)
+    {
+        return input.var();
     }
 
     /**

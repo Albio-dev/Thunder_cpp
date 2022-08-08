@@ -1,12 +1,11 @@
 {
     "tasks": [
         {
-            "type": "cppbuild",
+            "type": "shell",
             "label": "C/C++: g++ compila il file attivo",
             "command": "/usr/bin/g++",
             "args": [
-                "--std",
-                "c++17",
+                "--std=c++17",
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
@@ -19,10 +18,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
             "detail": "Attività generata dal debugger."
         }
     ],

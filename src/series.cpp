@@ -97,7 +97,7 @@ public:
         // Saving previous dimensions for restoring them later
         std::vector<uint16_t> old_shape = NDArray<T>::getShape();
         // Collapses all dimensions but last
-        NDArray<T>::reshape({count(), NDArray<T>::getShape()[NDArray<T>::getShape().size()-1]});
+        NDArray<T>::reshape({(uint16_t)count(), NDArray<T>::getShape()[NDArray<T>::getShape().size()-1]});
 
         // Get the transpose
         NDArray<T> temp = NDArray<T>::transpose(*this);
@@ -119,7 +119,7 @@ public:
         int output = 1;
 
         // Multiplies all dimensions except last
-        for (int i = 0; i < NDArray<T>::getShape().size() -1; i++){
+        for (uint16_t i = 0; i < NDArray<T>::getShape().size() -1; i++){
             output *= NDArray<T>::shape[i];
         }
 
@@ -170,10 +170,22 @@ public:
     {
         return NDArray<T>::mean(prepareMat());
     }
+    /**
+     * @brief Gets the standard deviation of all least-dimensioned elements
+     * Given a series (2, 3, 2) -> (1, 1, 2) -> (2)
+     *
+     * @return Series<T> Serie of standard deviations
+     */
     Series<T> std()
     {
         return NDArray<T>::std(prepareMat());
     }
+    /**
+     * @brief Gets the variance of all least-dimensioned elements
+     * Given a series (2, 3, 2) -> (1, 1, 2) -> (2)
+     *
+     * @return Series<T> Serie of variances
+     */
     Series<T> var()
     {
         return NDArray<T>::var(prepareMat());

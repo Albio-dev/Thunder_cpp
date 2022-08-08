@@ -35,3 +35,6 @@ Sto lavorando su fromPNG e fromTIF. C'é la libreria CImg.h che é un singolo .h
 "png.h" che si devono installare con alcuni comandi di brew ma non gli piacciono. Giornata persa su questo diciamo :sad:
 Noto ora che sul sito fanno scaricare i binari da http://cimg.eu/download.html invece che le librerie, domani provo altrimenti devo passare a Linux
 o cose simili ..... AH per migliorare il tutto il link della libreria portabile non funziona
+
+implementate tutte le funzioni base e cominciato a portarle nelle classi figlie
+problema tipo. quando dalla classe figlia di chiama la classe base passando la classe figlia nessun problema (downcasting) ma quando bisogna accettare il risultato della classe padre e trasformarlo in una classe figlia si rompe di brutto (upcasting). soluzione: implementato nella classe figlia l'operatore di conversione che è anche molto semplice, ma c++ da solo non era capace di gestirlo

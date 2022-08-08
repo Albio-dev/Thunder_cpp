@@ -1,5 +1,6 @@
 {
     "configurations": [
+    
         {
             "name": "C/C++: g++ compilare ed eseguire il debug del file attivo",
             "type": "cppdbg",

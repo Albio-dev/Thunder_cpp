@@ -1,6 +1,6 @@
-#define CATCH_CONFIG_MAIN
-#include "../third_party/catch.hpp"
-#include "../src/ndarray.cpp"
+#include "testing.hpp"
+
+using namespace std;
 
 TEST_CASE("Create an ndarray", "[Creation]")
 {
@@ -347,9 +347,9 @@ TEST_CASE("Std double function usage", "[Std]")
                                     9.0, 10.0,
                                     1.0, 2.0});
     output = a.std();
-    REQUIRE(output[0] == Approx(3.511884));
-    REQUIRE(output[1] == Approx(2.380476));
-    REQUIRE(output[2] == Approx(4.654746));
+    REQUIRE(output[0] == Approx(3));
+    REQUIRE(output[1] == Approx(2));
+    REQUIRE(output[2] == Approx(4));
 }
 
 TEST_CASE("Var integer function usage", "[Var]")
