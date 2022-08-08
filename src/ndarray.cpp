@@ -761,4 +761,42 @@ public:
 
         return values_length;
     }
+
+    // ToDo: https://en.cppreference.com/w/cpp/filesystem/path
+    /** @brief Read a file as is to the class with some checks on possible errors
+     *
+     * @param shape a vector with the desired dimension
+     * @param path path to a file
+     */
+    void frombinary(std::vector<uint16_t> new_shape, std::string path) {
+        this->shape = new_shape;
+
+        std::ifstream file(path, std::ios::in | std::ios::binary);
+        if (!file.is_open())
+            throw "Can't open file. Some error occurred.";
+
+        // Disables skipping of leading whitespace by the formatted input functions
+        // https://en.cppreference.com/w/cpp/io/manip/skipws
+        file.unsetf(std::ios::skipws);
+
+        std::streampos fileSize;
+        file.seekg(0, std::ios::end);
+        fileSize = file.tellg();
+        file.seekg(0, std::ios::beg);
+
+        // reserve capacity in vector
+        int dimension = (int) (fileSize / sizeof(T));
+        // Maybe I should use this code for file.read directly on this->value
+        //this->value.reserve(dimension);
+
+        if (NDArray<T>::get_current_dimension() != dimension)
+            throw "File is larger or shorter then expected.";
+
+        std::vector<T> vec(fileSize / sizeof(T));
+        file.read(reinterpret_cast<char *>(vec.data()), vec.size() * sizeof(T));
+
+        this->value = vec;
+
+        return;
+    }
 };

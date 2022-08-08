@@ -402,5 +402,17 @@ TEST_CASE("Get current object errors and length", "[get_current_dimension]")
     REQUIRE(n.get_current_dimension() == 4);
     n = NDArray<int>({2}, {1,1});
     REQUIRE(n.get_current_dimension() == 2);
+}
 
+TEST_CASE("Test from binary function", "[from_binary]")
+{
+    NDArray<int> n = NDArray<int>({1}, {1});
+    SECTION("Some errors file don't exists") {
+        REQUIRE_THROWS(n.frombinary({1, 2}, "../data/binary.txt"));
+        REQUIRE_THROWS(n.frombinary({1}, "../data/binary_values.txt"));
+    }
+
+    REQUIRE_NOTHROW(n.frombinary({3}, "../data/binary_values.txt"));
+    std::vector<int> vecOfNums1{ 11, 12, 13 };
+    REQUIRE(n.getValue() == vecOfNums1);
 }
