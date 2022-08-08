@@ -94,6 +94,14 @@ public:
     operator Series<T>() {
         return Series<T>(shape, value);
     }
+    operator Images<T>() {
+        if (shape.size() == 1)
+        {
+            shape.push_back(shape[0]);
+            shape[0] = 1;
+        }
+        return Images<T>(shape, value);
+    }
 
     /**
      * @brief Get the value in position given a vector with a precise location

@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "series.hpp"
+#include "images.hpp"
 
 
 template <typename T>
