@@ -347,9 +347,9 @@ TEST_CASE("Std double function usage", "[Std]")
                                     9.0, 10.0,
                                     1.0, 2.0});
     output = a.std();
-    REQUIRE(output[0] == Approx(3));
-    REQUIRE(output[1] == Approx(2));
-    REQUIRE(output[2] == Approx(4));
+    REQUIRE(output[0] == Approx(3.041381));
+    REQUIRE(output[1] == Approx(2.061552));
+    REQUIRE(output[2] == Approx(4.031128));
 }
 
 TEST_CASE("Var integer function usage", "[Var]")
@@ -369,9 +369,9 @@ TEST_CASE("Var integer function usage", "[Var]")
                                  9, 10,
                                  1, 2});
     output = a.var();
-    REQUIRE(output[0] == 12);
-    REQUIRE(output[1] == 6); // TODO: Should be 5?
-    REQUIRE(output[2] == 22); // TODO: should be 21?
+    REQUIRE(output[0] == 9);
+    REQUIRE(output[1] == 4); 
+    REQUIRE(output[2] == 16); 
 }
 
 TEST_CASE("Var double function usage", "[Var]")
@@ -391,7 +391,7 @@ TEST_CASE("Var double function usage", "[Var]")
                                     9.0, 10.0,
                                     1.0, 2.0});
     output = a.var();
-    REQUIRE(output[0] == Approx(12.333333));
-    REQUIRE(output[1] == Approx(5.666666));
-    REQUIRE(output[2] == Approx(21.666666));
+    REQUIRE(output[0] == Approx(9.25));
+    REQUIRE(output[1] == Approx(4.25));
+    REQUIRE(output[2] == Approx(16.25));
 }
