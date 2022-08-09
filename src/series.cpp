@@ -21,10 +21,6 @@ public:
         return NULL;
     }
 
-    //ToDo
-    T frombinary() {
-        return NULL;
-    }
 
     /** @brief The only use of this class is for auto instancing these three default values to a standard. Then call
      * subclass constructor to create the real values

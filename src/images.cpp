@@ -1,10 +1,11 @@
 //
 // Created by Aleardo on 03/08/22.
 //
-#include <iostream>
-
 #include "images.hpp"
-#include <string>
+
+// ToDo: Remove only for macos
+#define AVOID_READ_DATA 1
+
 
 template<class T>
 class Images : public NDArray<T> {
@@ -16,35 +17,93 @@ public:
             throw "Image item must have at least 2 dimensions, got 1";
     }
 
-    T getPosition() {
-        return NULL;
-    }
-
-    /** @brief Construct this class with an example image. Default is "dot1_grey.png", usable images are:
-     * "dot2_grey.png" and "dot3_grey.png".
+    /** @brief Construct class with an example image.
+     * Default is "dot1_grey.png", usable images are: "dot2_grey.png" and "dot3_grey.png".
      *
+     * @param image_name filename that is in /data folder
      */
-    void fromexample(std::string image_name="dot1_grey.png") {
+    void fromexample(std::string image_name = "dot1_grey.png") {
         frompng("../data/" + image_name);
         return;
     }
 
-    //ToDo
-    T fromtif() {
-        return NULL;
+#if AVOID_READ_DATA==1
+
+    cimg_library::CImg<float> read_image(std::string path) {
+        path = path + "";
+        cimg_library::CImg<float> image(500, 400, 1, 3, 0);
+        return image;
     }
 
-    //ToDo
-    T frompng() {
-        return NULL;
-    }
-
-    /** @brief ToDo: implement when fromtif and frompng and frombinary works so I can redirect input to correct function
+#else
+    /** @brief
      *
+     * @param path path to file
      */
-    T frompath() {
-        return NULL;
+    cimg_library::CImg<float> read_image(std::string path){
+        cimg_library::CImg<float> image(path);
+        return image;
     }
+
+#endif
+
+    /** @brief
+     *
+     * @param path path to file
+     */
+    void fromtif(std::string path) {
+        cimg_library::CImg<float> img = read_image(path);
+        this->shape = {(unsigned int)img.width(), (unsigned int)img.height(), 3};
+        for(int i=0; i < img.width(); i++){
+            for(int j=0; j < img.width(); j++){
+                this->value.push_back(img(i, j, 0, 0)); // R
+                this->value.push_back(img(i, j, 0, 1)); // G
+                this->value.push_back(img(i, j, 0, 2)); // B
+            }
+        }
+//        for (CImg<float>::iterator it = img.begin(); it<img.end(); ++it){
+//            it.
+//        }
+
+        return;
+    }
+
+    /** @brief
+     *
+     * @param path path to file
+     */
+    void frompng(std::string path) {
+        fromtif(path);
+
+        return;
+    }
+
+    /** @brief Takes a path and populate given class. Under the hood check if it is a png or tif image and
+     * call the correct function. Default file type is a binary file
+     *
+     * @param path path to file
+     */
+    void frompath(std::string path) {
+
+        if (!std::filesystem::exists(path))
+            throw "File does not exist";
+
+        if (has_suffix(path, ".png")) {
+
+        } else if (has_suffix(path, ".tif")) {
+
+        } else {
+            NDArray<T>::frombinary({1}, path);
+        }
+
+        return;
+    }
+
+    bool has_suffix(const std::string &str, const std::string &suffix) {
+        return str.size() >= suffix.size() &&
+               str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
+    }
+
 
     /** @brief The only use of this class is for auto instancing these three default values to a standard. Then call
      * subclass constructor to create the real values
@@ -64,18 +123,19 @@ public:
      *
      * @return NDArray<T> Square matrix transposed. Collapses all dimensions and then last 2.
      */
-    NDArray<T> prepareMat()
-    {
+    NDArray<T> prepareMat() {
 
         // Saving previous dimensions for restoring them later
         std::vector<uint16_t> old_shape = NDArray<T>::getShape();
         // Collapses all dimensions but last
-        NDArray<T>::reshape({(uint16_t)count(), (uint16_t)(NDArray<T>::getShape()[NDArray<T>::getShape().size() - 1] * NDArray<T>::getShape()[NDArray<T>::getShape().size() - 2])});
+        NDArray<T>::reshape({(uint16_t) count(), (uint16_t) (NDArray<T>::getShape()[NDArray<T>::getShape().size() - 1] *
+                                                             NDArray<T>::getShape()[NDArray<T>::getShape().size() -
+                                                                                    2])});
 
         // Get the transpose
         NDArray<T> temp = NDArray<T>::transpose(*this);
 
-        
+
 
         // Restore old dimensions
         NDArray<T>::reshape(old_shape);
@@ -89,82 +149,79 @@ public:
      *
      * @return int Number of elements
      */
-    int count()
-    {
+    int count() {
 
         int output = 1;
 
         // Multiplies all dimensions except last 2
-        for (uint16_t i = 0; i < NDArray<T>::getShape().size() - 2; i++)
-        {
+        for (uint16_t i = 0; i < NDArray<T>::getShape().size() - 2; i++) {
             output *= NDArray<T>::shape[i];
         }
 
         return output;
     }
 
-    Images<T> filter(bool (*func)(NDArray<T>))
-    {
-        return (Images<T>)NDArray<T>::filter(prepareMat(), func);
+    Images<T> filter(bool (*func)(NDArray<T>)) {
+        return (Images<T>) NDArray<T>::filter(prepareMat(), func);
     }
+
     /**
      * @brief Gets the max of all matrices in the last 2 dimensions.
      * Given an image (2, 3, 2) -> (1, 1, 2) -> (2)
      *
      * @return Images<T> Contains maximum 2D matrix
      */
-    Images<T> max()
-    {
+    Images<T> max() {
         return NDArray<T>::max(prepareMat());
     }
+
     /**
      * @brief Gets the min of all matrices in the last 2 dimensions.
      * Given an image (2, 3, 2) -> (1, 1, 2) -> (2)
      *
      * @return Images<T> Contains minimum 2D matrix
      */
-    Images<T> min()
-    {
+    Images<T> min() {
         return NDArray<T>::min(prepareMat());
     }
+
     /**
      * @brief Gets the sum of all matrices in the last 2 dimensions.
      * Given an image (2, 3, 2) -> (1, 1, 2) -> (2)
      *
      * @return Images<T> Contains sum of 2D matrices
      */
-    Images<T> sum()
-    {
+    Images<T> sum() {
         return NDArray<T>::sum(prepareMat());
     }
+
     /**
      * @brief Gets the mean of all matrices in the last 2 dimensions.
      * Given an image (2, 3, 2) -> (1, 1, 2) -> (2)
      *
      * @return Images<T> Contains mean of 2D matrices
      */
-    Images<T> mean()
-    {
+    Images<T> mean() {
         return NDArray<T>::mean(prepareMat());
     }
+
     /**
      * @brief Gets the standard deviation of all least-dimensioned elements
      * Given a series (2, 3, 2) -> (1, 1, 2) -> (2)
      *
      * @return Series<T> Serie of standard deviations
      */
-    Images<T> std()
-    {
+    Images<T> std() {
         return NDArray<T>::std(prepareMat());
     }
+
     /**
      * @brief Gets the variance of all least-dimensioned elements
      * Given a series (2, 3, 2) -> (1, 1, 2) -> (2)
      *
      * @return Series<T> Serie of variances
      */
-    Images<T> var()
-    {
+    Images<T> var() {
         return NDArray<T>::var(prepareMat());
     }
 };
