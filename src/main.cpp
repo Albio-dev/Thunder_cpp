@@ -36,11 +36,15 @@ void printMat(NDArray<T> input)
 int main() {
 
 
+    //NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
+    //printMat(a);
+
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
     printMat(a);
+    NDArray<double> b = NDArray<double>({5}, {5.0, 4.0, 3.0, 2.0, 1.0});
+    printMat(b);
 
-
-
+    printMat(a-b);
 
     return 0;
 }
