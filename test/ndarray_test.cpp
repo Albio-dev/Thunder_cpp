@@ -192,7 +192,7 @@ TEST_CASE("Count function usage", "[Count]")
     REQUIRE(a.count() == 6);
 
     a = NDArray<int>({5}, {1, 1, 1, 1, 1});
-    REQUIRE(a.count() == 1);
+    REQUIRE(a.count() == 5);
 }
 
 TEST_CASE("Filter function usage", "[Filter"){
@@ -336,7 +336,7 @@ TEST_CASE("Std double function usage", "[Std]")
     NDArray<double> a = NDArray<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
 
     NDArray<double> output = a.std();
-    REQUIRE(output[0] == Approx(3.361547));
+    REQUIRE(output[0] == Approx(3.006659));
 
     a = NDArray<double>({3, 2, 2}, {11.0, 12.0,
                                     5.0, 6.0,
@@ -358,7 +358,7 @@ TEST_CASE("Var integer function usage", "[Var]")
     NDArray<int> a = NDArray<int>({5}, {1, 4, 3, 10, 5});
 
     NDArray<int32_t> output = a.var();
-    REQUIRE(output[0] == 11);
+    REQUIRE(output[0] == 9);
 
     a = NDArray<int>({3, 2, 2}, {11, 12,
                                  5, 6,
@@ -380,7 +380,7 @@ TEST_CASE("Var double function usage", "[Var]")
     NDArray<double> a = NDArray<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
 
     NDArray<double> output = a.var();
-    REQUIRE(output[0] == Approx(11.3));
+    REQUIRE(output[0] == Approx(9.04));
 
     a = NDArray<double>({3, 2, 2}, {11.0, 12.0,
                                     5.0, 6.0,

@@ -6,19 +6,15 @@ TEST_CASE("Prepare mat function test", "[PrepareMat")
     Images<int> a = Images<int>({3, 2}, {1, 2, 3, 4, 5, 6});
     NDArray<int> output = a.prepareMat();
 
-    int index = 0;
-    REQUIRE(output[index++] == index+1);
-    REQUIRE(output[index++] == index + 1);
-    REQUIRE(output[index++] == index + 1);
-    REQUIRE(output[index++] == index + 1);
-    REQUIRE(output[index++] == index + 1);
-    REQUIRE(output[index++] == index + 1);
+    for (uint16_t i = 0; i < output.size(); i++){
+        REQUIRE(output[i] == a[i]);
+    }
 
-    a = Images<int>({2, 3, 2}, {1, 2, 
+    a = Images<int>({2, 3, 2}, {1, 2,
                                 3, 4,
-                                5, 6, 
-                                
-                                7, 8, 
+                                5, 6,
+
+                                7, 8,
                                 9, 10,
                                 11, 12});
     Images<int> b = Images<int>({6, 2}, {1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12});

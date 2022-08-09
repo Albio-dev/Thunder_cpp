@@ -482,6 +482,10 @@ public:
      * @return multiplication of dimension sizes except first
      */
     int count() {
+        if (shape.size() == 1)
+            return shape[0];
+//            reshape({1, shape[0]});
+
         // Multiplication of elements indexed [1 .. shape.size())
         int size = 1;
         for (unsigned int i = 1; i < shape.size(); i++)
@@ -529,6 +533,33 @@ public:
         return input.filter(func);
     }
 
+    NDArray<T> applyFunc(NDArray<T> input, std::function<T(NDArray<T>)> func)
+    {
+        vector<T> output_value;
+        vector<uint16_t> output_shape;
+
+        // Single dimension case
+        if (input.getShape().size() == 1){
+            input.reshape({1, input.getShape()[0]});
+        }
+        
+        for (uint16_t i = 0; i < input.getShape()[0]; i++)
+        {
+            // Extract all other dimensions
+            NDArray<T> temp = input.getPosition({i});
+
+            if (temp.shape.size() != 1)
+                temp.reshape({(uint16_t)(temp.shape[0] * temp.count())});
+
+            // Append maximum along those dimensions
+            output_value.push_back(func(temp));
+
+        }
+        output_shape = {input.getShape()[0]};
+
+        return NDArray(output_shape, output_value);
+    }
+    
     /**
      * @brief Returns a vector of max values.
      * If matrix is monodimensional returns a single max value, if there is more than a 
@@ -536,31 +567,15 @@ public:
      * 
      * @return NDArray<T> Structure containing the vector of maximum value(s)
      */
-    NDArray<T> max() {
-        vector<T> output;
-        vector<uint16_t> new_shape;
-
-        // Single dimension case
-        if (shape.size() == 1) {
-            // The maximum along the only dimension present
-            output.push_back(*max_element(value.begin(), value.end()));
-            new_shape = {1};
-        } else {
-            for (uint16_t i = 0; i < shape[0]; i++) {
-                // Extract all other dimensions
-                NDArray<T> temp = this->getPosition({i});
-                // Append maximum along those dimensions
-                output.push_back(*max_element(temp.begin(), temp.end()));
-
-                new_shape = {shape[0]};
-            }
-        }
-
-        return NDArray(new_shape, output);
+    NDArray<T> max(){
+        return applyFunc(*this, [](NDArray<T> a){
+            return *max_element(a.begin(), a.end());
+        });
     }
     static NDArray<T> max(NDArray<T> input){
         return input.max();
     }
+
     /**
      * @brief Returns a vector of min values.
      * If matrix is monodimensional returns a single min value, if there is more than a 
@@ -568,27 +583,18 @@ public:
      * 
      * @return NDArray<T> Structure containing the vector of minimum value(s)
      */
-    NDArray<T> min() {
-        vector<T> output;
-        vector<uint16_t> new_shape;
+    NDArray<T> min(){
+        return applyFunc(*this, [](NDArray<T> a){
+            /*T min = a.getValue().front();
 
-        // Single dimension case
-        if (shape.size() == 1) {
-            // The minimum along the only dimension present
-            output.push_back(*min_element(value.begin(), value.end()));
-            new_shape = {1};
-        } else {
-            for (uint16_t i = 0; i < shape[0]; i++) {
-                // Extract all other dimensions
-                NDArray<T> temp = this->getPosition({i});
-                // Append minimum along those dimensions                
-                output.push_back(*min_element(temp.begin(), temp.end()));
-
-                new_shape = {shape[0]};
+            for (T i : a.getValue()){
+                if (i < min)
+                    min = i;
             }
-        }
-
-        return NDArray(new_shape, output);
+            return min;*/
+            
+            return *min_element(a.begin(), a.end());
+        });
     }
     static NDArray<T> min(NDArray<T> input)
     {
@@ -602,27 +608,11 @@ public:
      * 
      * @return NDArray<T> Structure containing the vector of sum value(s)
      */
-    NDArray<T> sum() {
-        vector<T> output;
-        vector<uint16_t> new_shape;
-
-        // Single dimension case
-        if (shape.size() == 1) {
-            // The sum along the only dimension present
-            output.push_back(accumulate(value.begin(), value.end(), 0.0));
-            new_shape = {1};
-        } else {
-            for (uint16_t i = 0; i < shape[0]; i++) {
-                // Extract all other dimensions
-                NDArray<T> temp = this->getPosition({i});
-                // Append sum along those dimensions                
-                output.push_back(accumulate(temp.begin(), temp.end(), 0.0));
-
-                new_shape = {shape[0]};
-            }
-        }
-
-        return NDArray(new_shape, output);
+    NDArray<T> sum(){
+        return applyFunc(*this, [](NDArray<T> a){
+            
+            return accumulate(a.begin(), a.end(), 0.0);
+        });
     }
     static NDArray<T> sum(NDArray<T> input)
     {
@@ -636,20 +626,26 @@ public:
      * 
      * @return NDArray<T> Structure containing the vector of mean value(s)
      */
-    NDArray<T> mean() {
+    /*
+    NDArray<T> mean2()
+    {
         vector<T> output;
         vector<uint16_t> new_shape;
 
         // Single dimension case
-        if (shape.size() == 1) {
+        if (shape.size() == 1)
+        {
             // The mean along the only dimension present
             output.push_back(accumulate(value.begin(), value.end(), 0.0) / shape[0]);
             new_shape = {1};
-        } else {
-            for (uint16_t i = 0; i < shape[0]; i++) {
+        }
+        else
+        {
+            for (uint16_t i = 0; i < shape[0]; i++)
+            {
                 // Extract all other dimensions
                 NDArray<T> temp = this->getPosition({i});
-                // Append mean along those dimensions                
+                // Append mean along those dimensions
                 output.push_back(accumulate(temp.begin(), temp.end(), 0.0) / count());
 
                 new_shape = {shape[0]};
@@ -657,6 +653,12 @@ public:
         }
 
         return NDArray(new_shape, output);
+    }*/
+    NDArray<T> mean(){
+        return applyFunc(*this, [](NDArray<T> a){
+            
+            return a.sum()[0]/a.count();
+        });
     }
     static NDArray<T> mean(NDArray<T> input)
     {
@@ -670,6 +672,7 @@ public:
      * 
      * @return NDArray<T> Structure containing the vector of standard deviation value(s)
      */
+    /*
     NDArray<T> std() {
         vector<T> output;
         vector<uint16_t> new_shape;
@@ -692,7 +695,7 @@ public:
                 {
                     total += (temp[j] - mean()[i]) * (temp[j] - mean()[i]);
                 }
-                output.push_back((T) sqrt(total / getCount()/*((getCount() == 1) ? (getCount()) : (getCount() - 1))*/));
+                output.push_back((T) sqrt(total / getCount()));
                 // Append standard deviation along those dimensions
 
                 new_shape = {shape[0]};
@@ -700,6 +703,17 @@ public:
         }
 
         return NDArray(new_shape, output);
+    }*/
+    
+    NDArray<T> std(){
+        return applyFunc(*this, [](NDArray<T> a){
+            T total = 0;
+            for (int i = 0; i < a.count(); i++)
+            {
+                total += (a[i] - a.mean()[0]) * (a[i] - a.mean()[0]);
+            }
+            return sqrt(total / a.count());
+        });
     }
     static NDArray<T> std(NDArray<T> input)
     {
@@ -713,6 +727,7 @@ public:
      *
      * @return NDArray<T> Structure containing the vector of variance value(s)
      */
+    /*
     NDArray<T> var() {
         vector<T> output;
         vector<uint16_t> new_shape;
@@ -734,7 +749,7 @@ public:
                 for (int j = 0; j < count(); j++) {
                     total += (temp[j] - mean()[i]) * (temp[j] - mean()[i]);
                 }
-                output.push_back(total / (count()/* - 1*/));
+                output.push_back(total / (count()));
                 // Append standard deviation along those dimensions
 
                 new_shape = {shape[0]};
@@ -742,6 +757,17 @@ public:
         }
 
         return NDArray(new_shape, output);
+    }*/
+    NDArray<T> var()
+    {
+        return applyFunc(*this, [](NDArray<T> a)
+                         {
+            T total = 0;
+            for (int i = 0; i < a.count(); i++)
+            {
+                total += (a[i] - a.mean()[0]) * (a[i] - a.mean()[0]);
+            }
+            return (total / a.count()); });
     }
     static NDArray<T> var(NDArray<T> input)
     {

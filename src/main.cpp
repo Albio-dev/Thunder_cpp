@@ -19,10 +19,12 @@ void printMat(NDArray<T> input)
 {
     for (uint16_t i = 0; i < input.size(); i++)
     {
+        /*
         if  (i % (input.count()) == 0)
             cout << "\n";
+        */
         
-        if (i % input.getShape()[1] == 0)
+        if (i % input.getShape()[0] == 0)
             cout << "\n";
         
         cout << input[i] << "\t";
@@ -32,6 +34,13 @@ void printMat(NDArray<T> input)
 }
 
 int main() {
+
+
+    NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
+    printMat(a);
+
+
+
 
     return 0;
 }
