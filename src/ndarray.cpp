@@ -406,23 +406,15 @@ public:
         return *this - other;
     }
 
-// TODO: Output object o in place? (come clip)
-// TODO: scorrere più dimensioni (value_shape)?
     /**
      * @brief Applied the supplied function to every element in matrix
      * 
      * @param func Unary function 
      * @return NDArray<T> Structure with result
      */
-    NDArray<T> map(T (*func)(T)) {
-        //transform(std::begin(value), std::end(value), value.begin(), func);
-        vector<T> output = value;
-        output.reserve(this->value.size());
-        transform(output.begin(), output.end(), output.begin(), func);
-
-        return NDArray(this->shape, output);
+    void map(T (*func)(T)) {
+        transform(std::begin(value), std::end(value), value.begin(), func);
     }
-
 
     /**
      * @brief Passed a list assign all values to current data structure
@@ -584,15 +576,7 @@ public:
      * @return NDArray<T> Structure containing the vector of minimum value(s)
      */
     NDArray<T> min(){
-        return applyFunc(*this, [](NDArray<T> a){
-            /*T min = a.getValue().front();
-
-            for (T i : a.getValue()){
-                if (i < min)
-                    min = i;
-            }
-            return min;*/
-            
+        return applyFunc(*this, [](NDArray<T> a){            
             return *min_element(a.begin(), a.end());
         });
     }
@@ -626,34 +610,6 @@ public:
      * 
      * @return NDArray<T> Structure containing the vector of mean value(s)
      */
-    /*
-    NDArray<T> mean2()
-    {
-        vector<T> output;
-        vector<uint16_t> new_shape;
-
-        // Single dimension case
-        if (shape.size() == 1)
-        {
-            // The mean along the only dimension present
-            output.push_back(accumulate(value.begin(), value.end(), 0.0) / shape[0]);
-            new_shape = {1};
-        }
-        else
-        {
-            for (uint16_t i = 0; i < shape[0]; i++)
-            {
-                // Extract all other dimensions
-                NDArray<T> temp = this->getPosition({i});
-                // Append mean along those dimensions
-                output.push_back(accumulate(temp.begin(), temp.end(), 0.0) / count());
-
-                new_shape = {shape[0]};
-            }
-        }
-
-        return NDArray(new_shape, output);
-    }*/
     NDArray<T> mean(){
         return applyFunc(*this, [](NDArray<T> a){
             
@@ -672,38 +628,6 @@ public:
      * 
      * @return NDArray<T> Structure containing the vector of standard deviation value(s)
      */
-    /*
-    NDArray<T> std() {
-        vector<T> output;
-        vector<uint16_t> new_shape;
-
-        // Single dimension case
-        if (shape.size() == 1) {
-            // The standard deviation along the only dimension present
-            T total = 0;
-            for (int i = 0; i < shape[0]; i++) {
-                total += (value[i] - mean()[0]) * (value[i] - mean()[0]);
-            }
-            output.push_back(sqrt(total / (shape[0] - 1)));
-            new_shape = {1};
-        } else {
-            for (uint16_t i = 0; i < shape[0]; i++) {
-                // Extract all other dimensions
-                NDArray<T> temp = this->getPosition({i});
-                T total = 0;
-                for (int j = 0; j < getCount(); j++)
-                {
-                    total += (temp[j] - mean()[i]) * (temp[j] - mean()[i]);
-                }
-                output.push_back((T) sqrt(total / getCount()));
-                // Append standard deviation along those dimensions
-
-                new_shape = {shape[0]};
-            }
-        }
-
-        return NDArray(new_shape, output);
-    }*/
     
     NDArray<T> std(){
         return applyFunc(*this, [](NDArray<T> a){
@@ -727,37 +651,6 @@ public:
      *
      * @return NDArray<T> Structure containing the vector of variance value(s)
      */
-    /*
-    NDArray<T> var() {
-        vector<T> output;
-        vector<uint16_t> new_shape;
-
-        // Single dimension case
-        if (shape.size() == 1) {
-            // The standard deviation along the only dimension present
-            T total = 0;
-            for (int i = 0; i < shape[0]; i++) {
-                total += (value[i] - mean()[0]) * (value[i] - mean()[0]);
-            }
-            output.push_back(total / (shape[0] - 1));
-            new_shape = {1};
-        } else {
-            for (uint16_t i = 0; i < shape[0]; i++) {
-                // Extract all other dimensions
-                NDArray<T> temp = this->getPosition({i});
-                T total = 0;
-                for (int j = 0; j < count(); j++) {
-                    total += (temp[j] - mean()[i]) * (temp[j] - mean()[i]);
-                }
-                output.push_back(total / (count()));
-                // Append standard deviation along those dimensions
-
-                new_shape = {shape[0]};
-            }
-        }
-
-        return NDArray(new_shape, output);
-    }*/
     NDArray<T> var()
     {
         return applyFunc(*this, [](NDArray<T> a)

@@ -170,10 +170,12 @@ TEST_CASE("Minus function usage", "[Minus]")
 
 TEST_CASE("Map function usage", "[Map]"){
     NDArray<int> a = NDArray<int>({5, 2, 1}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
-    NDArray<int> output = a.map([](int b){return b*0;});
+    //NDArray<int> output = a.map([](int b){return b*0;});
+    a.map([](int b)
+            { return b * 0; });
     for (int i = 0; i < a.size(); i++)
     {
-        REQUIRE(output[i] == 0);
+        REQUIRE(a[i] == 0);
     }
 }
 
