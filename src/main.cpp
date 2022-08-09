@@ -5,13 +5,6 @@
 #include <stdio.h>
 #include <iostream>
 
-#define cimg_display 0
-#define cimg_use_png 1
-#define cimg_use_tiff 0
-#define cimg_use_jpeg 0
-
-#include "../third_party/CImg.h"
-
 using namespace std;
 
 template <typename T>
@@ -34,13 +27,8 @@ void printMat(NDArray<T> input)
 }
 
 int main() {
-
-
-    NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
-    printMat(a);
-
-
-
+    Images<float> a = Images<float>({1, 2}, {1, 1});
+    a.frompng("./data/singlelayer_png/dot1_grey.png");
 
     return 0;
 }

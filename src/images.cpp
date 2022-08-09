@@ -4,7 +4,7 @@
 #include "images.hpp"
 
 // ToDo: Remove only for macos
-#define AVOID_READ_DATA 1
+#define AVOID_READ_DATA 0
 
 
 template<class T>
@@ -41,7 +41,8 @@ public:
      * @param path path to file
      */
     cimg_library::CImg<float> read_image(std::string path){
-        cimg_library::CImg<float> image(path);
+        cimg_library::CImg<float> image;
+        image.load(path.c_str());
         return image;
     }
 
@@ -53,7 +54,8 @@ public:
      */
     void fromtif(std::string path) {
         cimg_library::CImg<float> img = read_image(path);
-        this->shape = {(unsigned int)img.width(), (unsigned int)img.height(), 3};
+        this->value.clear();
+        this->shape = {(unsigned short int)img.width(), (unsigned short int)img.height(), 3};
         for(int i=0; i < img.width(); i++){
             for(int j=0; j < img.width(); j++){
                 this->value.push_back(img(i, j, 0, 0)); // R
