@@ -1,7 +1,7 @@
 {
     "tasks": [
         {
-            "type": "shell",
+            "type": "cppbuild",
             "label": "C/C++: g++ compila il file attivo",
             "command": "/usr/bin/g++",
             "args": [

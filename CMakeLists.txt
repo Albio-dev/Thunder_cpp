@@ -24,10 +24,15 @@ add_executable(test_series  test/series_test.cpp)
 target_compile_options(test_series PRIVATE --coverage)
 target_link_libraries(test_series PRIVATE gcov)
 
+add_executable(test_images  test/images_test.cpp)
+target_compile_options(test_images PRIVATE --coverage)
+target_link_libraries(test_images PRIVATE gcov)
+
 add_custom_target(
         test ALL
         COMMAND ./test_ndarray
         COMMAND ./test_series
+        COMMAND ./test_images
 )
 
 # add_custom_target(

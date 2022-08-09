@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <random>
 #include <list>
+//#include <iterator>
+#include <functional>
 
 #include <iostream>
 #include "series.hpp"
