@@ -5,6 +5,13 @@
 #include <stdio.h>
 #include <iostream>
 
+#define cimg_display 0
+#define cimg_use_png 1
+#define cimg_use_tiff 0
+#define cimg_use_jpeg 0
+
+#include "../third_party/CImg.h"
+
 using namespace std;
 
 template <typename T>

@@ -323,10 +323,8 @@ public:
      */
     void fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42) {
         this->shape = shape;
-        int num_values = 1;
-        for (uint16_t i: shape) {
-            num_values = num_values * i;
-        }
+        this->value.clear();
+        int num_values = get_current_dimension();
 
         // ToDo: Works only with float values not int
         std::random_device dev;
@@ -786,9 +784,51 @@ public:
             throw "Requested 0 dimensioned array";
 
         int values_length = 1;
-        for (int i: this->shape)
+        for (int i: this->shape){
+            if( i < 1)
+                throw "One or more dimension less than 1";
+
             values_length = values_length * i;
+        }
 
         return values_length;
+    }
+
+    // ToDo: https://en.cppreference.com/w/cpp/filesystem/path
+    /** @brief Read a file as is to the class with some checks on possible errors
+     *
+     * @param shape a vector with the desired dimension
+     * @param path path to a file
+     */
+    void frombinary(std::vector<uint16_t> new_shape, std::string path) {
+        this->shape = new_shape;
+
+        std::ifstream file(path, std::ios::in | std::ios::binary);
+        if (!file.is_open())
+            throw "Can't open file. Some error occurred.";
+
+        // Disables skipping of leading whitespace by the formatted input functions
+        // https://en.cppreference.com/w/cpp/io/manip/skipws
+        file.unsetf(std::ios::skipws);
+
+        std::streampos fileSize;
+        file.seekg(0, std::ios::end);
+        fileSize = file.tellg();
+        file.seekg(0, std::ios::beg);
+
+        // reserve capacity in vector
+        int dimension = (int) (fileSize / sizeof(T));
+        // Maybe I should use this code for file.read directly on this->value
+        //this->value.reserve(dimension);
+
+        if (NDArray<T>::get_current_dimension() != dimension)
+            throw "File is larger or shorter then expected.";
+
+        std::vector<T> vec(fileSize / sizeof(T));
+        file.read(reinterpret_cast<char *>(vec.data()), vec.size() * sizeof(T));
+
+        this->value = vec;
+
+        return;
     }
 };

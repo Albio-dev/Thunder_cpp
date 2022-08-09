@@ -370,8 +370,8 @@ TEST_CASE("Var integer function usage", "[Var]")
                                  1, 2});
     output = a.var();
     REQUIRE(output[0] == 9);
-    REQUIRE(output[1] == 4); 
-    REQUIRE(output[2] == 16); 
+    REQUIRE(output[1] == 4);
+    REQUIRE(output[2] == 16);
 }
 
 TEST_CASE("Var double function usage", "[Var]")
@@ -394,4 +394,38 @@ TEST_CASE("Var double function usage", "[Var]")
     REQUIRE(output[0] == Approx(9.25));
     REQUIRE(output[1] == Approx(4.25));
     REQUIRE(output[2] == Approx(16.25));
+}
+
+TEST_CASE("Get current object errors and length", "[get_current_dimension]")
+{
+    NDArray<int> n = NDArray<int>({2, 2}, {1,1,1,1});
+    REQUIRE(n.get_current_dimension() == 4);
+    n = NDArray<int>({2}, {1,1});
+    REQUIRE(n.get_current_dimension() == 2);
+}
+
+TEST_CASE("Test from binary function", "[from_binary]")
+{
+    NDArray<int> n = NDArray<int>({1}, {1});
+    SECTION("Some errors file don't exists") {
+        REQUIRE_THROWS(n.frombinary({1, 2}, "../data/binary.txt"));
+        REQUIRE_THROWS(n.frombinary({1}, "../data/binary_values.txt"));
+    }
+
+    REQUIRE_NOTHROW(n.frombinary({3}, "../data/binary_values.txt"));
+    std::vector<int> vecOfNums1{ 11, 12, 13 };
+    REQUIRE(n.getValue() == vecOfNums1);
+}
+
+TEST_CASE("Test random function for generating data", "[fromrandom]")
+{
+    NDArray<float> n = NDArray<float>({1}, {1});
+    REQUIRE_NOTHROW(n.fromrandom());
+    for (int i = 0; i < 2; i++)
+    {
+        REQUIRE(n.getShape()[i] == 2);
+    }
+    REQUIRE_THROWS(n.fromrandom({0}));
+    REQUIRE_THROWS(n.fromrandom({12, 0}));
+
 }
