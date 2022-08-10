@@ -1,11 +1,6 @@
-/*
-#include "ndarray.cpp"
-#include "images.cpp"
-#include "series.cpp"
-*/
-
 #include <stdio.h>
 #include <iostream>
+
 
 #define cimg_display 0
 #define cimg_use_png 1
