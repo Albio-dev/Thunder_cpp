@@ -6,9 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-
-#set(CMAKE_CXX_FLAGS "-O0 -Wall -Wextra -pedantic -Werror")
-#set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 set(TARGET_NAME "Thundercpp")
 set(BASE 
         src/ndarray/ndarray_constructors.cpp
@@ -28,7 +25,7 @@ set(LIB
         include/images.hpp
         include/series.hpp)
 
-add_library(thunder ${LIB} ${SRC})
+add_library(thunder ${SRC})
 target_include_directories(thunder PUBLIC include)
 add_compile_options(-std=c++17 -Wall -Wextra -Wpedantic -Werror -g)
 

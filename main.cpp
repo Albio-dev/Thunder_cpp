@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <iostream>
 
-using namespace std;
+//using namespace std;
 
 template <typename T>
 void printMat(NDArray<T> input)
@@ -16,12 +16,12 @@ void printMat(NDArray<T> input)
         */
         
         if (i % input.getShape()[0] == 0)
-            cout << "\n";
+            std::cout << "\n";
         
-        cout << input[i] << "\t";
+        std::cout << input[i] << "\t";
     }
     
-    cout << "\n";
+    std::cout << "\n";
 }
 
 int main() {
@@ -29,7 +29,7 @@ int main() {
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
     NDArray<int> b = NDArray<int>({5}, {1, 2, 3, 4, 5});
 
-    NDArray<int> c = a.element_wise(b, minus<int>());
+    NDArray<int> c = a.element_wise(b, std::minus<int>());
     printMat(c);
     return 0;
 }
