@@ -344,7 +344,7 @@ public:
      * @return
      */
     template<class OP>
-    vector<T> element_wise(const NDArray<T> other, OP op) {
+    NDArray<T> element_wise(const NDArray<T> other, OP op) {
         if (shape != other.shape)
             throw "Array shapes don't match";
         vector<T> out = {};
@@ -353,7 +353,7 @@ public:
             out.push_back(op(value[i], other.value[i]));
         }
 
-        return out;
+        return NDArray(shape, out);
     }
 
 
@@ -369,42 +369,8 @@ public:
                   [&](const T &v) { return clamp(v, min_value, max_value); });
     }
 
-    /**
-     * @brief Retrieves first element if matrix
-     * 
-     * @return T First value
-     */
-    T first() {
-        return this->value[0];
-    }
 
-    auto begin() {
-        return value.begin();
-    }
-
-    auto end() {
-        return value.end();
-    }
-
-    /**
-     * @brief Function to keep interface consistent. Just a pointwise sum
-     * 
-     * @param other Structure to sum to caller
-     * @return NDArray<T> Object result of sum
-     */
-    NDArray<T> plus(NDArray<T> other) {
-        return *this + other;
-    }
-
-    /**
-     * @brief Function to keep interface consistent. Just a pointwise subtraction
-     *
-     * @param other Structure to subtract to caller
-     * @return NDArray<T> Object result of subtraction
-     */
-    NDArray<T> minus(NDArray<T> other) {
-        return *this - other;
-    }
+    
 
     /**
      * @brief Applied the supplied function to every element in matrix

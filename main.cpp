@@ -28,16 +28,10 @@ void printMat(NDArray<T> input)
 
 int main() {
 
-
-    Images<float> k = Images<float>({1, 2}, {1, 1});
-    k.frompng("./data/singlelayer_png/dot1_grey.png");
-
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
-    printMat(a);
-    NDArray<double> b = NDArray<double>({5}, {5.0, 4.0, 3.0, 2.0, 1.0});
-    printMat(b);
+    NDArray<int> b = NDArray<int>({5}, {1, 2, 3, 4, 5});
 
-    printMat(a-b);
-
+    NDArray<int> c = a.element_wise(b, minus<int>());
+    printMat(c);
     return 0;
 }

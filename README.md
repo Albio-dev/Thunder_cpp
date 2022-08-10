@@ -7,6 +7,8 @@ THUNDER:
 https://github.com/thunder-project/thunder
 PROGETTO:
 https://github.com/Albio-uni/Proj_cpp_2022
+REFERENCE:
+https://github.com/zetaemme/dreamchess-plusplus
 
 # Report stub
 Creata la repository git 
@@ -41,3 +43,28 @@ problema tipo. quando dalla classe figlia di chiama la classe base passando la c
 grosso problema nel calcolo di varianza e deviazione standard per incongruenze del metodo di calcolo tra thunder e il nostro
 
 libreria libpng-dev, libjpeg-dev, libtiff-dev e lcov
+
+domanda:
+al momento si comporta così, perchè accetta sempre e solo lo stesso T in input, che mi sembra abbastanza ragionevole
+tuttavia forse potrebbe essere figo far intervenire le regole degli operatori
+ma apre diversi problemi e scelte di implementazione, tipo si ritorna un NDArray<double>? e se chi la chiama ha chiesto un NDArray<int>? si rompe, dovremmo forse mettere anche il tipo di output a template? e mettere variabile anche quello di input?
+risposta: mettere il tipo di input a template
+
+domanda #2:
+filter ha un enorme problema con la multidimensionalità, perchè elimina i valori che non soddisfano una proprietà, quindi è impossibile mantenere la geometria che c'era prima, come è impossibile prevedere la geometria di output, quindi al momento funziona solo su vettori lineari. anche in python non puoi chiamare filter su un vettore, deve essere un elemento singolo oppure usare any() e all()
+non ho nemmeno il riferimento di come realizzarla, perchè appunto anche python vuole any o all
+al massimo posso applicare su ogni elemento puntualmente, buttare via la geometria e tornare un NDArray lineare e poi si arrangia chi l'ha chiamato
+risposta: applicazione a vettore e ritorno a vettore
+
+domanda #3:
+visto che stiamo rimbalzando tra 1000 righe di definizioni di funzioni, stavo pensando di suddividerle in più file. 
+fare una forward declaration nell'hpp e poi implementarle in altri file, a blocchi logici.
+tipo ci sono 
+ - il blocco degli override (operatori +, -, *, /, [])
+ - lettura di input
+ - costruttori
+ - funzioni logiche
+ - funzioni algebriche
+questo solo per ndarray, ma verosimilmente è così, ma più semplice anche per gli altri due
+ti sembra una cosa sensata?
+risposta: cartellina ndarray
