@@ -63,9 +63,6 @@ public:
                 this->value.push_back(img(i, j, 0, 2)); // B
             }
         }
-//        for (CImg<float>::iterator it = img.begin(); it<img.end(); ++it){
-//            it.
-//        }
 
         return;
     }

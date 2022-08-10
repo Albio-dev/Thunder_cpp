@@ -30,6 +30,13 @@ add_library(thunder ${SRC})
 target_include_directories(thunder PUBLIC include)
 add_compile_options(-std=c++17 -Wall -Wextra -Wpedantic -Werror -g)
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    include_directories(SYSTEM /usr/local/Cellar/libpng/1.6.37/include/
+                                /usr/local/Cellar/libtiff/4.4.0_1/include/
+                                /usr/local/Cellar/jpeg/9e/include/)
+endif()
+
+
 add_executable(${TARGET_NAME} main.cpp)
 target_link_libraries(${TARGET_NAME} PRIVATE thunder tiff png jpeg)
 
