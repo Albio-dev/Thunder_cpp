@@ -1,5 +1,3 @@
-#include "ndarray.hpp"
-
 
 /** @brief Initialize with random values this->value
  *

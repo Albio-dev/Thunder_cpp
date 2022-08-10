@@ -1,4 +1,3 @@
-#include "ndarray.hpp"
 
 /**
  * @brief Get the value in position given a vector with a precise location

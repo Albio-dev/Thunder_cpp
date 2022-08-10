@@ -1,4 +1,3 @@
-#include "../include/ndarray.hpp"
 
 template <class T>
 NDArray<T>::operator Series<T>()

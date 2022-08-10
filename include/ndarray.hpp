@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <algorithm>
 #include <functional>
 #include <iostream>
 #include <list>
@@ -249,3 +250,11 @@ class NDArray{
     static NDArray<T> var(NDArray<T> input);
 
 };
+
+#include "ndarray/ndarray_constructors.i.hpp"
+#include "ndarray/ndarray_converters.i.hpp"
+#include "ndarray/ndarray_functions.i.hpp"
+#include "ndarray/ndarray_initializers.i.hpp"
+#include "ndarray/ndarray_operator_overload.i.hpp"
+#include "ndarray/ndarray_utils.i.hpp"
+#include "ndarray/ndarray_wrapper.i.hpp"

@@ -1,4 +1,3 @@
-#include "ndarray.hpp"
 
 /**
  * @brief Encapsulates underlaying vector size

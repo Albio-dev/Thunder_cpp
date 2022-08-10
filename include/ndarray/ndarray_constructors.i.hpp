@@ -1,5 +1,3 @@
-#include "ndarray.hpp"
-
 /**
  * @brief Construct a new NDArray object when values are given in a C array
  * Basically a copy constructor since it copies the elements in the array in a vector

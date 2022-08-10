@@ -7,17 +7,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(TARGET_NAME "Thundercpp")
-set(BASE 
-        src/ndarray/ndarray_constructors.cpp
-        src/ndarray/ndarray_converters.cpp
-        src/ndarray/ndarray_functions.cpp
-        src/ndarray/ndarray_initializers.cpp
-        src/ndarray/ndarray_operator_overload.cpp
-        src/ndarray/ndarray_operator_wrapper.cpp
-        src/ndarray/ndarray_utils.cpp
-        src/ndarray/ndarray_wrapper.cpp)
+
+# set(BASE 
+#         src/ndarray/ndarray_constructors.cpp
+#         src/ndarray/ndarray_converters.cpp
+#         src/ndarray/ndarray_functions.cpp
+#         src/ndarray/ndarray_initializers.cpp
+#         src/ndarray/ndarray_operator_overload.cpp
+#         src/ndarray/ndarray_operator_wrapper.cpp
+#         src/ndarray/ndarray_utils.cpp
+#         src/ndarray/ndarray_wrapper.cpp)
 set(SRC
-        ${BASE}
+        # ${BASE}
         src/images.cpp
         src/series.cpp)
 set(LIB
@@ -40,30 +41,31 @@ add_custom_target(
 )
 
 # Testing
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(TEST_TARGET "test_Thundercpp")
-        enable_testing()
-        add_executable(${TEST_TARGET} test/ndarray_test.cpp test/series_test.cpp test/images_test.cpp)
-        target_include_directories(${TEST_TARGET} PRIVATE include)
-        target_link_libraries(${TEST_TARGET} PRIVATE gcov thunder)
 
-        add_custom_target(build_and_test
-                COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target ${TEST_TARGET}
-                COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target test
-        )
+# if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+#         set(TEST_TARGET "test_Thundercpp")
+#         enable_testing()
+#         add_executable(${TEST_TARGET} test/ndarray_test.cpp test/series_test.cpp test/images_test.cpp ${SRC})
+#         target_include_directories(${TEST_TARGET} PRIVATE include)
+#         target_link_libraries(${TEST_TARGET} PRIVATE gcov thunder)
+
+#         add_custom_target(build_and_test
+#                 COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target ${TEST_TARGET}
+#                 COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target test
+#         )
 
 
-        # set(CMAKE_INSTALL_PREFIX ".")
-        # install(TARGETS ${TARGET_NAME} DESTINATION ../bin)
+#         # set(CMAKE_INSTALL_PREFIX ".")
+#         # install(TARGETS ${TARGET_NAME} DESTINATION ../bin)
 
-        # add_custom_target(coverage ALL
-        #         COMMAND mkdir -p ../doc/coverage
-        #         COMMAND lcov --capture --directory .. --output-file coverage.info
-        #         COMMAND lcov --extract coverage.info '*/src/*' --output-file ../doc/coverage/coverage.info
-        #         COMMAND lcov --list ../doc/coverage/coverage.info
-        #         COMMAND genhtml -o ../doc/coverage ../doc/coverage/coverage.info 
-        #         )
-endif()
+#         # add_custom_target(coverage ALL
+#         #         COMMAND mkdir -p ../doc/coverage
+#         #         COMMAND lcov --capture --directory .. --output-file coverage.info
+#         #         COMMAND lcov --extract coverage.info '*/src/*' --output-file ../doc/coverage/coverage.info
+#         #         COMMAND lcov --list ../doc/coverage/coverage.info
+#         #         COMMAND genhtml -o ../doc/coverage ../doc/coverage/coverage.info 
+#         #         )
+# endif()
 # Testing
 
 # add_executable(test_ndarray test/ndarray_test.cpp)

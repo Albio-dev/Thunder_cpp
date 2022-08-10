@@ -1,4 +1,3 @@
-#include "ndarray.hpp"
 
 /**
  * @brief Function to keep interface consistent. Just a pointwise sum

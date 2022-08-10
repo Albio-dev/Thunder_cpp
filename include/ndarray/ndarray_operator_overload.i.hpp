@@ -1,4 +1,3 @@
-#include "ndarray.hpp"
 
 /**
  * @brief Dot function a matrix with another.

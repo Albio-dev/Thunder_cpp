@@ -1,4 +1,3 @@
-#include "ndarray.hpp"
 
 /**
  * @brief Clip values in an array above and below provided values
@@ -12,7 +11,7 @@ void NDArray<T>::clip(const T &min_value, const T &max_value)
 
     transform(std::begin(value), std::end(value), std::begin(value),
               [&](const T &v)
-              { return clamp(v, min_value, max_value); });
+              { return std::clamp(v, min_value, max_value); });
 }
 
 /**
@@ -24,7 +23,7 @@ void NDArray<T>::clip(const T &min_value, const T &max_value)
 template <class T>
 void NDArray<T>::map(T (*func)(T))
 {
-    transform(std::begin(value), std::end(value), value.begin(), func);
+    std::transform(std::begin(value), std::end(value), value.begin(), func);
 }
 
 /**
