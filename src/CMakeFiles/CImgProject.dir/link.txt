@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/CImgProject.dir/main.cpp.o -o CImgProject  /usr/lib/x86_64-linux-gnu/libX11.so 

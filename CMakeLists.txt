@@ -6,14 +6,22 @@ set(CMAKE_CXX_STANDARD 17)              # Use C++17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)     # Require (at least) it
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-#set(CMAKE_CXX_FLAGS "-O0 -Wall -Wextra -pedantic -Werror")
-#set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
+set(CMAKE_CXX_FLAGS "-O0 -Wall -Wextra -pedantic -Werror -lpng -ltiff -ljpeg")
+set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 
+link_directories(/usr/lib/x86_64-linux-gnu)
+# find_library(PNG png)
+# find_library(TIFF tiff HINT /usr/lib/x86_64-linux-gnu)
+# find_library(JPEG jpeg)
+
+find_package(TIFF REQUIRED)
 set(SOURCE_FILES src/main.cpp)
 add_executable(CImgProject ${SOURCE_FILES})
 
-#add_compile_options(CImgProject -lpng -ltiff -ljpeg)
+target_link_libraries(CImgProject PUBLIC ${PNG} ${TIFF} ${JPEG})
+add_compile_options(CImgProject "-lpng -ltiff -ljpeg")
 set_target_properties( CImgProject PROPERTIES COMPILE_FLAGS "-lpng -ltiff -ljpeg")
+
 
 # # You can alter these according to your needs, e.g if you don't need to display images - set(YOU_NEED_X11 0)
 # set(YOU_NEED_X11 1)

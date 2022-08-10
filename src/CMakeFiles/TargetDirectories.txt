@@ -1,3 +1,0 @@
-/home/albio/Proj_cpp_2022/src/CMakeFiles/CImgProject.dir
-/home/albio/Proj_cpp_2022/src/CMakeFiles/edit_cache.dir
-/home/albio/Proj_cpp_2022/src/CMakeFiles/rebuild_cache.dir
