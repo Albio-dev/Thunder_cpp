@@ -5,12 +5,13 @@
  *
  * @return
  */
+template <class T>
 template <class OP>
-NDArray::element_wise(const NDArray<T> other, OP op)
+NDArray<T> NDArray<T>::element_wise(const NDArray<T> other, OP op)
 {
     if (shape != other.shape)
         throw "Array shapes don't match";
-    vector<T> out = {};
+    std::vector<T> out = {};
 
     // TODO: forse snellire? copiare un vector in output ed eseguire l'operazione in loco
     for (unsigned int i = 0; i < value.size(); i++)
@@ -27,9 +28,10 @@ NDArray::element_wise(const NDArray<T> other, OP op)
  * @param other Other NDArray summed to this one
  * @return NDArray<T> Result of sum
  */
-NDArray::operator+(const NDArray<T> other)
+template <class T>
+NDArray<T> NDArray<T>::operator+(const NDArray<T> other)
 {
-    return NDArray::element_wise(other, std::plus<T>);
+    return NDArray::element_wise(other, std::plus<T>());
 }
 /**
  * @brief Subtraction operation between two NDArrays
@@ -37,19 +39,22 @@ NDArray::operator+(const NDArray<T> other)
  * @param other Other NDArray subtracted to this one
  * @return NDArray<T> Result of subtraction
  */
-NDArray::operator-(const NDArray<T> other)
+template <class T>
+NDArray<T> NDArray<T>::operator-(const NDArray<T> other)
 {
-    return NDArray::element_wise(other, std::minus<T>);
+    return NDArray::element_wise(other, std::minus<T>());
 }
 
-NDArray::operator*(const NDArray<T> other)
+template <class T>
+NDArray<T> NDArray<T>::operator*(const NDArray<T> other)
 {
-    return NDArray::element_wise(other, std::multiplies<T>);
+    return NDArray::element_wise(other, std::multiplies<T>());
 }
 
-NDArray::operator/(const NDArray<T> other)
+template <class T>
+NDArray<T> NDArray<T>::operator/(const NDArray<T> other)
 {
-    return NDArray::element_wise(other, std::divides<T>);
+    return NDArray::element_wise(other, std::divides<T>());
 }
 
 /**
@@ -58,7 +63,8 @@ NDArray::operator/(const NDArray<T> other)
  * @param index index of the referenced element
  * @return T type of the element in the data structure
  */
-NDArray::operator[](unsigned int index)
+template <class T>
+T NDArray<T>::operator[](unsigned int index)
 {
     if (index < this->value.size())
         return this->value[index];

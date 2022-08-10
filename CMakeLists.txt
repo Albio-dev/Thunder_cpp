@@ -11,6 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 #set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
 set(TARGET_NAME "Thundercpp")
 set(BASE 
+        src/ndarray/ndarray_constructors.cpp
         src/ndarray/ndarray_converters.cpp
         src/ndarray/ndarray_functions.cpp
         src/ndarray/ndarray_initializers.cpp
@@ -29,11 +30,11 @@ set(LIB
 
 add_library(thunder ${LIB} ${SRC})
 target_include_directories(thunder PUBLIC include)
-
 add_compile_options(-std=c++17 -Wall -Wextra -Wpedantic -Werror -g)
 
 add_executable(${TARGET_NAME} main.cpp)
-target_link_libraries(${TARGET_NAME} PRIVATE thunder)
+target_link_libraries(${TARGET_NAME} PRIVATE thunder tiff png jpeg)
+
 
 # Docs
 add_custom_target(

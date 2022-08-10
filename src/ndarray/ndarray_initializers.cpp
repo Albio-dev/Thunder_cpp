@@ -1,11 +1,14 @@
 #include "ndarray.hpp"
 
+
 /** @brief Initialize with random values this->value
  *
  * @param shape a vector with the desired dimension
  * @param seed seed value for the random function
  */
-void fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42)
+/*
+template <class T>
+void NDArray<T>::fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42)
 {
     this->shape = shape;
     this->value.clear();
@@ -22,13 +25,15 @@ void fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42)
 
     return;
 }
-
+*/
 /**
  * @brief Passed a list assign all values to current data structure
  * as one dimensional matrix.
  *
  */
-void fromlist(std::list<T> l = {})
+/*
+template <class T>
+void NDArray<T>::fromlist(std::list<T> l = {})
 {
     if (l.size() == 0)
         throw "List empty. Need to have a non empty list assigned.";
@@ -39,14 +44,16 @@ void fromlist(std::list<T> l = {})
 
     return;
 }
-
+*/
 // ToDo: https://en.cppreference.com/w/cpp/filesystem/path
 /** @brief Read a file as is to the class with some checks on possible errors
  *
  * @param shape a vector with the desired dimension
  * @param path path to a file
  */
-void frombinary(std::vector<uint16_t> new_shape, std::string path)
+/*
+template <class T>
+void NDArray<T>::frombinary(std::vector<uint16_t> new_shape, std::string path)
 {
     this->shape = new_shape;
 
@@ -78,3 +85,4 @@ void frombinary(std::vector<uint16_t> new_shape, std::string path)
 
     return;
 }
+*/

@@ -239,12 +239,6 @@ public:
             throw "Out of bound indexing";
     }
 
-/*
-    ostream& operator<<(ostream& stream, const NDArray& a){
-        for 
-
-    }
-*/
     /**
      * @brief Encapsulates underlaying vector size
      * 
@@ -429,8 +423,7 @@ public:
         return NDArray<T>({M, N}, output);
     }
 
-    void reshape(vector<uint16_t> new_shape)
-    {
+    void reshape(vector<uint16_t> new_shape){
         shape = new_shape;
     }
 

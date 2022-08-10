@@ -1,6 +1,4 @@
-#include "ndarray.cpp"
-#include "images.cpp"
-#include "series.cpp"
+#include "ndarray.hpp"
 
 #include <stdio.h>
 #include <iostream>

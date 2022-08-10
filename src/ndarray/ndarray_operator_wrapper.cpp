@@ -6,7 +6,9 @@
  * @param other Structure to sum to caller
  * @return NDArray<T> Object result of sum
  */
-NDArray<T> plus(NDArray<T> other)
+template <class T>
+template <class K>
+NDArray<T> NDArray<T>::plus(NDArray<K> other)
 {
     return *this + other;
 }
@@ -17,7 +19,9 @@ NDArray<T> plus(NDArray<T> other)
  * @param other Structure to subtract to caller
  * @return NDArray<T> Object result of subtraction
  */
-NDArray<T> minus(NDArray<T> other)
+template <class T>
+template <class K>
+NDArray<T> NDArray<T>::minus(NDArray<K> other)
 {
     return *this - other;
 }
@@ -27,20 +31,11 @@ NDArray<T> minus(NDArray<T> other)
  *
  * @return
  */
+template <class T>
 template <class K>
-vector<double> dotdivide(const NDArray<K> other)
+NDArray<T> NDArray<T>::dotdivide(const NDArray<K> other)
 {
-    if (shape != other.shape)
-        throw "Array shapes don't match";
-
-    vector<double> out = {};
-
-    for (unsigned int i = 0; i < value.size(); i++)
-    {
-        out.push_back(value[i] / (double)other.value[i]);
-    }
-
-    return out;
+    return *this / other;
 }
 
 /** @brief Given two NDArray with the same shape. Multiply one element in position n with his corresponding
@@ -49,17 +44,9 @@ vector<double> dotdivide(const NDArray<K> other)
  * @param other second element of multiplication
  * @return out a vector with multiplied values
  */
-vector<T> dottimes(const NDArray<T> other)
+template <class T>
+template <class K>
+NDArray<T> NDArray<T>::dottimes(const NDArray<K> other)
 {
-    if (shape != other.shape)
-        throw "Array shapes don't match";
-
-    vector<T> out = {};
-
-    for (unsigned int i = 0; i < value.size(); i++)
-    {
-        out.push_back(value[i] * other.value[i]);
-    }
-
-    return out;
+    return *this * other;
 }

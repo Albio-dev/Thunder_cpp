@@ -6,7 +6,8 @@
  * @param pos a vector with a position
  * @return vector<T> value referenced by pos
  */
-NDArray<T> getPosition(vector<uint16_t> pos)
+template <class T>
+NDArray<T> NDArray<T>::getPosition(std::vector<uint16_t> pos)
 {
 
     // Check indexing
@@ -34,7 +35,7 @@ NDArray<T> getPosition(vector<uint16_t> pos)
         startIndex = startIndex + pos[i] * subDimensionSize;
     }
 
-    vector<uint16_t> new_shape;
+    std::vector<uint16_t> new_shape;
     // Starting from the missing dimension calculates the size of the identified matrix
     int endindex = 1;
     for (unsigned int i = lastdim; i < shape.size(); i++)
@@ -45,7 +46,7 @@ NDArray<T> getPosition(vector<uint16_t> pos)
     endindex += startIndex;
 
     // Temporary output structure
-    vector<T> output_temp;
+    std::vector<T> output_temp;
 
     // Extract data in range
     do
@@ -64,7 +65,8 @@ NDArray<T> getPosition(vector<uint16_t> pos)
  *
  * @return values_length Number of elements in vector
  */
-int get_current_dimension()
+template <class T>
+int NDArray<T>::get_current_dimension()
 {
     if (this->shape.size() == 0 || this->shape[0] == 0)
         throw "Requested 0 dimensioned array";
@@ -86,9 +88,10 @@ int get_current_dimension()
  *
  * @return T* pointer to start of array (same as contained vector)
  */
-T *toarray()
+template <class T>
+T *NDArray<T>::toarray()
 {
-    vector<T> new_value = value;
+    std::vector<T> new_value = value;
     return &(new_value)[0];
 }
 
@@ -97,7 +100,8 @@ T *toarray()
  *
  * @return multiplication of dimension sizes except first
  */
-int count()
+template <class T>
+int NDArray<T>::count()
 {
     if (shape.size() == 1)
         return shape[0];
@@ -109,13 +113,15 @@ int count()
         size *= shape[i];
     return size;
 }
-int count(NDArray<T> input)
+template <class T>
+int NDArray<T>::count(NDArray<T> input)
 {
     return input.count();
 }
 
 // TODO: To be protected, internal function
-static NDArray<T> transpose(NDArray<T> input)
+template <class T>
+NDArray<T> NDArray<T>::transpose(NDArray<T> input)
 {
 
     if (input.getShape().size() != 2)
@@ -128,7 +134,7 @@ static NDArray<T> transpose(NDArray<T> input)
     int size = (N * M);
 
     // TODO: attenzione allo 0 per altri tipi
-    vector<T> output(size, 0);
+    std::vector<T> output(size, 0);
 
     for (uint16_t i = 0; i < size; i++)
     {
@@ -138,7 +144,8 @@ static NDArray<T> transpose(NDArray<T> input)
     return NDArray<T>({M, N}, output);
 }
 
-void reshape(vector<uint16_t> new_shape)
+template <class T>
+void NDArray<T>::reshape(std::vector<uint16_t> new_shape)
 {
     shape = new_shape;
 }

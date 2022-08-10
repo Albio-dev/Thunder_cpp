@@ -5,12 +5,14 @@
  *
  * @return int Number of elements in vector
  */
-int size()
+template <class T>
+int NDArray<T>::size()
 {
     return this->value.size();
 }
 
-uint16_t getCount()
+template <class T>
+uint16_t NDArray<T>::getCount()
 {
     return this->dimCount;
 }
@@ -20,7 +22,8 @@ uint16_t getCount()
  *
  * @return vector<T> of the contained data
  */
-vector<T> getValue()
+template <class T>
+std::vector<T> NDArray<T>::getValue()
 {
     return this->value;
 }
@@ -30,7 +33,8 @@ vector<T> getValue()
  *
  * @return vector<uint16_t> shape vector: every position is the dimension size
  */
-vector<uint16_t> getShape()
+template <class T>
+std::vector<uint16_t> NDArray<T>::getShape()
 {
     return this->shape;
 }
@@ -40,17 +44,20 @@ vector<uint16_t> getShape()
  *
  * @return T First value
  */
-T first()
+template <class T>
+T NDArray<T>::first()
 {
     return this->value[0];
 }
 
-auto begin()
+template <class T>
+auto NDArray<T>::begin()
 {
     return value.begin();
 }
 
-auto end()
+template <class T>
+auto NDArray<T>::end()
 {
     return value.end();
 }

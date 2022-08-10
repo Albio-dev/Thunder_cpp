@@ -1,10 +1,12 @@
 #include "../include/ndarray.hpp"
 
-NDArray::operator Series<T>()
+template <class T>
+NDArray<T>::operator Series<T>()
 {
     return Series<T>(shape, value);
 }
-NDArray::operator Images<T>()
+template <class T>
+NDArray<T>::operator Images<T>()
 {
     if (shape.size() == 1)
     {

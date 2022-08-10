@@ -43,6 +43,7 @@ problema tipo. quando dalla classe figlia di chiama la classe base passando la c
 grosso problema nel calcolo di varianza e deviazione standard per incongruenze del metodo di calcolo tra thunder e il nostro
 
 libreria libpng-dev, libjpeg-dev, libtiff-dev e lcov
+era necessario aggiungere -ltiff -lpng -ljpeg alle opzioni di compilazione, ma non prima di aver messo il nome del file di input. Quindi è stato necessario modificare il cmake mettendo target_link_libraries(${TARGET_NAME} PRIVATE thunder tiff png jpeg)
 
 domanda:
 al momento si comporta così, perchè accetta sempre e solo lo stesso T in input, che mi sembra abbastanza ragionevole
