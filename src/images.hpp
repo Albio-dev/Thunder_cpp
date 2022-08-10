@@ -5,12 +5,12 @@
 #ifndef PROJ_CPP_2022_IMAGES_HPP
 #define PROJ_CPP_2022_IMAGES_HPP
 #include "ndarray.hpp"
-
+/*
 #define cimg_display 0
 #define cimg_use_png 1
 #define cimg_use_tiff 0
 #define cimg_use_jpeg 0
-
+*/
 #define cimg_OS 1
 
 #include "../third_party/CImg.h"

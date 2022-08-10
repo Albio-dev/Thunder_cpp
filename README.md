@@ -41,3 +41,4 @@ problema tipo. quando dalla classe figlia di chiama la classe base passando la c
 grosso problema nel calcolo di varianza e deviazione standard per incongruenze del metodo di calcolo tra thunder e il nostro
 
 libreria libpng-dev, libjpeg-dev, libtiff-dev e lcov
+libx11-dev

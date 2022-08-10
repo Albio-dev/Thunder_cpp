@@ -84,6 +84,7 @@ public:
      *
      * @param path path to file
      */
+    /*
     void frompath(std::string path) {
 
         if (!std::filesystem::exists(path))
@@ -98,7 +99,7 @@ public:
         }
 
         return;
-    }
+    }*/
 
     bool has_suffix(const std::string &str, const std::string &suffix) {
         return str.size() >= suffix.size() &&
