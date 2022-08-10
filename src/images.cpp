@@ -2,7 +2,6 @@
 // Created by Aleardo on 03/08/22.
 //
 #include "images.hpp"
-
 // ToDo: Remove only for macos
 #define AVOID_READ_DATA 0
 
@@ -41,8 +40,8 @@ public:
      * @param path path to file
      */
     cimg_library::CImg<float> read_image(std::string path){
-        cimg_library::CImg<float> image;
-        image.load(path.c_str());
+        cimg_library::CImg<float> image(path);
+        //image.load(path.c_str());
         return image;
     }
 

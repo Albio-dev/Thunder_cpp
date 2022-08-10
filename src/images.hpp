@@ -11,6 +11,8 @@
 #define cimg_use_tiff 0
 #define cimg_use_jpeg 0
 
+#define cimg_OS 1
+
 #include "../third_party/CImg.h"
 
 #include <fstream>
@@ -18,7 +20,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
-
+#include <filesystem>
 
 template<class T> class Images;
 
