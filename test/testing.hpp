@@ -5,6 +5,6 @@
 #include "../third_party/catch.hpp"
 
 #include "../include/ndarray.hpp"
-#include "../include/series.hpp"
-#include "../include/images.hpp"
+#include "../src/series.cpp"
+#include "../src/images.cpp"
 
