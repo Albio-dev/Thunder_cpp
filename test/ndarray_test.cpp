@@ -1,6 +1,5 @@
 #include "testing.hpp"
 
-
 using namespace std;
 
 TEST_CASE("Create an ndarray", "[Creation]")
@@ -198,7 +197,7 @@ TEST_CASE("Count function usage", "[Count]")
     REQUIRE(a.count() == 5);
 }
 
-TEST_CASE("Filter function usage", "[Filter"){
+TEST_CASE("Filter function usage ndarray", "[Filter]"){
 
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
 
@@ -224,7 +223,7 @@ TEST_CASE("Filter function usage", "[Filter"){
     
 }
 
-TEST_CASE("Max function usage", "[Max]"){
+TEST_CASE("Max function usage ndarray", "[Max]"){
 
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
 
@@ -245,7 +244,7 @@ TEST_CASE("Max function usage", "[Max]"){
     REQUIRE(output[2] == 12);
 }
 
-TEST_CASE("Min function usage", "[Min]")
+TEST_CASE("Min function usage ndarray", "[Min]")
 {
 
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
@@ -267,7 +266,7 @@ TEST_CASE("Min function usage", "[Min]")
     REQUIRE(output[2] == 9);
 }
 
-TEST_CASE("Sum function usage", "[Sum]")
+TEST_CASE("Sum function usage ndarray", "[Sum]")
 {
 
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
@@ -289,7 +288,7 @@ TEST_CASE("Sum function usage", "[Sum]")
     REQUIRE(output[2] == 42);
 }
 
-TEST_CASE("Mean function usage", "[Mean]")
+TEST_CASE("Mean function usage ndarray", "[Mean]")
 {
 
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
@@ -311,7 +310,7 @@ TEST_CASE("Mean function usage", "[Mean]")
     REQUIRE(output[2] == 10);
 }
 
-TEST_CASE("Std integer function usage", "[Std]")
+TEST_CASE("Std integer function usage ndarray", "[Std]")
 {
 
     NDArray<int> a = NDArray<int>({5}, {1, 4, 3, 10, 5});
@@ -333,7 +332,7 @@ TEST_CASE("Std integer function usage", "[Std]")
     REQUIRE(output[2] == 4);
 }
 
-TEST_CASE("Std double function usage", "[Std]")
+TEST_CASE("Std double function usage ndarray", "[Std]")
 {
 
     NDArray<double> a = NDArray<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
@@ -355,7 +354,7 @@ TEST_CASE("Std double function usage", "[Std]")
     REQUIRE(output[2] == Approx(4.031128));
 }
 
-TEST_CASE("Var integer function usage", "[Var]")
+TEST_CASE("Var integer function usage ndarray", "[Var]")
 {
 
     NDArray<int> a = NDArray<int>({5}, {1, 4, 3, 10, 5});
@@ -377,7 +376,7 @@ TEST_CASE("Var integer function usage", "[Var]")
     REQUIRE(output[2] == 16);
 }
 
-TEST_CASE("Var double function usage", "[Var]")
+TEST_CASE("Var double function usage ndarray", "[Var]")
 {
 
     NDArray<double> a = NDArray<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
