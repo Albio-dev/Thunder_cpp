@@ -61,6 +61,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
         add_subdirectory(third_party/Catch2)
 
+
         set(TEST_SRC
                 test/ndarray_test.cpp   
                 test/series_test.cpp 
@@ -78,7 +79,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         target_link_libraries(${TEST_TARGET} PRIVATE Catch2::Catch2 gcov test_sources )
 
         # include(CTest)
-        # include(Catch)
+        # include(Catch2)
         # catch_discover_tests(${TEST_TARGET})
 
 
