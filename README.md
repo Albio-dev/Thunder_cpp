@@ -40,7 +40,7 @@ o cose simili ..... AH per migliorare il tutto il link della libreria portabile 
 
 implementate tutte le funzioni base e cominciato a portarle nelle classi figlie
 problema tipo. quando dalla classe figlia di chiama la classe base passando la classe figlia nessun problema (downcasting) ma quando bisogna accettare il risultato della classe padre e trasformarlo in una classe figlia si rompe di brutto (upcasting). soluzione: implementato nella classe figlia l'operatore di conversione che è anche molto semplice, ma c++ da solo non era capace di gestirlo
-grosso problema nel calcolo di varianza e deviazione standard per incongruenze del metodo di calcolo tra thunder e il nostro
+grosso problema nel calcolo di varianza e deviazione standard per incongruenze del metodo di calcolo tra thunder e il nostro (differenza nella geometria dell'input)
 
 libreria libpng-dev, libjpeg-dev, libtiff-dev e lcov
 era necessario aggiungere -ltiff -lpng -ljpeg alle opzioni di compilazione, ma non prima di aver messo il nome del file di input. Quindi è stato necessario modificare il cmake mettendo target_link_libraries(${TARGET_NAME} PRIVATE thunder tiff png jpeg)
@@ -69,3 +69,5 @@ tipo ci sono
 questo solo per ndarray, ma verosimilmente è così, ma più semplice anche per gli altri due
 ti sembra una cosa sensata?
 risposta: cartellina ndarray
+
+sistemato cmake per la nuova organizzazione dei file; incluso catch in cmake e compilato tutto (soprattutto i test) con la nuova organizzazione dei file

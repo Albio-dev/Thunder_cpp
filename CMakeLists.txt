@@ -56,15 +56,14 @@ add_custom_target(
 )
 
 # Testing
-
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
         #add_subdirectory(third_party/Catch2)
-
+        set(CATCH_INCLUDE_DIR third_party/catch)
         add_library(Catch2 INTERFACE)
+        target_include_directories(Catch2 INTERFACE ${CATCH_INCLUDE_DIR})
 
         if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-#            set(CATCH_INCLUDE_DIR /usr/local/Cellar/catch2/3.1.0/include)
             set(CATCH_INCLUDE_DIR third_party)
         else ()
             set(CATCH_INCLUDE_DIR third_party/catch2)
@@ -99,7 +98,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
                 COMMAND ./test_Thundercpp
                 COMMAND lcov --capture --directory .. --output-file coverage.info --rc lcov_branch_coverage=1
                 COMMAND lcov -a baseline.info -a coverage.info -o coverage_results.info --rc lcov_branch_coverage=1
-                COMMAND lcov --extract coverage_results.info '*${PROJECT_SOURCE_DIR}/*' --output-file ../doc/coverage/coverage_results.info --rc lcov_branch_coverage=1
+                COMMAND lcov --extract coverage_results.info '*${PROJECT_SOURCE_DIR}/include/*' '${PROJECT_SOURCE_DIR}/src/*' --output-file ../doc/coverage/coverage_results.info --rc lcov_branch_coverage=1
                 COMMAND lcov --list ../doc/coverage/coverage_results.info --rc lcov_branch_coverage=1
                 COMMAND genhtml -o ../doc/coverage ../doc/coverage/coverage_results.info
                 )

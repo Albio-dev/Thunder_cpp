@@ -1,7 +1,6 @@
 
 #pragma once
-
-#include <catch2/catch.hpp>
+#include "../third_party/catch.hpp"
 
 #include "../include/ndarray.hpp"
 #include "../src/series.cpp"
