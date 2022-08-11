@@ -69,7 +69,6 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         else ()
             set(CATCH_INCLUDE_DIR third_party/catch2)
         endif ()
-
         target_include_directories(Catch2 INTERFACE ${CATCH_INCLUDE_DIR})
 
 
@@ -91,6 +90,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         else ()
             target_link_libraries(${TEST_TARGET} PRIVATE Catch2 gcov test_sources )
         endif ()
+        target_compile_options(${TEST_TARGET} PUBLIC "--coverage")
+
 
         add_custom_target(coverage ALL
                 COMMAND mkdir -p ../doc/coverage
