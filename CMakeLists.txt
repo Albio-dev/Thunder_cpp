@@ -59,7 +59,12 @@ add_custom_target(
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-        add_subdirectory(third_party/Catch2)
+        #add_subdirectory(third_party/Catch2)
+
+        set(CATCH_INCLUDE_DIR third_party/catch)
+        add_library(Catch2 INTERFACE)
+        target_include_directories(Catch2 INTERFACE ${CATCH_INCLUDE_DIR})
+
 
 
         set(TEST_SRC
@@ -70,13 +75,13 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         
 
         add_library(test_sources OBJECT ${TEST_SRC})
-        target_link_libraries(test_sources Catch2::Catch2 )
+        target_link_libraries(test_sources Catch2 )
         target_include_directories(test_sources PRIVATE include)
 
         #enable_testing()
         add_executable(${TEST_TARGET} test/test.cpp )
         #target_include_directories(${TEST_TARGET} PRIVATE include)
-        target_link_libraries(${TEST_TARGET} PRIVATE Catch2::Catch2 gcov test_sources )
+        target_link_libraries(${TEST_TARGET} PRIVATE Catch2 gcov test_sources )
 
         # include(CTest)
         # include(Catch2)
