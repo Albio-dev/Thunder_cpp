@@ -78,58 +78,23 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         target_link_libraries(test_sources Catch2 )
         target_include_directories(test_sources PRIVATE include)
 
-        #enable_testing()
         add_executable(${TEST_TARGET} test/test.cpp )
-        #target_include_directories(${TEST_TARGET} PRIVATE include)
         target_link_libraries(${TEST_TARGET} PRIVATE Catch2 gcov test_sources )
+        target_compile_options(${TEST_TARGET} PUBLIC "--coverage")
 
-        # include(CTest)
-        # include(Catch2)
-        # catch_discover_tests(${TEST_TARGET})
-
-
-        # add_custom_target(build_and_test
-        #         COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target ${TEST_TARGET}
-        #         COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target test
-        # )
-
-
-        # set(CMAKE_INSTALL_PREFIX ".")
-        # install(TARGETS ${TARGET_NAME} DESTINATION ../bin)
-
-        # add_custom_target(coverage ALL
-        #         COMMAND mkdir -p ../doc/coverage
-        #         COMMAND lcov --capture --directory .. --output-file coverage.info
-        #         COMMAND lcov --extract coverage.info '*/src/*' --output-file ../doc/coverage/coverage.info
-        #         COMMAND lcov --list ../doc/coverage/coverage.info
-        #         COMMAND genhtml -o ../doc/coverage ../doc/coverage/coverage.info 
-        #         )
+        add_custom_target(coverage ALL
+                COMMAND mkdir -p ../doc/coverage
+                COMMAND lcov -c -i -d .. -o baseline.info --rc lcov_branch_coverage=1
+                COMMAND ./test_Thundercpp
+                COMMAND lcov --capture --directory .. --output-file coverage.info --rc lcov_branch_coverage=1
+                COMMAND lcov -a baseline.info -a coverage.info -o coverage_results.info --rc lcov_branch_coverage=1
+                COMMAND lcov --extract coverage_results.info '*${PROJECT_SOURCE_DIR}/*' --output-file ../doc/coverage/coverage_results.info --rc lcov_branch_coverage=1
+                COMMAND lcov --list ../doc/coverage/coverage_results.info --rc lcov_branch_coverage=1
+                COMMAND genhtml -o ../doc/coverage ../doc/coverage/coverage_results.info
+                )
 endif()
-# Testing
-
-# add_executable(test_ndarray test/ndarray_test.cpp)
-# target_compile_options(test_ndarray PRIVATE --coverage)
-# target_link_libraries(test_ndarray PRIVATE gcov)
-
-# add_executable(test_series  test/series_test.cpp)
-# target_compile_options(test_series PRIVATE --coverage)
-# target_link_libraries(test_series PRIVATE gcov)
-
-# add_executable(test_images  test/images_test.cpp)
-# target_compile_options(test_images PRIVATE --coverage)
-# target_link_libraries(test_images PRIVATE gcov)
-
-# add_custom_target(
-#         test ALL
-#         COMMAND ./test_ndarray
-#         COMMAND ./test_series
-#         COMMAND ./test_images
-# )
 
 # add_custom_target(
 #         format ALL
 #         COMMAND clang-format --style=file:../.clang-tidy -i  ../src/*
 # )
-
-
-#COMMAND ../utils/tester.sh)

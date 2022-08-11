@@ -105,9 +105,8 @@ TEST_CASE("Index NDArray elements", "[Indexing]"){
     }
 }
 
-
-
-TEST_CASE("Clip function usage", "[Clip]"){
+TEST_CASE("NDArray Clip function usage", "[Clip]")
+{
     NDArray<int> a = NDArray<int>({10}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
 
     a.clip(5, 6);
@@ -124,7 +123,8 @@ TEST_CASE("Clip function usage", "[Clip]"){
     REQUIRE(a[index++] == 6);
 }
 
-TEST_CASE("Plus function usage", "[Plus]"){
+TEST_CASE("NDArray Plus function usage", "[Plus]")
+{
     NDArray<int> a = NDArray<int>({10}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
     NDArray<int> b = NDArray<int>({10}, {9, 8, 7, 6, 5, 4, 3, 2, 1, 0});
 
@@ -146,7 +146,7 @@ TEST_CASE("Plus function usage", "[Plus]"){
     }
 }
 
-TEST_CASE("Minus function usage", "[Minus]")
+TEST_CASE("NDArray Minus function usage", "[Minus]")
 {
     NDArray<int> a = NDArray<int>({10}, {9, 8, 7, 6, 5, 4, 3, 2, 1, 0});
     NDArray<int> b = NDArray<int>({10}, {9, 8, 7, 6, 5, 4, 3, 2, 1, 0});
@@ -169,7 +169,7 @@ TEST_CASE("Minus function usage", "[Minus]")
     }
 }
 
-TEST_CASE("Map function usage", "[Map]"){
+TEST_CASE("NDArray Map function usage", "[Map]"){
     NDArray<int> a = NDArray<int>({5, 2, 1}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
     //NDArray<int> output = a.map([](int b){return b*0;});
     a.map([](int b)
@@ -180,7 +180,7 @@ TEST_CASE("Map function usage", "[Map]"){
     }
 }
 
-TEST_CASE("Count function usage", "[Count]")
+TEST_CASE("NDArray Count function usage", "[Count]")
 {
     NDArray<int> a = NDArray<int>({1, 2}, {1, 1});
     REQUIRE(a.count() == 2);
@@ -198,7 +198,7 @@ TEST_CASE("Count function usage", "[Count]")
     REQUIRE(a.count() == 5);
 }
 
-TEST_CASE("Filter function usage", "[Filter"){
+TEST_CASE("NDArray Filter function usage", "[Filter]"){
 
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
 
@@ -224,7 +224,7 @@ TEST_CASE("Filter function usage", "[Filter"){
     
 }
 
-TEST_CASE("Max function usage", "[Max]"){
+TEST_CASE("NDArray Max function usage", "[Max]"){
 
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
 
@@ -245,7 +245,7 @@ TEST_CASE("Max function usage", "[Max]"){
     REQUIRE(output[2] == 12);
 }
 
-TEST_CASE("Min function usage", "[Min]")
+TEST_CASE("NDArray Min function usage", "[Min]")
 {
 
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
@@ -267,7 +267,7 @@ TEST_CASE("Min function usage", "[Min]")
     REQUIRE(output[2] == 9);
 }
 
-TEST_CASE("Sum function usage", "[Sum]")
+TEST_CASE("NDArray Sum function usage", "[Sum]")
 {
 
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
@@ -289,7 +289,7 @@ TEST_CASE("Sum function usage", "[Sum]")
     REQUIRE(output[2] == 42);
 }
 
-TEST_CASE("Mean function usage", "[Mean]")
+TEST_CASE("NDArray Mean function usage", "[Mean]")
 {
 
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
@@ -311,7 +311,7 @@ TEST_CASE("Mean function usage", "[Mean]")
     REQUIRE(output[2] == 10);
 }
 
-TEST_CASE("Std integer function usage", "[Std]")
+TEST_CASE("NDArray Std integer function usage", "[Std]")
 {
 
     NDArray<int> a = NDArray<int>({5}, {1, 4, 3, 10, 5});
@@ -333,7 +333,7 @@ TEST_CASE("Std integer function usage", "[Std]")
     REQUIRE(output[2] == 4);
 }
 
-TEST_CASE("Std double function usage", "[Std]")
+TEST_CASE("NDArray Std double function usage", "[Std]")
 {
 
     NDArray<double> a = NDArray<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
@@ -355,7 +355,7 @@ TEST_CASE("Std double function usage", "[Std]")
     REQUIRE(output[2] == Approx(4.031128));
 }
 
-TEST_CASE("Var integer function usage", "[Var]")
+TEST_CASE("NDArray Var integer function usage", "[Var]")
 {
 
     NDArray<int> a = NDArray<int>({5}, {1, 4, 3, 10, 5});
@@ -377,7 +377,7 @@ TEST_CASE("Var integer function usage", "[Var]")
     REQUIRE(output[2] == 16);
 }
 
-TEST_CASE("Var double function usage", "[Var]")
+TEST_CASE("NDArray Var double function usage", "[Var]")
 {
 
     NDArray<double> a = NDArray<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
@@ -399,7 +399,7 @@ TEST_CASE("Var double function usage", "[Var]")
     REQUIRE(output[2] == Approx(16.25));
 }
 
-TEST_CASE("Get current object errors and length", "[get_current_dimension]")
+TEST_CASE("NDArray Get current object errors and length", "[get_current_dimension]")
 {
     NDArray<int> n = NDArray<int>({2, 2}, {1,1,1,1});
     REQUIRE(n.get_current_dimension() == 4);
@@ -407,7 +407,7 @@ TEST_CASE("Get current object errors and length", "[get_current_dimension]")
     REQUIRE(n.get_current_dimension() == 2);
 }
 
-TEST_CASE("Test from binary function", "[from_binary]")
+TEST_CASE("NDArray Test from binary function", "[from_binary]")
 {
     NDArray<int> n = NDArray<int>({1}, {1});
     SECTION("Some errors file don't exists") {
@@ -420,7 +420,7 @@ TEST_CASE("Test from binary function", "[from_binary]")
     REQUIRE(n.getValue() == vecOfNums1);
 }
 
-TEST_CASE("Test random function for generating data", "[fromrandom]")
+TEST_CASE("NDArray Test random function for generating data", "[fromrandom]")
 {
     NDArray<float> n = NDArray<float>({1}, {1});
     REQUIRE_NOTHROW(n.fromrandom());

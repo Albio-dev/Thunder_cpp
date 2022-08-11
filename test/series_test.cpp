@@ -1,9 +1,8 @@
 #include "testing.hpp"
 
+TEST_CASE("Series Prepare mat function test", "[PrepareMat]")
+{
 
-TEST_CASE("Prepare mat function test", "[PrepareMat"){
-
- 
     Series<int> a = Series<int>::fromArray({3, 2}, {1, 2, 3, 4, 5, 6});
     NDArray<int> output = a.prepareMat();
 
@@ -24,10 +23,10 @@ TEST_CASE("Prepare mat function test", "[PrepareMat"){
     for (int i = 0; i < output.size(); i++){
         REQUIRE(output[i] == b[i]);
     }
-
 }
 
-TEST_CASE("Count function test", "[Count]"){
+TEST_CASE("Series Count function test", "[Count]")
+{
 
     Series<int> a = Series<int>::fromArray({1, 2}, {1, 1});
     REQUIRE(a.count() == 1);
@@ -45,7 +44,7 @@ TEST_CASE("Count function test", "[Count]"){
     REQUIRE(a.count() == 1);
 }
 
-TEST_CASE("Filter function usage", "[Filter")
+TEST_CASE("Series Filter function usage", "[Filter]")
 {
 
     Series<int> a = Series<int>::fromArray({5}, {1, 2, 3, 4, 5});
@@ -79,7 +78,7 @@ TEST_CASE("Filter function usage", "[Filter")
         return true; });*/
 }
 
-TEST_CASE("Max function usage", "[Max]")
+TEST_CASE("Series Max function usage", "[Max]")
 {
 
     Series<int> a = Series<int>({5}, {1, 2, 3, 4, 5});
@@ -103,7 +102,7 @@ TEST_CASE("Max function usage", "[Max]")
     REQUIRE(output[1] == 12);
 }
 
-TEST_CASE("Min function usage", "[Min]")
+TEST_CASE("Series Min function usage", "[Min]")
 {
 
     Series<int> a = Series<int>({5}, {1, 2, 3, 4, 5});
@@ -127,7 +126,7 @@ TEST_CASE("Min function usage", "[Min]")
     REQUIRE(output[1] == 2);
 }
 
-TEST_CASE("Sum function usage", "[Sum]")
+TEST_CASE("Series Sum function usage", "[Sum]")
 {
 
     Series<int> a = Series<int>({5}, {1, 2, 3, 4, 5});
@@ -151,7 +150,7 @@ TEST_CASE("Sum function usage", "[Sum]")
     REQUIRE(output[1] == 42);
 }
 
-TEST_CASE("Mean function usage", "[Mean]")
+TEST_CASE("Series Mean function usage", "[Mean]")
 {
 
     Series<int> a = Series<int>({5}, {1, 2, 3, 4, 5});
@@ -175,7 +174,7 @@ TEST_CASE("Mean function usage", "[Mean]")
     REQUIRE(output[1] == 7);
 }
 
-TEST_CASE("Std integer function usage", "[Std]")
+TEST_CASE("Series Std integer function usage", "[Std]")
 {
 // TODO: La funzione std usa il count di NDArray e non di Series
     Series<int> a = Series<int>({5}, {1, 4, 3, 10, 5});
@@ -198,7 +197,7 @@ TEST_CASE("Std integer function usage", "[Std]")
     REQUIRE(output[1] == 3);
 }
 
-TEST_CASE("Std double function usage", "[Std]")
+TEST_CASE("Series Std double function usage", "[Std]")
 {
 
     Series<double> a = Series<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
@@ -221,7 +220,7 @@ TEST_CASE("Std double function usage", "[Std]")
     REQUIRE(output[1] == Approx(3.415650));
 }
 
-TEST_CASE("Var integer function usage", "[Var]")
+TEST_CASE("Series Var integer function usage", "[Var]")
 {
 
     Series<int> a = Series<int>({5}, {1, 4, 3, 10, 5});
@@ -244,7 +243,7 @@ TEST_CASE("Var integer function usage", "[Var]")
     REQUIRE(output[1] == 11);  // TODO: Should be 5?
 }
 
-TEST_CASE("Var double function usage", "[Var]")
+TEST_CASE("Series Var double function usage", "[Var]")
 {
 
     Series<double> a = Series<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
