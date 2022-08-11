@@ -1,6 +1,5 @@
 #include "testing.hpp"
 
-
 using namespace std;
 
 TEST_CASE("Create an ndarray", "[Creation]")

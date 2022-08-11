@@ -61,8 +61,15 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
         #add_subdirectory(third_party/Catch2)
 
-        set(CATCH_INCLUDE_DIR third_party/catch)
         add_library(Catch2 INTERFACE)
+
+        if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+#            set(CATCH_INCLUDE_DIR /usr/local/Cellar/catch2/3.1.0/include)
+            set(CATCH_INCLUDE_DIR third_party)
+        else ()
+            set(CATCH_INCLUDE_DIR third_party/catch2)
+        endif ()
+
         target_include_directories(Catch2 INTERFACE ${CATCH_INCLUDE_DIR})
 
 
@@ -79,8 +86,11 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         target_include_directories(test_sources PRIVATE include)
 
         add_executable(${TEST_TARGET} test/test.cpp )
-        target_link_libraries(${TEST_TARGET} PRIVATE Catch2 gcov test_sources )
-        target_compile_options(${TEST_TARGET} PUBLIC "--coverage")
+        if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+            target_link_libraries(${TEST_TARGET} PRIVATE Catch2 test_sources )
+        else ()
+            target_link_libraries(${TEST_TARGET} PRIVATE Catch2 gcov test_sources )
+        endif ()
 
         add_custom_target(coverage ALL
                 COMMAND mkdir -p ../doc/coverage

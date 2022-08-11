@@ -1,6 +1,8 @@
 #include "testing.hpp"
 
-TEST_CASE("Prepare mat function test", "[PrepareMat")
+using namespace Catch;
+
+TEST_CASE("Prepare mat function test images", "[PrepareMat")
 {
 
     Images<int> a = Images<int>({3, 2}, {1, 2, 3, 4, 5, 6});
@@ -28,7 +30,7 @@ TEST_CASE("Prepare mat function test", "[PrepareMat")
     }
 }
 
-TEST_CASE("Count function test", "[Count]")
+TEST_CASE("Count function test images", "[Count]")
 {
 
     Images<int> a = Images<int>({1, 2}, {1, 1});
@@ -46,7 +48,7 @@ TEST_CASE("Count function test", "[Count]")
     REQUIRE_THROWS(Images<int>({5}, {1, 1, 1, 1, 1}));
 }
 
-TEST_CASE("Filter function usage", "[Filter")
+TEST_CASE("Filter function usage images", "[Filter]")
 {
 
     Images<int> a = Images<int>({5, 1}, {1, 2, 3, 4, 5});
@@ -81,7 +83,7 @@ TEST_CASE("Filter function usage", "[Filter")
             */
 }
 
-TEST_CASE("Max function usage", "[Max]")
+TEST_CASE("Max function usage images", "[Max]")
 {
 
     Images<int> a = Images<int>({6, 1}, {1, 2, 3, 4, 5, 6});
@@ -107,7 +109,7 @@ TEST_CASE("Max function usage", "[Max]")
     REQUIRE(output[3] == 12);
 }
 
-TEST_CASE("Min function usage", "[Min]")
+TEST_CASE("Min function usage images", "[Min]")
 {
 
     Images<int> a = Images<int>({6, 1}, {1, 2, 3, 4, 5, 6});
@@ -133,7 +135,7 @@ TEST_CASE("Min function usage", "[Min]")
     REQUIRE(output[3] == 4);
 }
 
-TEST_CASE("Sum function usage", "[Sum]")
+TEST_CASE("Sum function usage images", "[Sum]")
 {
 
     Images<int> a = Images<int>({6, 1}, {1, 2, 3, 4, 5, 6});
@@ -159,7 +161,7 @@ TEST_CASE("Sum function usage", "[Sum]")
     REQUIRE(output[3] == 24);
 }
 
-TEST_CASE("Mean function usage", "[Mean]")
+TEST_CASE("Mean function usage images", "[Mean]")
 {
 
     Images<int> a = Images<int>({6, 1}, {1, 2, 3, 4, 5, 6});
@@ -185,7 +187,7 @@ TEST_CASE("Mean function usage", "[Mean]")
     REQUIRE(output[3] == 8);
 }
 
-TEST_CASE("Std integer function usage", "[Std]")
+TEST_CASE("Std integer function usage images", "[Std]")
 {
     Images<int> a = Images<int>({5, 1}, {1, 4, 3, 10, 5});
 
@@ -210,7 +212,7 @@ TEST_CASE("Std integer function usage", "[Std]")
     REQUIRE(output[3] == 2);
 }
 
-TEST_CASE("Std double function usage", "[Std]")
+TEST_CASE("Std double function usage images", "[Std]")
 {
 
     Images<double> a = Images<double>({5, 1}, {1.0, 4.0, 3.0, 10.0, 5.0});
@@ -218,7 +220,7 @@ TEST_CASE("Std double function usage", "[Std]")
     Images<double> output = a.std();
     for (int i = 0; i < output.size(); i++)
     {
-        REQUIRE(output[i] == Approx(0));
+        REQUIRE(output[i] == Detail::Approx(0));
     }
 
     a = Images<double>({3, 2, 2}, {11.0, 12.0,
@@ -230,13 +232,13 @@ TEST_CASE("Std double function usage", "[Std]")
                                    9.0, 10.0,
                                    1.0, 2.0});
     output = a.std();
-    REQUIRE(output[0] == Approx(3.399346));
-    REQUIRE(output[1] == Approx(3.399346));
-    REQUIRE(output[2] == Approx(2.494438));
-    REQUIRE(output[3] == Approx(2.494438));
+    REQUIRE(output[0] == Detail::Approx(3.399346));
+    REQUIRE(output[1] == Detail::Approx(3.399346));
+    REQUIRE(output[2] == Detail::Approx(2.494438));
+    REQUIRE(output[3] == Detail::Approx(2.494438));
 }
 
-TEST_CASE("Var integer function usage", "[Var]")
+TEST_CASE("Var integer function usage images", "[Var]")
 {
 
     Images<int> a = Images<int>({5, 1}, {1, 4, 3, 10, 5});
@@ -262,7 +264,7 @@ TEST_CASE("Var integer function usage", "[Var]")
     REQUIRE(output[3] == 6); 
 }
 
-TEST_CASE("Var double function usage", "[Var]")
+TEST_CASE("Var double function usage images", "[Var]")
 {
 
     Images<double> a = Images<double>({5, 1}, {1.0, 4.0, 3.0, 10.0, 5.0});
@@ -270,7 +272,7 @@ TEST_CASE("Var double function usage", "[Var]")
     Images<double> output = a.var();
     for (int i = 0; i < output.size(); i++)
     {
-        REQUIRE(output[i] == Approx(0));
+        REQUIRE(output[i] == Detail::Approx(0));
     }
 
     a = Images<double>({3, 2, 2}, {11.0, 12.0,
@@ -282,8 +284,8 @@ TEST_CASE("Var double function usage", "[Var]")
                                    9.0, 10.0,
                                    1.0, 2.0});
     output = a.var();
-    REQUIRE(output[0] == Approx(11.555555));
-    REQUIRE(output[1] == Approx(11.555555));
-    REQUIRE(output[2] == Approx(6.222222));
-    REQUIRE(output[3] == Approx(6.222222));
+    REQUIRE(output[0] == Detail::Approx(11.555555));
+    REQUIRE(output[1] == Detail::Approx(11.555555));
+    REQUIRE(output[2] == Detail::Approx(6.222222));
+    REQUIRE(output[3] == Detail::Approx(6.222222));
 }
