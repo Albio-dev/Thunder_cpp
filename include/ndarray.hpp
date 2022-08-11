@@ -5,6 +5,7 @@
 #include <functional>
 #include <iostream>
 #include <list>
+#include <random>
 
 #include "series.hpp"
 #include "images.hpp"
@@ -256,5 +257,6 @@ class NDArray{
 #include "ndarray/ndarray_functions.i.hpp"
 #include "ndarray/ndarray_initializers.i.hpp"
 #include "ndarray/ndarray_operator_overload.i.hpp"
+#include "ndarray/ndarray_operator_wrapper.i.hpp"
 #include "ndarray/ndarray_utils.i.hpp"
 #include "ndarray/ndarray_wrapper.i.hpp"

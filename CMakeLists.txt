@@ -42,30 +42,48 @@ add_custom_target(
 
 # Testing
 
-# if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-#         set(TEST_TARGET "test_Thundercpp")
-#         enable_testing()
-#         add_executable(${TEST_TARGET} test/ndarray_test.cpp test/series_test.cpp test/images_test.cpp ${SRC})
-#         target_include_directories(${TEST_TARGET} PRIVATE include)
-#         target_link_libraries(${TEST_TARGET} PRIVATE gcov thunder)
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-#         add_custom_target(build_and_test
-#                 COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target ${TEST_TARGET}
-#                 COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target test
-#         )
+        add_subdirectory(third_party/Catch2)
+
+        set(TEST_SRC
+                test/ndarray_test.cpp   
+                test/series_test.cpp 
+                test/images_test.cpp)
+        set(TEST_TARGET "test_Thundercpp")
+        
+
+        add_library(test_sources OBJECT ${TEST_SRC})
+        target_link_libraries(test_sources Catch2::Catch2 )
+        target_include_directories(test_sources PRIVATE include)
+
+        #enable_testing()
+        add_executable(${TEST_TARGET} test/test.cpp )
+        #target_include_directories(${TEST_TARGET} PRIVATE include)
+        target_link_libraries(${TEST_TARGET} PRIVATE Catch2::Catch2 gcov test_sources )
+
+        # include(CTest)
+        # include(Catch)
+        # catch_discover_tests(${TEST_TARGET})
 
 
-#         # set(CMAKE_INSTALL_PREFIX ".")
-#         # install(TARGETS ${TARGET_NAME} DESTINATION ../bin)
+        # add_custom_target(build_and_test
+        #         COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target ${TEST_TARGET}
+        #         COMMAND ${CMAKE_COMMAND} --build ${PROJECT_BINARY_DIR} --target test
+        # )
 
-#         # add_custom_target(coverage ALL
-#         #         COMMAND mkdir -p ../doc/coverage
-#         #         COMMAND lcov --capture --directory .. --output-file coverage.info
-#         #         COMMAND lcov --extract coverage.info '*/src/*' --output-file ../doc/coverage/coverage.info
-#         #         COMMAND lcov --list ../doc/coverage/coverage.info
-#         #         COMMAND genhtml -o ../doc/coverage ../doc/coverage/coverage.info 
-#         #         )
-# endif()
+
+        # set(CMAKE_INSTALL_PREFIX ".")
+        # install(TARGETS ${TARGET_NAME} DESTINATION ../bin)
+
+        # add_custom_target(coverage ALL
+        #         COMMAND mkdir -p ../doc/coverage
+        #         COMMAND lcov --capture --directory .. --output-file coverage.info
+        #         COMMAND lcov --extract coverage.info '*/src/*' --output-file ../doc/coverage/coverage.info
+        #         COMMAND lcov --list ../doc/coverage/coverage.info
+        #         COMMAND genhtml -o ../doc/coverage ../doc/coverage/coverage.info 
+        #         )
+endif()
 # Testing
 
 # add_executable(test_ndarray test/ndarray_test.cpp)
