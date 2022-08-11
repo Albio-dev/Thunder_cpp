@@ -27,33 +27,30 @@ public:
         return;
     }
 
-#if AVOID_READ_DATA==1
-
+    /** @brief ToDo: To remove, only for test
+     *
+     * @param path path to file
+     */
     cimg_library::CImg<float> read_image(std::string path) {
-        path = path + "";
-        cimg_library::CImg<float> image(500, 400, 1, 3, 0);
-        return image;
+        cimg_library::CImg<float> img;
+        img.load(path.c_str());
+        return img;
     }
 
-#else
-    /** @brief
+
+    /** @brief Takes a path and populate given class. Under the hood check if it is a png or tif image and
+     * call the correct function. Default file type is a binary file
      *
      * @param path path to file
      */
-    cimg_library::CImg<float> read_image(std::string path){
-        cimg_library::CImg<float> image;
-        image.load(path.c_str());
-        return image;
-    }
+    void frompath(std::string path){
+        cimg_library::CImg<float> img;
+        try {
+            img.load(path.c_str());
+        }catch (const cimg_library::CImgIOException& e) {
+            return;
+        }
 
-#endif
-
-    /** @brief
-     *
-     * @param path path to file
-     */
-    void fromtif(std::string path) {
-        cimg_library::CImg<float> img = read_image(path);
         this->value.clear();
         this->shape = {(unsigned short int)img.width(), (unsigned short int)img.height(), 3};
         for(int i=0; i < img.width(); i++){
@@ -63,44 +60,29 @@ public:
                 this->value.push_back(img(i, j, 0, 2)); // B
             }
         }
-//        for (CImg<float>::iterator it = img.begin(); it<img.end(); ++it){
-//            it.
-//        }
 
         return;
     }
 
-    /** @brief
+
+    /** @brief Read a tif image and load data to Image<T>
      *
-     * @param path path to file
+     * @param path path to .tif file
+     */
+    void fromtif(std::string path) {
+        frompath(path);
+        return;
+    }
+
+    /** @brief Read a png image and load data to Image<T>
+     *
+     * @param path path to .png file
      */
     void frompng(std::string path) {
-        fromtif(path);
-
+        frompath(path);
         return;
     }
 
-    /** @brief Takes a path and populate given class. Under the hood check if it is a png or tif image and
-     * call the correct function. Default file type is a binary file
-     *
-     * @param path path to file
-     */
-    
-    void frompath(std::string path) {
-
-        if (!std::filesystem::exists(path))
-            throw "File does not exist";
-
-        if (has_suffix(path, ".png")) {
-
-        } else if (has_suffix(path, ".tif")) {
-
-        } else {
-            NDArray<T>::frombinary({1}, path);
-        }
-
-        return;
-    }
 
     bool has_suffix(const std::string &str, const std::string &suffix) {
         return str.size() >= suffix.size() &&

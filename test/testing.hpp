@@ -1,8 +1,10 @@
 
 #pragma once
 
-#include <catch2/catch.hpp>
+#define CATCH_CONFIG_MAIN
+#include "../third_party/catch.hpp"
 
 #include "../include/ndarray.hpp"
-#include "../src/series.cpp"
-#include "../src/images.cpp"
+#include "../include/series.hpp"
+#include "../include/images.hpp"
+
