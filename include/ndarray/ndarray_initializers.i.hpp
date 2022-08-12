@@ -6,11 +6,11 @@
  */
 
 template <class T>
-void NDArray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
+NDArray<T> NDArray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
 {
-    this->shape = shape;
-    this->value.clear();
-    int num_values = get_current_dimension();
+    //std::vector<T> shape = shape;
+    std::vector<T> output;
+    int num_values = std::accumulate(shape.begin(), shape.end(), 1, std::multiplies<T>());
 
     // ToDo: Works only with float values not int
     std::random_device dev;
@@ -18,10 +18,10 @@ void NDArray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
     std::uniform_real_distribution<T> dist6(1, 100);
     for (int k = 0; k < num_values; k++)
     {
-        this->value.push_back(dist6(rng));
+        output.push_back(dist6(rng));
     }
 
-    return;
+    return NDArray<T>(shape, output);
 }
 
 /**
@@ -31,16 +31,31 @@ void NDArray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
  */
 
 template <class T>
-void NDArray<T>::fromlist(std::list<T> l)
+NDArray<T> NDArray<T>::fromlist(std::list<T> l)
 {
     if (l.size() == 0)
         throw "List empty. Need to have a non empty list assigned.";
 
-    this->shape = {l.size()};
-    this->value.reserve(l.size());
-    this->value.assign(l.begin(), l.end());
+    //this->shape = {l.size()};
+    std::vector<T> output;
+    output.reserve(l.size());
+    output.assign(l.begin(), l.end());
 
-    return;
+    return NDArray<T>({l.size()}, output);
+}
+template <class T>
+NDArray<T> NDArray<T>::fromarray(std::vector<T> input){
+    return NDArray<T>({static_cast<uint16_t>(input.size())}, input);
+}
+template <class T>
+NDArray<T> NDArray<T>::fromarray(std::vector<uint16_t> shape, std::vector<T> input)
+{
+    return NDArray<T>(shape, input);
+}
+template <class T>
+NDArray<T> NDArray<T>::fromarray(std::vector<uint16_t> shape, T* input)
+{
+    return NDArray<T>(shape, input);
 }
 
 // ToDo: https://en.cppreference.com/w/cpp/filesystem/path
@@ -51,9 +66,9 @@ void NDArray<T>::fromlist(std::list<T> l)
  */
 
 template <class T>
-void NDArray<T>::frombinary(std::vector<uint16_t> new_shape, std::string path)
+NDArray<T> NDArray<T>::frombinary(std::vector<uint16_t> new_shape, std::string path)
 {
-    this->shape = new_shape;
+    //this->shape = new_shape;
 
     std::ifstream file(path, std::ios::in | std::ios::binary);
     if (!file.is_open())
@@ -69,17 +84,18 @@ void NDArray<T>::frombinary(std::vector<uint16_t> new_shape, std::string path)
     file.seekg(0, std::ios::beg);
 
     // reserve capacity in vector
-    int dimension = (int)(fileSize / sizeof(T));
+    //int dimension = (int)(fileSize / sizeof(T));
     // Maybe I should use this code for file.read directly on this->value
     // this->value.reserve(dimension);
 
+    /*
     if (NDArray<T>::get_current_dimension() != dimension)
         throw "File is larger or shorter then expected.";
-
+    */
     std::vector<T> vec(fileSize / sizeof(T));
     file.read(reinterpret_cast<char *>(vec.data()), vec.size() * sizeof(T));
 
-    this->value = vec;
+    //this->value = vec;
 
-    return;
+    return NDArray<T>(new_shape, vec);
 }

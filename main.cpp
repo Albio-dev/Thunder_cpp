@@ -28,9 +28,9 @@ void printMat(NDArray<T> input)
 
 int main() {
 
-    Series<int> a = Series<int>({1, 5}, {1, 2, 3, 4, 5});
-    Images<int> b = Images<int>({1, 5}, {1, 2, 3, 4, 5});
-    cimg_library::CImg<float> p = b.read_image("../data/singlelayer_png/dot2_grey.png");
+    Series<int> a = Series<int>::fromarray({1, 5}, {1, 2, 3, 4, 5});
+    Images<int> b = Images<int>::fromarray({1, 5}, {1, 2, 3, 4, 5});
+    //cimg_library::CImg<float> p = b.read_image("../data/singlelayer_png/dot2_grey.png");
 
     NDArray<int> c = a.element_wise(b, std::minus<int>());
     printMat(c);

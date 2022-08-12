@@ -13,16 +13,16 @@
 
 template <class T>
 class NDArray{
-    public:
+    
     
     /// @var Actual values vector
     std::vector<T> value;
     /// @var Matrix size
     std::vector<uint16_t> shape;
 
-    uint16_t dimCount;
+    protected:
 
-    // COnstructors
+    // Constructors
     /**
      * @brief Construct a new NDArray object when values are given in a C array
      * Basically a copy constructor since it copies the elements in the array in a vector
@@ -40,6 +40,8 @@ class NDArray{
      * @param values Actual matrix values, already in vector format
      */
     NDArray(std::vector<std::uint16_t> lengths, std::vector<T> values);
+
+    public:
 
     // Converters
     operator Images<T>();
@@ -153,26 +155,30 @@ class NDArray{
     static NDArray<T> transpose(NDArray<T> input);
     void reshape(std::vector<uint16_t> new_shape);
 
+    // Initializers
      /** @brief Initialize with random values this->value
      *
      * @param shape a vector with the desired dimension
      * @param seed seed value for the random function
      */
-    void fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42);
+    static NDArray<T> fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42);
     /**
      * @brief Passed a list assign all values to current data structure
      * as one dimensional matrix.
      *
      */
-    void fromlist(std::list<T> l = {});
+    static NDArray<T> fromlist(std::list<T> l = {});
     // ToDo: https://en.cppreference.com/w/cpp/filesystem/path
     /** @brief Read a file as is to the class with some checks on possible errors
      *
      * @param shape a vector with the desired dimension
      * @param path path to a file
      */
-    void frombinary(std::vector<uint16_t> new_shape, std::string path);
-
+    static NDArray<T> frombinary(std::vector<uint16_t> new_shape, std::string path);
+    
+    static NDArray<T> fromarray(std::vector<uint16_t> shape, T *input);
+    static NDArray<T> fromarray(std::vector<uint16_t> shape, std::vector<T> input);
+    static NDArray<T> fromarray(std::vector<T> input);
 
     /**
      * @brief Clip values in an array above and below provided values

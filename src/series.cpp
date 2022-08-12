@@ -2,25 +2,53 @@
 // Created by Aleardo on 03/08/22.
 //
 
-#include "series.hpp"
+#include "../include/series.hpp"
 
 template<class T>
 class Series: public NDArray<T>{
-public:
     //Series() = default;
 
-    Series(std::vector<uint16_t> shape, std::vector<T> input) : NDArray<T>(shape, input){}
+    friend class NDArray<T>;
 
-    static Series<T> fromArray(std::vector<uint16_t> shape, std::vector<T> input){
-        return Series<T>(shape, input);
+    Series(std::vector<uint16_t> shape, std::vector<T> input) : NDArray<T>(shape, input){}
+public:
+    /**
+     * @brief Utility to prepare the matrix for processing by base functions
+     * Squares the matrix collapsing all dimensions but last. E.g matrix (2, 3, 2) becomes (6, 2)
+     * It then gets transposed so that the resulting matrix is (2, 6).
+     *
+     * @return NDArray<T> Square matrix transposed. Collapses all dimensions except last.
+     */
+    NDArray<T> prepareMat()
+    {
+
+        // Saving previous dimensions for restoring them later
+        std::vector<uint16_t> old_shape = NDArray<T>::getShape();
+        // Collapses all dimensions but last
+        NDArray<T>::reshape({(uint16_t)count(), NDArray<T>::getShape()[NDArray<T>::getShape().size() - 1]});
+
+        // Get the transpose
+        NDArray<T> temp = NDArray<T>::transpose(*this);
+
+        // Restore old dimensions
+        NDArray<T>::reshape(old_shape);
+
+        return temp;
     }
 
+
+
+    
     T getPosition(std::vector<uint16_t> indexes) {
 
         NDArray<T>::getPosition(indexes);
         return NULL;
     }
 
+    static Series<T> fromArray(std::vector<uint16_t> shape, std::vector<T> input)
+    {
+        return Series<T>(shape, input);
+    }
 
     /** @brief The only use of this class is for auto instancing these three default values to a standard. Then call
      * subclass constructor to create the real values
@@ -28,11 +56,10 @@ public:
      * @param shape a vector with the desired dimension
      * @param seed seed value for the random function
      */
-    void fromrandom(std::vector<uint16_t> shape={100, 10}, int seed=42) {
-        NDArray<T>::fromrandom(shape, seed);
-        return;
+    static Series<T> fromrandom(std::vector<uint16_t> shape = {100, 10}, int seed = 42)
+    {
+        return static_cast<Series<T>>(NDArray<T>::fromrandom(shape, seed));
     }
-
 
     /** @brief Loads series data from text files. Assumes data are formatted as rows,
      * where each record is a row of numbers separated by spaces e.g. 'v v v v v'.
@@ -40,7 +67,9 @@ public:
      *
      *
      */
-    void fromtext(std::string path) {
+    static Series<T> fromtext(std::string path)
+    {
+        std::vector<T> output;
         std::string line;
         std::ifstream text_file (path);
         if (text_file.is_open())
@@ -54,12 +83,11 @@ public:
                 {
                     if (std::is_same<T, float>::value) {
                         std::cout << std::stof(segment) << " ";
-                        this->value.push_back(std::stof(segment));
-
+                        output.push_back(std::stof(segment));
                     }
                     if (std::is_same<T, int>::value) {
                         std::cout << std::stoi(segment) << " ";
-                        this->value.push_back(std::stoi(segment));
+                        output.push_back(std::stoi(segment));
                     }
                 }
 
@@ -70,39 +98,18 @@ public:
             throw "Unable to open file. Some error occurred!";
         }
 
-        return ;
+        return Series<T>({static_cast<uint16_t>(output.size())}, output);
     }
 
     /** @brief Construct this class with a default base series from random.
      *
      */
-    void fromexample() {
-        fromrandom({25}, 42);
-        return;
+    static Series<T> fromexample()
+    {
+        return fromrandom({25}, 42);
     }
 
-    /**
-     * @brief Utility to prepare the matrix for processing by base functions
-     * Squares the matrix collapsing all dimensions but last. E.g matrix (2, 3, 2) becomes (6, 2)
-     * It then gets transposed so that the resulting matrix is (2, 6).
-     * 
-     * @return NDArray<T> Square matrix transposed. Collapses all dimensions except last.
-     */
-    NDArray<T> prepareMat(){
-
-        // Saving previous dimensions for restoring them later
-        std::vector<uint16_t> old_shape = NDArray<T>::getShape();
-        // Collapses all dimensions but last
-        NDArray<T>::reshape({(uint16_t)count(), NDArray<T>::getShape()[NDArray<T>::getShape().size()-1]});
-
-        // Get the transpose
-        NDArray<T> temp = NDArray<T>::transpose(*this);
-
-        // Restore old dimensions
-        NDArray<T>::reshape(old_shape);
-
-        return temp;
-    }
+    
 
     /**
      * @brief Counts how many least-dimensioned elements there are. 
@@ -116,7 +123,7 @@ public:
 
         // Multiplies all dimensions except last
         for (uint16_t i = 0; i < NDArray<T>::getShape().size() -1; i++){
-            output *= NDArray<T>::shape[i];
+            output *= NDArray<T>::getShape()[i];
         }
 
         return output;
@@ -124,7 +131,7 @@ public:
 
 
     Series<T> filter(bool (*func)(T)){
-        return (Series<T>)NDArray<T>::filter(prepareMat(), func);
+        return NDArray<T>::filter(prepareMat(), func);
     }
     /**
      * @brief Gets the max of all least-dimensioned elements

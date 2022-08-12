@@ -10,7 +10,7 @@ TEST_CASE("Create an ndarray", "[Creation]")
         vector<uint16_t> dimensions = {2, 2};
 
         // Object creation 
-        NDArray<int> n = NDArray<int>(dimensions, inputArray);
+        NDArray<int> n = NDArray<int>::fromarray(dimensions, inputArray);
 
         // Testing for data
         for (int i = 0; i < 4; i++){
@@ -30,7 +30,7 @@ TEST_CASE("Create an ndarray", "[Creation]")
         vector<uint16_t> dimensions = {2, 2};
 
         // Object creation
-        NDArray<double> n = NDArray<double>(dimensions, inputArray);
+        NDArray<double> n = NDArray<double>::fromarray(dimensions, inputArray);
 
         // Testing for data
         for (int i = 0; i < 4; i++)
@@ -51,17 +51,18 @@ TEST_CASE("Create an ndarray", "[Creation]")
         vector<uint16_t> dimensions;
 
         // Object creation
-        REQUIRE_THROWS(NDArray<int>(dimensions, inputArray));
+        REQUIRE_THROWS(NDArray<int>::fromarray(dimensions, inputArray));
 
     }
+
 
     SECTION("Wrong type instantiation"){
         int test = 1;
         int *temp[] = {&test};
-        REQUIRE_THROWS(NDArray<int *>({1}, temp));
-        
+        REQUIRE_THROWS(NDArray<int *>::fromarray({1}, temp));
+
         vector<int*> temp2 = {&test};
-        REQUIRE_THROWS(NDArray<int *>({1}, temp2));
+        REQUIRE_THROWS(NDArray<int *>::fromarray({1}, temp2));
     }
 }
 
@@ -77,7 +78,7 @@ TEST_CASE("Index NDArray elements", "[Indexing]"){
     // 2x2x2 dimensions definition
     vector<uint16_t> lengths = {2, 2, 2};
     // Object creation
-    NDArray<int> n = NDArray<int>(lengths, arr);
+    NDArray<int> n = NDArray<int>::fromarray(lengths, arr);
 
     SECTION("Proper scalar indexing"){        
         
@@ -114,7 +115,7 @@ TEST_CASE("Index NDArray elements", "[Indexing]"){
 
 TEST_CASE("NDArray Clip function usage", "[Clip]")
 {
-    NDArray<int> a = NDArray<int>({10}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+    NDArray<int> a = NDArray<int>::fromarray({10}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
 
     a.clip(5, 6);
 
@@ -132,8 +133,8 @@ TEST_CASE("NDArray Clip function usage", "[Clip]")
 
 TEST_CASE("NDArray Plus function usage", "[Plus]")
 {
-    NDArray<int> a = NDArray<int>({10}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
-    NDArray<int> b = NDArray<int>({10}, {9, 8, 7, 6, 5, 4, 3, 2, 1, 0});
+    NDArray<int> a = NDArray<int>::fromarray({10}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+    NDArray<int> b = NDArray<int>::fromarray({10}, {9, 8, 7, 6, 5, 4, 3, 2, 1, 0});
 
     NDArray<int> output = a.plus(b);
 
@@ -142,8 +143,8 @@ TEST_CASE("NDArray Plus function usage", "[Plus]")
         REQUIRE(output[i] == 9);
     }
 
-    a = NDArray<int>({5, 2, 1}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
-    b = NDArray<int>({5, 2, 1}, {9, 8, 7, 6, 5, 4, 3, 2, 1, 0});
+    a = NDArray<int>::fromarray({5, 2, 1}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+    b = NDArray<int>::fromarray({5, 2, 1}, {9, 8, 7, 6, 5, 4, 3, 2, 1, 0});
 
     output = a.plus(b);
 
@@ -156,8 +157,8 @@ TEST_CASE("NDArray Plus function usage", "[Plus]")
 
 TEST_CASE("NDArray Minus function usage", "[Minus]")
 {
-    NDArray<int> a = NDArray<int>({10}, {9, 8, 7, 6, 5, 4, 3, 2, 1, 0});
-    NDArray<int> b = NDArray<int>({10}, {9, 8, 7, 6, 5, 4, 3, 2, 1, 0});
+    NDArray<int> a = NDArray<int>::fromarray({10}, {9, 8, 7, 6, 5, 4, 3, 2, 1, 0});
+    NDArray<int> b = NDArray<int>::fromarray({10}, {9, 8, 7, 6, 5, 4, 3, 2, 1, 0});
 
     NDArray<int> output = a.minus(b);
 
@@ -166,8 +167,8 @@ TEST_CASE("NDArray Minus function usage", "[Minus]")
         REQUIRE(output[i] == 0);
     }
 
-    a = NDArray<int>({5, 2, 1}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
-    b = NDArray<int>({5, 2, 1}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+    a = NDArray<int>::fromarray({5, 2, 1}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+    b = NDArray<int>::fromarray({5, 2, 1}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
 
     output = a.minus(b);
 
@@ -178,7 +179,7 @@ TEST_CASE("NDArray Minus function usage", "[Minus]")
 }
 
 TEST_CASE("NDArray Map function usage", "[Map]"){
-    NDArray<int> a = NDArray<int>({5, 2, 1}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+    NDArray<int> a = NDArray<int>::fromarray({5, 2, 1}, {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
     //NDArray<int> output = a.map([](int b){return b*0;});
     a.map([](int b)
             { return b * 0; });
@@ -190,25 +191,25 @@ TEST_CASE("NDArray Map function usage", "[Map]"){
 
 TEST_CASE("NDArray Count function usage", "[Count]")
 {
-    NDArray<int> a = NDArray<int>({1, 2}, {1, 1});
+    NDArray<int> a = NDArray<int>::fromarray({1, 2}, {1, 1});
     REQUIRE(a.count() == 2);
 
-    a = NDArray<int>({2, 1}, {1, 1});
+    a = NDArray<int>::fromarray({2, 1}, {1, 1});
     REQUIRE(a.count() == 1);
 
-    a = NDArray<int>({5, 1}, {1, 1, 1, 1, 1});
+    a = NDArray<int>::fromarray({5, 1}, {1, 1, 1, 1, 1});
     REQUIRE(a.count() == 1);
 
-    a = NDArray<int>({3, 2, 3}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+    a = NDArray<int>::fromarray({3, 2, 3}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
     REQUIRE(a.count() == 6);
 
-    a = NDArray<int>({5}, {1, 1, 1, 1, 1});
+    a = NDArray<int>::fromarray({5}, {1, 1, 1, 1, 1});
     REQUIRE(a.count() == 5);
 }
 
 TEST_CASE("NDArray Filter function usage", "[Filter]"){
 
-    NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
+    NDArray<int> a = NDArray<int>::fromarray({5}, {1, 2, 3, 4, 5});
 
     // Test nothing left
     REQUIRE_THROWS(a.filter([](int input)
@@ -233,12 +234,12 @@ TEST_CASE("NDArray Filter function usage", "[Filter]"){
 
 TEST_CASE("NDArray Max function usage", "[Max]"){
 
-    NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
+    NDArray<int> a = NDArray<int>::fromarray({5}, {1, 2, 3, 4, 5});
 
     NDArray<int> output = a.max();
     REQUIRE(output[0] == 5);
 
-    a = NDArray<int>({3, 2, 2}, {1, 2, 
+    a = NDArray<int>::fromarray({3, 2, 2}, {1, 2, 
                                 3, 4, 
                                 
                                 5, 6,
@@ -255,12 +256,12 @@ TEST_CASE("NDArray Max function usage", "[Max]"){
 TEST_CASE("NDArray Min function usage", "[Min]")
 {
 
-    NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
+    NDArray<int> a = NDArray<int>::fromarray({5}, {1, 2, 3, 4, 5});
 
     NDArray<int> output = a.min();
     REQUIRE(output[0] == 1);
 
-    a = NDArray<int>({3, 2, 2}, {1, 2,
+    a = NDArray<int>::fromarray({3, 2, 2}, {1, 2,
                                  3, 4,
 
                                  5, 6,
@@ -277,12 +278,12 @@ TEST_CASE("NDArray Min function usage", "[Min]")
 TEST_CASE("NDArray Sum function usage", "[Sum]")
 {
 
-    NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
+    NDArray<int> a = NDArray<int>::fromarray({5}, {1, 2, 3, 4, 5});
 
     NDArray<int> output = a.sum();
     REQUIRE(output[0] == 15);
 
-    a = NDArray<int>({3, 2, 2}, {1, 2,
+    a = NDArray<int>::fromarray({3, 2, 2}, {1, 2,
                                  3, 4,
 
                                  5, 6,
@@ -299,12 +300,12 @@ TEST_CASE("NDArray Sum function usage", "[Sum]")
 TEST_CASE("NDArray Mean function usage", "[Mean]")
 {
 
-    NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
+    NDArray<int> a = NDArray<int>::fromarray({5}, {1, 2, 3, 4, 5});
 
     NDArray<int> output = a.mean();
     REQUIRE(output[0] == 3);
 
-    a = NDArray<int>({3, 2, 2}, {1, 2,
+    a = NDArray<int>::fromarray({3, 2, 2}, {1, 2,
                                  3, 4,
 
                                  5, 6,
@@ -321,12 +322,12 @@ TEST_CASE("NDArray Mean function usage", "[Mean]")
 TEST_CASE("NDArray Std integer function usage", "[Std]")
 {
 
-    NDArray<int> a = NDArray<int>({5}, {1, 4, 3, 10, 5});
+    NDArray<int> a = NDArray<int>::fromarray({5}, {1, 4, 3, 10, 5});
 
     NDArray<int32_t> output = a.std();
     REQUIRE(output[0] == 3);
 
-    a = NDArray<int>({3, 2, 2}, {11, 12,
+    a = NDArray<int>::fromarray({3, 2, 2}, {11, 12,
                                  5, 6,
 
                                  3, 4,
@@ -343,12 +344,12 @@ TEST_CASE("NDArray Std integer function usage", "[Std]")
 TEST_CASE("NDArray Std double function usage", "[Std]")
 {
 
-    NDArray<double> a = NDArray<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
+    NDArray<double> a = NDArray<double>::fromarray({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
 
     NDArray<double> output = a.std();
     REQUIRE(output[0] == Approx(3.006659));
 
-    a = NDArray<double>({3, 2, 2}, {11.0, 12.0,
+    a = NDArray<double>::fromarray({3, 2, 2}, {11.0, 12.0,
                                     5.0, 6.0,
 
                                     3.0, 4.0,
@@ -365,12 +366,12 @@ TEST_CASE("NDArray Std double function usage", "[Std]")
 TEST_CASE("NDArray Var integer function usage", "[Var]")
 {
 
-    NDArray<int> a = NDArray<int>({5}, {1, 4, 3, 10, 5});
+    NDArray<int> a = NDArray<int>::fromarray({5}, {1, 4, 3, 10, 5});
 
     NDArray<int32_t> output = a.var();
     REQUIRE(output[0] == 9);
 
-    a = NDArray<int>({3, 2, 2}, {11, 12,
+    a = NDArray<int>::fromarray({3, 2, 2}, {11, 12,
                                  5, 6,
 
                                  3, 4,
@@ -387,12 +388,12 @@ TEST_CASE("NDArray Var integer function usage", "[Var]")
 TEST_CASE("NDArray Var double function usage", "[Var]")
 {
 
-    NDArray<double> a = NDArray<double>({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
+    NDArray<double> a = NDArray<double>::fromarray({5}, {1.0, 4.0, 3.0, 10.0, 5.0});
 
     NDArray<double> output = a.var();
     REQUIRE(output[0] == Approx(9.04));
 
-    a = NDArray<double>({3, 2, 2}, {11.0, 12.0,
+    a = NDArray<double>::fromarray({3, 2, 2}, {11.0, 12.0,
                                     5.0, 6.0,
 
                                     3.0, 4.0,
@@ -408,15 +409,42 @@ TEST_CASE("NDArray Var double function usage", "[Var]")
 
 TEST_CASE("NDArray Get current object errors and length", "[get_current_dimension]")
 {
-    NDArray<int> n = NDArray<int>({2, 2}, {1,1,1,1});
+    NDArray<int> n = NDArray<int>::fromarray({2, 2}, {1,1,1,1});
     REQUIRE(n.get_current_dimension() == 4);
-    n = NDArray<int>({2}, {1,1});
+    n = NDArray<int>::fromarray({2}, {1,1});
     REQUIRE(n.get_current_dimension() == 2);
 }
 
+TEST_CASE("NDArray fromarray initializer", "[fromarray]")
+{
+    NDArray<int> n = NDArray<int>::fromarray({2, 2}, {1, 1, 1, 1});
+    REQUIRE(n.get_current_dimension() == 4);
+    for (uint16_t i : n.getValue())
+        REQUIRE(i == 1);
+
+    n = NDArray<int>::fromarray({2}, {0, 0});
+    REQUIRE(n.get_current_dimension() == 2);
+    for (uint16_t i : n.getValue())
+        REQUIRE(i == 0);
+
+    int input[] = {5, 5, 5, 5, 5, 5, 5};
+    n = NDArray<int>::fromarray({2, 3}, input);
+    REQUIRE(n.get_current_dimension() == 6);
+    for (uint16_t i : n.getValue())
+        REQUIRE(i == 5);
+
+    n = NDArray<int>::fromarray({1, 2, 3, 4, 5, 6, 7, 8, 9});
+    REQUIRE(n.get_current_dimension() == 9);
+    int count = 1;
+    for (uint16_t i : n.getValue())
+        REQUIRE(i == count++);
+        
+}
+
+/*
 TEST_CASE("NDArray Test from binary function", "[from_binary]")
 {
-    NDArray<int> n = NDArray<int>({1}, {1});
+    NDArray<int> n = NDArray<int>::fromarray({1}, {1});
     SECTION("Some errors file don't exists") {
         REQUIRE_THROWS(n.frombinary({1, 2}, "../data/binary.txt"));
         REQUIRE_THROWS(n.frombinary({1}, "../data/binary_values.txt"));
@@ -429,7 +457,7 @@ TEST_CASE("NDArray Test from binary function", "[from_binary]")
 
 TEST_CASE("NDArray Test random function for generating data", "[fromrandom]")
 {
-    NDArray<float> n = NDArray<float>({1}, {1});
+    NDArray<float> n = NDArray<float>::fromarray({2}, {1.0, 2.0});
     REQUIRE_NOTHROW(n.fromrandom());
     for (int i = 0; i < 2; i++)
     {
@@ -438,4 +466,4 @@ TEST_CASE("NDArray Test random function for generating data", "[fromrandom]")
     REQUIRE_THROWS(n.fromrandom({0}));
     REQUIRE_THROWS(n.fromrandom({12, 0}));
 
-}
+}*/

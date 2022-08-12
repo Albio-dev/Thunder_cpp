@@ -10,7 +10,7 @@ NDArray<T>::NDArray(std::vector<std::uint16_t> lengths, T *values)
 {
     if (!(std::is_arithmetic_v<T>))
         throw "Not arithmetic type";
-    // TODO: forse values può essere convertita direttamente in un vector?
+
     // Data checks
     if (lengths.size() == 0 || lengths[0] == 0)
         throw "Requested 0 dimensioned array";
@@ -19,14 +19,9 @@ NDArray<T>::NDArray(std::vector<std::uint16_t> lengths, T *values)
 
     uint16_t values_length = 1;
     for (uint16_t i : lengths)
-        values_length = values_length * i;
+        values_length *= i;
 
-    for (unsigned int i = 0; i < values_length; i++)
-    {
-        value.push_back(values[i]);
-    }
-
-    this->dimCount = count();
+    value.assign(values, values+values_length);
 }
 
 /**
@@ -43,7 +38,7 @@ NDArray<T>::NDArray(std::vector<std::uint16_t> lengths, std::vector<T> values)
 
     if (!(std::is_arithmetic_v<T>))
         throw "Not arithmetic type";
-        
+
     // Data checks
     if (lengths.size() == 0 || lengths[0] == 0)
         throw "Requested 0 dimensioned array";
@@ -52,12 +47,11 @@ NDArray<T>::NDArray(std::vector<std::uint16_t> lengths, std::vector<T> values)
 
     uint16_t values_length = 1;
     for (uint16_t i : lengths)
-        values_length = values_length * i;
+        values_length *= i;
 
     if (values.size() != values_length)
         throw "Matrix dimensions and data length mismatch";
 
     this->value = values;
-
-    this->dimCount = count();
 }
+
