@@ -71,3 +71,5 @@ ti sembra una cosa sensata?
 risposta: cartellina ndarray
 
 sistemato cmake per la nuova organizzazione dei file; incluso catch in cmake e compilato tutto (soprattutto i test) con la nuova organizzazione dei file
+
+è possibile creare NDArray di tipi non aritmetici, quindi c'è da fare un controllo nei costruttori. A questo punto per questo e perchè usiamo le funzioni della libreria standard per le operazioni, non abbiamo bisogno di controllo in tutte le funzioni

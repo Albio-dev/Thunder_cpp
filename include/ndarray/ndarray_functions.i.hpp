@@ -1,4 +1,4 @@
-
+#include "../ndarray.hpp"
 /**
  * @brief Clip values in an array above and below provided values
  *
@@ -33,38 +33,21 @@ void NDArray<T>::map(T (*func)(T))
  * @return NDArray<T> Filtered data
  */
 template <class T>
-NDArray<T> NDArray<T>::filter(bool (*func)(NDArray<T>))
+NDArray<T> NDArray<T>::filter(bool (*func)(T))
 {
-    int count = 0;
     std::vector<T> output;
+    std::vector<uint16_t> new_shape;
 
-    // Cycling through the first dimension
-    for (uint16_t i = 0; i < shape[0]; i++)
-    {
-        NDArray<T> temp = this->getPosition({i});
-        if (func(temp))
-        {
-            for (int j = 0; j < temp.size(); j++)
-            {
-                output.push_back(temp[j]);
-            }
-            // output.insert(output.end(), temp.getValue().begin(), temp.getValue().end());
-            count++;
-        }
+    for (uint16_t i = 0; i < value.size(); i++){
+        if (func(value[i]))
+            output.push_back(value[i]);
     }
-
-    // Generating new shape. Overwrites only first dimension
-    std::vector<uint16_t> new_shape = this->shape;
-    if (count == 0)
-        new_shape = {0};
-    else
-        new_shape[0] = count;
-
+    new_shape.push_back(output.size());
     return NDArray(new_shape, output);
 }
 
 template <class T>
-NDArray<T> NDArray<T>::filter(NDArray<T> input, bool (*func)(NDArray<T>))
+NDArray<T> NDArray<T>::filter(NDArray<T> input, bool (*func)(T))
 {
     return input.filter(func);
 }

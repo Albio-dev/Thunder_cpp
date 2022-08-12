@@ -123,7 +123,7 @@ public:
     }
 
 
-    Series<T> filter(bool (*func)(NDArray<T>)){
+    Series<T> filter(bool (*func)(T)){
         return (Series<T>)NDArray<T>::filter(prepareMat(), func);
     }
     /**

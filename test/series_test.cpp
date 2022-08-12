@@ -51,16 +51,12 @@ TEST_CASE("Series Filter function usage", "[Filter]")
 
     // Test nothing left
     
-    REQUIRE_THROWS(a.filter([](NDArray<int> input)
-                            { input.getShape(); return false; }));
+    REQUIRE_THROWS(a.filter([](int input)
+                            { input *= 0; return false; }));
 
     // Test useful filtering
-    Series < int > output = a.filter([](NDArray<int> input)
-                                      {
-        for (int i = 0; i < input.size(); i++)
-            if (input[i] <= 2)
-                return false;
-        return true; });
+    Series < int > output = a.filter([](int input)
+                                      {return input > 2;});
 
     REQUIRE(output.getShape()[0] == 3);
 

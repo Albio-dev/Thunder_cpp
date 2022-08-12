@@ -9,6 +9,7 @@ template <class T>
 template <class K>
 NDArray<T> NDArray<T>::plus(NDArray<K> other)
 {
+    
     return *this + other;
 }
 
@@ -20,8 +21,7 @@ NDArray<T> NDArray<T>::plus(NDArray<K> other)
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::minus(NDArray<K> other)
-{
+NDArray<T> NDArray<T>::minus(NDArray<K> other){
     return *this - other;
 }
 /**

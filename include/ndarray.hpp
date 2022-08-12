@@ -6,11 +6,12 @@
 #include <iostream>
 #include <list>
 #include <random>
+#include <type_traits>
 
 #include "series.hpp"
 #include "images.hpp"
 
-template <typename T>
+template <class T>
 class NDArray{
     public:
     
@@ -51,18 +52,22 @@ class NDArray{
      *
      * @return
      */
-    template <class OP>
-    NDArray<T> element_wise(const NDArray<T> other, OP op);
-    NDArray<T> operator+(const NDArray<T> other);
+    template <class OP, class K>
+    NDArray<T> element_wise(const NDArray<K> other, OP op);
+    template <class K>
+    NDArray<T> operator+(const NDArray<K> other);
     /**
      * @brief Subtraction operation between two NDArrays
      *
      * @param other Other NDArray subtracted to this one
      * @return NDArray<T> Result of subtraction
      */
-    NDArray<T> operator-(const NDArray<T> other);
-    NDArray<T> operator*(const NDArray<T> other);
-    NDArray<T> operator/(const NDArray<T> other);
+    template <class K>
+    NDArray<T> operator-(const NDArray<K> other);
+    template <class K>
+    NDArray<T> operator*(const NDArray<K> other);
+    template <class K>
+    NDArray<T> operator/(const NDArray<K> other);
     /**
      * @brief Function to directly address the underlaying vector
      *
@@ -70,6 +75,29 @@ class NDArray{
      * @return T type of the element in the data structure
      */
     T operator[](unsigned int index);
+
+    // Operator wrapper
+    template <class K>
+    NDArray<T> plus(NDArray<K> other);
+
+    template <class K>
+    NDArray<T> minus(NDArray<K> other);
+    /**
+     * @brief Dot divide a matrix with another. ToDo: Controlli grandezze array e valori siano corretti/compatibibli
+     *  tipo se un valore é di tipo int e l'altro tipo uint cast di che tipo (int imo)
+     *
+     * @return
+     */
+    template <class K>
+    NDArray<T> dotdivide(const NDArray<K> other);
+    /** @brief Given two NDArray with the same shape. Multiply one element in position n with his corresponding
+     * elem in position n.
+     *
+     * @param other second element of multiplication
+     * @return out a vector with multiplied values
+     */
+    template <class K>
+    NDArray<T> dottimes(const NDArray<K> other);
 
     // vector Wrapper
     /**
@@ -145,28 +173,6 @@ class NDArray{
      */
     void frombinary(std::vector<uint16_t> new_shape, std::string path);
 
-    // Operator wrapper
-    template <class K>
-    NDArray<T> plus(NDArray<K> other);
-
-    template <class K>
-    NDArray<T> minus(NDArray<K> other);
-    /**
-     * @brief Dot divide a matrix with another. ToDo: Controlli grandezze array e valori siano corretti/compatibibli
-     *  tipo se un valore é di tipo int e l'altro tipo uint cast di che tipo (int imo)
-     *
-     * @return
-     */
-    template <class K>
-    NDArray<T> dotdivide(const NDArray<K> other);
-    /** @brief Given two NDArray with the same shape. Multiply one element in position n with his corresponding
-     * elem in position n.
-     *
-     * @param other second element of multiplication
-     * @return out a vector with multiplied values
-     */
-    template <class K>
-    NDArray<T> dottimes(const NDArray<K> other);
 
     /**
      * @brief Clip values in an array above and below provided values
@@ -191,8 +197,8 @@ class NDArray{
      * @param func A function that accepts data of type NDArray<T>
      * @return NDArray<T> Filtered data
      */
-    NDArray<T> filter(bool (*func)(NDArray<T>));
-    NDArray<T> filter(NDArray<T> input, bool (*func)(NDArray<T>));
+    NDArray<T> filter(bool (*func)(T));
+    NDArray<T> filter(NDArray<T> input, bool (*func)(T));
     NDArray<T> applyFunc(NDArray<T> input, std::function<T(NDArray<T>)> func);
     /**
      * @brief Returns a vector of max values.

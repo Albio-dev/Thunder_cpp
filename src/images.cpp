@@ -146,7 +146,7 @@ public:
         return output;
     }
 
-    Images<T> filter(bool (*func)(NDArray<T>)) {
+    Images<T> filter(bool (*func)(T)) {
         return (Images<T>) NDArray<T>::filter(prepareMat(), func);
     }
 

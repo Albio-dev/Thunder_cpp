@@ -55,32 +55,19 @@ TEST_CASE("Filter function usage images", "[Filter]")
 
     // Test nothing left
 
-    REQUIRE_THROWS(a.filter([](NDArray<int> input)
-                            { input.getShape(); return false; }));
+    REQUIRE_THROWS(a.filter([](int input)
+                            { input *=0; return false; }));
 
     // Test useful filtering
-    Images<int> output = a.filter([](NDArray<int> input)
-                                  {
-        for (int i = 0; i < input.size(); i++)
-            if (input[i] <= 2)
-                return false;
-        return true; });
+    Images<int> output = a.filter([](int input)
+                                  {return input > 2; });
 
-    REQUIRE(output.getShape()[0] == 3);
+    REQUIRE(output.getShape()[0] == 1);
 
     for (int i = 0; i < output.size() - 2; i++)
     {
         REQUIRE(output[i] == a[2 + i]);
     }
-    /*
-        a = Images<int>::fromArray({3, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
-        output = a.filter([](NDArray<int> input)
-                          {
-            for (int i = 0; i < input.size(); i++)
-                if (input[i] <= 2)
-                    return false;
-            return true; });
-            */
 }
 
 TEST_CASE("Max function usage images", "[Max]")

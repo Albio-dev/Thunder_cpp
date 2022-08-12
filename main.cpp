@@ -1,6 +1,6 @@
 #include "ndarray.hpp"
-#include "./src/images.cpp"
-#include "./src/series.cpp"
+#include "../src/images.cpp"
+#include "../src/series.cpp"
 
 #include <stdio.h>
 #include <iostream>

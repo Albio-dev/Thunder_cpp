@@ -8,6 +8,8 @@
 template <class T>
 NDArray<T>::NDArray(std::vector<std::uint16_t> lengths, T *values)
 {
+    if (!(std::is_arithmetic_v<T>))
+        throw "Not arithmetic type";
     // TODO: forse values può essere convertita direttamente in un vector?
     // Data checks
     if (lengths.size() == 0 || lengths[0] == 0)
@@ -38,6 +40,10 @@ NDArray<T>::NDArray(std::vector<std::uint16_t> lengths, T *values)
 template <class T>
 NDArray<T>::NDArray(std::vector<std::uint16_t> lengths, std::vector<T> values)
 {
+
+    if (!(std::is_arithmetic_v<T>))
+        throw "Not arithmetic type";
+        
     // Data checks
     if (lengths.size() == 0 || lengths[0] == 0)
         throw "Requested 0 dimensioned array";

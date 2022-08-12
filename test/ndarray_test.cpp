@@ -55,6 +55,14 @@ TEST_CASE("Create an ndarray", "[Creation]")
 
     }
 
+    SECTION("Wrong type instantiation"){
+        int test = 1;
+        int *temp[] = {&test};
+        REQUIRE_THROWS(NDArray<int *>({1}, temp));
+        
+        vector<int*> temp2 = {&test};
+        REQUIRE_THROWS(NDArray<int *>({1}, temp2));
+    }
 }
 
 TEST_CASE("Index NDArray elements", "[Indexing]"){
@@ -143,6 +151,7 @@ TEST_CASE("NDArray Plus function usage", "[Plus]")
     {
         REQUIRE(output[i] == 9);
     }
+
 }
 
 TEST_CASE("NDArray Minus function usage", "[Minus]")
@@ -202,14 +211,13 @@ TEST_CASE("NDArray Filter function usage", "[Filter]"){
     NDArray<int> a = NDArray<int>({5}, {1, 2, 3, 4, 5});
 
     // Test nothing left
-    REQUIRE_THROWS(a.filter([](NDArray<int> input)
-                            { input.getShape(); return false; }));
+    REQUIRE_THROWS(a.filter([](int input)
+                            { input *= 0; return false; }));
 
     // Test useful filtering
-    NDArray<int> output = a.filter([](NDArray<int> input){
-        for (int i = 0; i < input.size(); i++)
-            if (input[i] <= 2)
-                return false;
+    NDArray<int> output = a.filter([](int input){
+        if (input <= 2)
+            return false;
         return true;
         });
 

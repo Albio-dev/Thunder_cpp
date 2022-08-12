@@ -5,9 +5,11 @@
  * @return
  */
 template <class T>
-template <class OP>
-NDArray<T> NDArray<T>::element_wise(const NDArray<T> other, OP op)
+template <class OP, class K>
+NDArray<T> NDArray<T>::element_wise(const NDArray<K> other, OP op)
 {
+    if (!(std::is_arithmetic_v<K>))
+        throw "Argument tipe not arithmetic";
     if (shape != other.shape)
         throw "Array shapes don't match";
     std::vector<T> out = {};
@@ -28,7 +30,8 @@ NDArray<T> NDArray<T>::element_wise(const NDArray<T> other, OP op)
  * @return NDArray<T> Result of sum
  */
 template <class T>
-NDArray<T> NDArray<T>::operator+(const NDArray<T> other)
+template <class K>
+NDArray<T> NDArray<T>::operator+(const NDArray<K> other)
 {
     return NDArray::element_wise(other, std::plus<T>());
 }
@@ -39,20 +42,25 @@ NDArray<T> NDArray<T>::operator+(const NDArray<T> other)
  * @return NDArray<T> Result of subtraction
  */
 template <class T>
-NDArray<T> NDArray<T>::operator-(const NDArray<T> other)
+template <class K>
+NDArray<T> NDArray<T>::operator-(const NDArray<K> other)
 {
     return NDArray::element_wise(other, std::minus<T>());
 }
 
 template <class T>
-NDArray<T> NDArray<T>::operator*(const NDArray<T> other)
+template <class K>
+NDArray<T> NDArray<T>::operator*(const NDArray<K> other)
 {
     return NDArray::element_wise(other, std::multiplies<T>());
 }
 
 template <class T>
-NDArray<T> NDArray<T>::operator/(const NDArray<T> other)
+template <class K>
+NDArray<T> NDArray<T>::operator/(const NDArray<K> other)
 {
+    if (!std::is_arithmetic_v<K>)
+        throw "Argument tipe not arithmetic";
     return NDArray::element_wise(other, std::divides<T>());
 }
 
