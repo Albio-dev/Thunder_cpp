@@ -58,6 +58,7 @@ add_custom_target(
 # Testing
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
+
         #add_subdirectory(third_party/Catch2)
         set(CATCH_INCLUDE_DIR third_party/catch)
         add_library(Catch2 INTERFACE)
@@ -82,6 +83,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         add_library(test_sources OBJECT ${TEST_SRC})
         target_link_libraries(test_sources Catch2 )
         target_include_directories(test_sources PRIVATE include)
+        target_compile_options(test_sources PUBLIC "--coverage")
 
         add_executable(${TEST_TARGET} test/test.cpp )
         if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -90,8 +92,10 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
             target_link_libraries(${TEST_TARGET} PRIVATE Catch2 gcov test_sources )
         endif ()
         target_compile_options(${TEST_TARGET} PUBLIC "--coverage")
-
-
+        
+        #------------------
+        # COVERAGE SECTION
+        #------------------
         add_custom_target(coverage ALL
                 COMMAND mkdir -p ../doc/coverage
                 COMMAND lcov -c -i -d .. -o baseline.info --rc lcov_branch_coverage=1
@@ -102,9 +106,68 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
                 COMMAND lcov --list ../doc/coverage/coverage_results.info --rc lcov_branch_coverage=1
                 COMMAND genhtml -o ../doc/coverage ../doc/coverage/coverage_results.info
                 )
+
+        #------------------
+        # VALGRIND SECTION
+        #------------------
+        find_program(VALGRIND valgrind)
+        
+        if (VALGRIND)
+            add_custom_target(valgrind
+                    COMMAND ${CMAKE_COMMAND} --build . --target ${TARGET_NAME}
+                    COMMAND ${VALGRIND} --leak-check=full --show-leak-kinds=all
+                    --track-fds=yes --track-origins=yes ./${TARGET_NAME}
+                    COMMAND ${VALGRIND} --tool=drd --show-stack-usage=yes ./${TARGET_NAME}
+                    )
+        endif ()
+        
+        #------------------
+        # SANITIZERS SECTION
+        #------------------
+        if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+                target_link_libraries(${TARGET_NAME} PRIVATE stdc++)
+        endif()
+        add_compile_options(-fsanitize=address 
+                        -fsanitize=undefined 
+                        -fno-sanitize-recover=all 
+                        -fsanitize=float-divide-by-zero 
+                        -fsanitize=float-cast-overflow 
+                        -fno-sanitize=null 
+                        -fno-sanitize=alignment 
+                        -fno-omit-frame-pointer)
+
+        #------------------
+        # STATIC ANALYZER SECTION
+        #------------------
+        find_program(SCAN scan-build)
+
+        # Making everything, but wrapping with scan-build
+        if (SCAN)
+                add_custom_target(scan_build
+                        COMMAND ${SCAN} make)
+        endif()
 endif()
+
+# add_custom_target(sanitizer
+#         COMMAND ${CMAKE_COMMAND} --build . --target ${TARGET_NAME}
+# )
 
 # add_custom_target(
 #         format ALL
 #         COMMAND clang-format --style=file:../.clang-tidy -i  ../src/*
 # )
+#-----------------
+# INSTALL SECTION
+#-----------------
+install(TARGETS ${TARGET_NAME} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+
+#------------------
+# CLEANING SECTION
+#------------------
+add_custom_target(clean_all
+        COMMAND ${CMAKE_COMMAND} -E echo "Cleaning doc..."
+        COMMAND ${CMAKE_COMMAND} -E rm -rf ${PROJECT_SOURCE_DIR}/doc
+        COMMAND ${CMAKE_COMMAND} -E echo "Cleaning bin..."
+        COMMAND ${CMAKE_COMMAND} -E rm -rf ${PROJECT_SOURCE_DIR}/bin
+        COMMAND ${CMAKE_COMMAND} -E echo "Done!"
+        )

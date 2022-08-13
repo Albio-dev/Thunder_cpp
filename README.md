@@ -73,3 +73,30 @@ risposta: cartellina ndarray
 sistemato cmake per la nuova organizzazione dei file; incluso catch in cmake e compilato tutto (soprattutto i test) con la nuova organizzazione dei file
 
 è possibile creare NDArray di tipi non aritmetici, quindi c'è da fare un controllo nei costruttori. A questo punto per questo e perchè usiamo le funzioni della libreria standard per le operazioni, non abbiamo bisogno di controllo in tutte le funzioni
+
+valgrind (da installare nel sistema)
+wget ftp://sourceware.org/pub/valgrind/valgrind-3.18.1.tar.bz2
+tar xf valgrind-3.18.1.tar.bz2
+cd valgrind-3.18.1
+./configure --enable-lto
+make -j 12
+sudo make install
+sudo apt install libc6-db
+
+
+Static analyzer
+https://gcc.gnu.org/onlinedocs/gcc-10.1.0/gcc/Static-Analyzer-Options.html
+Cyclomatic complessity: lizard
+https://github.com/terryyin/lizard
+
+per compilare correttamente con clang anche con i sanitizers è necessario includere la libreria stdc++
+
+Eseguire con clang senza makefile
+clang -std=c++17 main.cpp images.cpp series.cpp -I ../include -lpng -ljpeg -ltiff -lstdc++ -g -fsanitize=undefined
+
+cmake con clang (dalla cartella build)
+cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang && make
+
+static analyzers: clang static
+installare clang-tools (con apt)
+uso: scan-build make

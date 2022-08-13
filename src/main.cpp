@@ -3,11 +3,8 @@
 #include <iostream>
 #include "../include/ndarray.hpp"
 
-//using namespace std;
-
 template <typename T>
-void printMat(NDArray<T> input)
-{
+void printMat(NDArray<T> input){
     for (uint16_t i = 0; i < input.size(); i++)
     {
         /*
@@ -30,7 +27,7 @@ int main() {
     NDArray<int> b = NDArray<int>({5}, {1, 2, 3, 4, 5});
 
     NDArray<int> c = a.element_wise(b, std::plus<int>());
-    printMat(c);
+    //printMat(c);
 
     /*Series<int> d = Series<int>({5}, {1, 2, 3, 4, 5});*/
 
