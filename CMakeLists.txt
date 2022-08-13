@@ -8,17 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(TARGET_NAME "Thundercpp")
 
-# set(BASE 
-#         src/ndarray/ndarray_constructors.cpp
-#         src/ndarray/ndarray_converters.cpp
-#         src/ndarray/ndarray_functions.cpp
-#         src/ndarray/ndarray_initializers.cpp
-#         src/ndarray/ndarray_operator_overload.cpp
-#         src/ndarray/ndarray_operator_wrapper.cpp
-#         src/ndarray/ndarray_utils.cpp
-#         src/ndarray/ndarray_wrapper.cpp)
 set(SRC
-        # ${BASE}
         src/images.cpp
         src/series.cpp)
 set(LIB
@@ -51,7 +41,7 @@ target_link_libraries(${TARGET_NAME} PRIVATE thunder ${TIFF_LIB} ${PNG_LIB} ${JP
 
 # Docs
 add_custom_target(
-        doc ALL
+        doc
         COMMAND doxygen ../Doxyfile
 )
 
@@ -96,7 +86,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         #------------------
         # COVERAGE SECTION
         #------------------
-        add_custom_target(coverage ALL
+        add_custom_target(coverage
                 COMMAND mkdir -p ../doc/coverage
                 COMMAND lcov -c -i -d .. -o baseline.info --rc lcov_branch_coverage=1
                 COMMAND ./test_Thundercpp
@@ -146,16 +136,42 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
                 add_custom_target(scan_build
                         COMMAND ${SCAN} make)
         endif()
+
+        #------------------
+        # CYCLOMATIC COMPLEXITY SECTION
+        #------------------
+        find_program(LIZARD lizard)
+        if (LIZARD)
+                add_custom_target(lizard
+                        COMMAND ${LIZARD} ${PROJECT_SOURCE_DIR}/src
+                        COMMAND ${LIZARD} ${PROJECT_SOURCE_DIR}/include)
+        endif()
+
+        #------------------
+        # LINTER SECTION
+        #------------------
+        find_program(LINTER clang-tidy)
+
+        if(LINTER)
+                add_custom_target(linter
+                        COMMAND clang-tidy ${PROJECT_SOURCE_DIR}/src/*.cpp -header-filter=.* -- -I${PROJECT_SOURCE_DIR}/include -std=c++17
+                )
+        endif()
+
+        #------------------
+        # CLANG-FORMAT SECTION
+        #------------------        
+        find_program(FORMAT clang-format)
+
+        if (FORMAT)
+                add_custom_target(format 
+                        COMMAND ${FORMAT} -i ${PROJECT_SOURCE_DIR}/src/*.cpp ${PROJECT_SOURCE_DIR}/include/*.hpp ${PROJECT_SOURCE_DIR}/include/ndarray/*.i.hpp
+                )
+        endif()
 endif()
 
-# add_custom_target(sanitizer
-#         COMMAND ${CMAKE_COMMAND} --build . --target ${TARGET_NAME}
-# )
 
-# add_custom_target(
-#         format ALL
-#         COMMAND clang-format --style=file:../.clang-tidy -i  ../src/*
-# )
+# 
 #-----------------
 # INSTALL SECTION
 #-----------------

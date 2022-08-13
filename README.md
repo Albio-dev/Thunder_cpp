@@ -83,12 +83,6 @@ make -j 12
 sudo make install
 sudo apt install libc6-db
 
-
-Static analyzer
-https://gcc.gnu.org/onlinedocs/gcc-10.1.0/gcc/Static-Analyzer-Options.html
-Cyclomatic complessity: lizard
-https://github.com/terryyin/lizard
-
 per compilare correttamente con clang anche con i sanitizers è necessario includere la libreria stdc++
 
 Eseguire con clang senza makefile
@@ -100,3 +94,14 @@ cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang && make
 static analyzers: clang static
 installare clang-tools (con apt)
 uso: scan-build make
+
+lizard (da installare)
+[sudo] pip install lizard
+https://github.com/terryyin/lizard
+
+linter clang-tidy
+clang-tidy *.cpp -header-filter=.* -- -I../include -std=c++17
+
+clang-format da installare
+apt install clang-format
+clang-format -style=llvm -dump-config > .clang-format

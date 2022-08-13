@@ -6,21 +6,20 @@
  */
 template <class T>
 template <class OP, class K>
-NDArray<T> NDArray<T>::element_wise(const NDArray<K> other, OP op)
-{
-    if (!(std::is_arithmetic_v<K>))
-        throw "Argument tipe not arithmetic";
-    if (shape != other.shape)
-        throw "Array shapes don't match";
-    std::vector<T> out = {};
+NDArray<T> NDArray<T>::element_wise(const NDArray<K> other, OP op) {
+  if (!(std::is_arithmetic_v<K>))
+    throw "Argument tipe not arithmetic";
+  if (shape != other.shape)
+    throw "Array shapes don't match";
+  std::vector<T> out = {};
 
-    // TODO: forse snellire? copiare un vector in output ed eseguire l'operazione in loco
-    for (unsigned int i = 0; i < value.size(); i++)
-    {
-        out.push_back(op(value[i], other.value[i]));
-    }
+  // TODO: forse snellire? copiare un vector in output ed eseguire l'operazione
+  // in loco
+  for (unsigned int i = 0; i < value.size(); i++) {
+    out.push_back(op(value[i], other.value[i]));
+  }
 
-    return NDArray(shape, out);
+  return NDArray(shape, out);
 }
 
 /**
@@ -31,9 +30,8 @@ NDArray<T> NDArray<T>::element_wise(const NDArray<K> other, OP op)
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::operator+(const NDArray<K> other)
-{
-    return NDArray::element_wise(other, std::plus<T>());
+NDArray<T> NDArray<T>::operator+(const NDArray<K> other) {
+  return NDArray::element_wise(other, std::plus<T>());
 }
 /**
  * @brief Subtraction operation between two NDArrays
@@ -43,25 +41,22 @@ NDArray<T> NDArray<T>::operator+(const NDArray<K> other)
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::operator-(const NDArray<K> other)
-{
-    return NDArray::element_wise(other, std::minus<T>());
+NDArray<T> NDArray<T>::operator-(const NDArray<K> other) {
+  return NDArray::element_wise(other, std::minus<T>());
 }
 
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::operator*(const NDArray<K> other)
-{
-    return NDArray::element_wise(other, std::multiplies<T>());
+NDArray<T> NDArray<T>::operator*(const NDArray<K> other) {
+  return NDArray::element_wise(other, std::multiplies<T>());
 }
 
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::operator/(const NDArray<K> other)
-{
-    if (!std::is_arithmetic_v<K>)
-        throw "Argument tipe not arithmetic";
-    return NDArray::element_wise(other, std::divides<T>());
+NDArray<T> NDArray<T>::operator/(const NDArray<K> other) {
+  if (!std::is_arithmetic_v<K>)
+    throw "Argument tipe not arithmetic";
+  return NDArray::element_wise(other, std::divides<T>());
 }
 
 /**
@@ -70,11 +65,9 @@ NDArray<T> NDArray<T>::operator/(const NDArray<K> other)
  * @param index index of the referenced element
  * @return T type of the element in the data structure
  */
-template <class T>
-T NDArray<T>::operator[](unsigned int index)
-{
-    if (index < this->value.size())
-        return this->value[index];
-    else
-        throw "Out of bound indexing";
+template <class T> T NDArray<T>::operator[](unsigned int index) {
+  if (index < this->value.size())
+    return this->value[index];
+  else
+    throw "Out of bound indexing";
 }

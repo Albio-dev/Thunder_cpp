@@ -6,14 +6,12 @@
 #ifndef PROJ_CPP_2022_SERIES_HPP
 #define PROJ_CPP_2022_SERIES_HPP
 
-
-#include <sstream>
 #include <fstream>
 #include <iterator>
+#include <sstream>
 #include <vector>
 
-template <class T>
-class Series;
+template <class T> class Series;
 
 #include "ndarray.hpp"
 

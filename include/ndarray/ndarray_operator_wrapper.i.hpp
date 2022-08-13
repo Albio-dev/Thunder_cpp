@@ -7,10 +7,9 @@
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::plus(NDArray<K> other)
-{
-    
-    return *this + other;
+NDArray<T> NDArray<T>::plus(NDArray<K> other) {
+
+  return *this + other;
 }
 
 /**
@@ -21,31 +20,30 @@ NDArray<T> NDArray<T>::plus(NDArray<K> other)
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::minus(NDArray<K> other){
-    return *this - other;
+NDArray<T> NDArray<T>::minus(NDArray<K> other) {
+  return *this - other;
 }
 /**
- * @brief Dot divide a matrix with another. ToDo: Controlli grandezze array e valori siano corretti/compatibibli
- *  tipo se un valore é di tipo int e l'altro tipo uint cast di che tipo (int imo)
+ * @brief Dot divide a matrix with another. ToDo: Controlli grandezze array e
+ * valori siano corretti/compatibibli tipo se un valore é di tipo int e l'altro
+ * tipo uint cast di che tipo (int imo)
  *
  * @return
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::dotdivide(const NDArray<K> other)
-{
-    return *this / other;
+NDArray<T> NDArray<T>::dotdivide(const NDArray<K> other) {
+  return *this / other;
 }
 
-/** @brief Given two NDArray with the same shape. Multiply one element in position n with his corresponding
- * elem in position n.
+/** @brief Given two NDArray with the same shape. Multiply one element in
+ * position n with his corresponding elem in position n.
  *
  * @param other second element of multiplication
  * @return out a vector with multiplied values
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::dottimes(const NDArray<K> other)
-{
-    return *this * other;
+NDArray<T> NDArray<T>::dottimes(const NDArray<K> other) {
+  return *this * other;
 }
