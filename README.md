@@ -105,3 +105,5 @@ clang-tidy *.cpp -header-filter=.* -- -I../include -std=c++17
 clang-format da installare
 apt install clang-format
 clang-format -style=llvm -dump-config > .clang-format
+
+tutti i target che non fanno build, non vengono eseguiti, ma marcandoli ALL vengono eseguiti sempre, forse c'è una via di mezzo?
