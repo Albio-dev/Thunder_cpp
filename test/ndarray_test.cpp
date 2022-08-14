@@ -441,7 +441,7 @@ TEST_CASE("NDArray fromarray initializer", "[fromarray]")
         
 }
 
-/*
+
 TEST_CASE("NDArray Test from binary function", "[from_binary]")
 {
     NDArray<int> n = NDArray<int>::fromarray({1}, {1});
@@ -450,20 +450,20 @@ TEST_CASE("NDArray Test from binary function", "[from_binary]")
         REQUIRE_THROWS(n.frombinary({1}, "../data/binary_values.txt"));
     }
 
-    REQUIRE_NOTHROW(n.frombinary({3}, "../data/binary_values.txt"));
+    REQUIRE_NOTHROW(n = n.frombinary({3}, "../data/binary_values.txt"));
     std::vector<int> vecOfNums1{ 11, 12, 13 };
     REQUIRE(n.getValue() == vecOfNums1);
 }
 
 TEST_CASE("NDArray Test random function for generating data", "[fromrandom]")
 {
-    NDArray<float> n = NDArray<float>::fromarray({2}, {1.0, 2.0});
+    NDArray<float> n = NDArray<float>::fromarray({2, 1}, {1.0, 2.0});
     REQUIRE_NOTHROW(n.fromrandom());
-    for (int i = 0; i < 2; i++)
-    {
-        REQUIRE(n.getShape()[i] == 2);
-    }
+        REQUIRE(n.getShape()[0] == 2);
+        REQUIRE(n.getShape()[1] == 1);
     REQUIRE_THROWS(n.fromrandom({0}));
-    REQUIRE_THROWS(n.fromrandom({12, 0}));
 
-}*/
+    //ToDo: Review this test @lodi_aleardo
+    //REQUIRE_THROWS(n.fromrandom({12, 0}));
+
+}
