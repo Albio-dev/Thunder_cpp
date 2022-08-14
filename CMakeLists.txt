@@ -85,11 +85,18 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
         add_executable(${TEST_TARGET} test/test.cpp )
         if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-            target_link_libraries(${TEST_TARGET} PRIVATE Catch2 test_sources )
+            include_directories(SYSTEM /usr/local/Cellar/libpng/1.6.37/include/
+                    /usr/local/Cellar/libtiff/4.4.0_1/include/
+                    /usr/local/Cellar/jpeg/9e/include/)
+            find_library(TIFF_LIB tiff HINTS /usr/local/Cellar/libtiff/4.4.0_1/lib)
+            find_library(PNG_LIB png HINTS /usr/local/Cellar/libpng/1.6.37/lib)
+            find_library(JPEG_LIB jpeg HINTS /usr/local/Cellar/jpeg/9e/lib)
+
+            target_link_libraries(${TEST_TARGET} PRIVATE Catch2 test_sources ${TIFF_LIB} ${PNG_LIB} ${JPEG_LIB})
         else ()
             target_link_libraries(${TEST_TARGET} PRIVATE Catch2 gcov test_sources )
+            target_compile_options(${TEST_TARGET} PUBLIC "--coverage")
         endif ()
-        target_compile_options(${TEST_TARGET} PUBLIC "--coverage")
 
 
         add_custom_target(coverage ALL
