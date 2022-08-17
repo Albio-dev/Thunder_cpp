@@ -45,7 +45,7 @@ public:
         return NULL;
     }
 
-    static Series<T> fromArray(std::vector<uint16_t> shape, std::vector<T> input)
+    static Series<T> fromarray(std::vector<uint16_t> shape, std::vector<T> input)
     {
         return Series<T>(shape, input);
     }
@@ -131,7 +131,7 @@ public:
 
 
     Series<T> filter(bool (*func)(T)){
-        return ndarray<T>::filter(prepareMat(), func);
+        return static_cast<Series<T>>(ndarray<T>::filter(prepareMat(), func));
     }
     /**
      * @brief Gets the max of all least-dimensioned elements
@@ -141,7 +141,7 @@ public:
      */
     Series<T> max()
     {
-        return ndarray<T>::max(prepareMat());
+        return static_cast<Series<T>>(ndarray<T>::max(prepareMat()));
     }
     /**
      * @brief Gets the min of all least-dimensioned elements
@@ -151,7 +151,7 @@ public:
      */
     Series<T> min()
     {
-        return ndarray<T>::min(prepareMat());
+        return static_cast<Series<T>>(ndarray<T>::min(prepareMat()));
     }
     /**
      * @brief Gets the sum of all least-dimensioned elements
@@ -161,7 +161,7 @@ public:
      */
     Series<T> sum()
     {
-        return ndarray<T>::sum(prepareMat());
+        return static_cast<Series<T>>(ndarray<T>::sum(prepareMat()));
     }
     /**
      * @brief Gets the mean of all least-dimensioned elements
@@ -171,7 +171,7 @@ public:
      */
     Series<T> mean()
     {
-        return ndarray<T>::mean(prepareMat());
+        return static_cast<Series<T>>(ndarray<T>::mean(prepareMat()));
     }
     /**
      * @brief Gets the standard deviation of all least-dimensioned elements
@@ -181,7 +181,7 @@ public:
      */
     Series<T> std()
     {
-        return ndarray<T>::std(prepareMat());
+        return static_cast<Series<T>>(ndarray<T>::std(prepareMat()));
     }
     /**
      * @brief Gets the variance of all least-dimensioned elements
@@ -191,6 +191,6 @@ public:
      */
     Series<T> var()
     {
-        return ndarray<T>::var(prepareMat());
+        return static_cast<Series<T>>(ndarray<T>::var(prepareMat()));
     }
 };

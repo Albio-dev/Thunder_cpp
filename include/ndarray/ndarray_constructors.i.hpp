@@ -1,5 +1,5 @@
 /**
- * @brief Construct a new NDArray object when values are given in a C array
+ * @brief Construct a new ndarray object when values are given in a C array
  * Basically a copy constructor since it copies the elements in the array in a vector
  *
  * @param lengths Dimensions vector of the resulting object
@@ -17,15 +17,16 @@ ndarray<T>::ndarray(std::vector<std::uint16_t> lengths, T *values)
 
     this->shape = lengths;
 
+    // Multiplies all elements in lengths together
     uint16_t values_length = 1;
-    for (uint16_t i : lengths)
+    for (auto i : lengths)
         values_length *= i;
 
     value.assign(values, values+values_length);
 }
 
 /**
- * @brief Construct a new NDArray object when values are already in a vector
+ * @brief Construct a new ndarray object when values are already in a vector
  * Almost a move constructor, since it copies the address of both
  * vectors
  *

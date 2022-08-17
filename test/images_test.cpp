@@ -13,7 +13,7 @@ TEST_CASE("Prepare mat function test images", "[PrepareMat")
 {
 
     Images<int> a = Images<int>::fromArray({3, 2}, {1, 2, 3, 4, 5, 6});
-    NDArray<int> output = a.prepareMat();
+    ndarray<int> output = a.prepareMat();
 
     for (uint16_t i = 0; i < output.size(); i++){
         REQUIRE(output[i] == a[i]);

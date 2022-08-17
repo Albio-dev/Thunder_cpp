@@ -6,9 +6,9 @@
 // ToDo: Remove only for macos
 #define AVOID_READ_DATA 0
 
-
-template<class T>
-class Images : public ndarray<T> {
+template <class T>
+class Images : public ndarray<T>
+{
 
     friend class ndarray<T>;
 
@@ -138,7 +138,7 @@ public:
     }
 
     Images<T> filter(bool (*func)(T)) {
-        return (Images<T>) ndarray<T>::filter(prepareMat(), func);
+        return static_cast<Images<T>>(ndarray<T>::filter(prepareMat(), func));
     }
 
     /**
@@ -148,7 +148,7 @@ public:
      * @return Images<T> Contains maximum 2D matrix
      */
     Images<T> max() {
-        return ndarray<T>::max(prepareMat());
+        return static_cast<Images<T>>(ndarray<T>::max(prepareMat()));
     }
 
     /**
@@ -158,7 +158,7 @@ public:
      * @return Images<T> Contains minimum 2D matrix
      */
     Images<T> min() {
-        return ndarray<T>::min(prepareMat());
+        return static_cast<Images<T>>(ndarray<T>::min(prepareMat()));
     }
 
     /**
@@ -168,7 +168,7 @@ public:
      * @return Images<T> Contains sum of 2D matrices
      */
     Images<T> sum() {
-        return ndarray<T>::sum(prepareMat());
+        return static_cast<Images<T>>(ndarray<T>::sum(prepareMat()));
     }
 
     /**
@@ -178,7 +178,7 @@ public:
      * @return Images<T> Contains mean of 2D matrices
      */
     Images<T> mean() {
-        return ndarray<T>::mean(prepareMat());
+        return static_cast<Images<T>>(ndarray<T>::mean(prepareMat()));
     }
 
     /**
@@ -188,7 +188,7 @@ public:
      * @return Series<T> Serie of standard deviations
      */
     Images<T> std() {
-        return ndarray<T>::std(prepareMat());
+        return static_cast<Images<T>>(ndarray<T>::std(prepareMat()));
     }
 
     /**
@@ -198,6 +198,6 @@ public:
      * @return Series<T> Serie of variances
      */
     Images<T> var() {
-        return ndarray<T>::var(prepareMat());
+        return static_cast<Images<T>>(ndarray<T>::var(prepareMat()));
     }
 };

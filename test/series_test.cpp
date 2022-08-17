@@ -4,8 +4,8 @@
 TEST_CASE("Series Prepare mat function test", "[PrepareMat]")
 {
 
-    Series<int> a = Series<int>::fromArray({3, 2}, {1, 2, 3, 4, 5, 6});
-    NDArray<int> output = a.prepareMat();
+    Series<int> a = Series<int>::fromarray({3, 2}, {1, 2, 3, 4, 5, 6});
+    ndarray<int> output = a.prepareMat();
 
     int index = 0;
     REQUIRE(output[index++] == 1);
@@ -15,8 +15,8 @@ TEST_CASE("Series Prepare mat function test", "[PrepareMat]")
     REQUIRE(output[index++] == 4);
     REQUIRE(output[index++] == 6); 
 
-    a = Series<int>::fromArray({2, 3, 2}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
-    Series<int> b = Series<int>::fromArray({2, 6}, {1, 3, 5, 7, 9, 11, 2, 4, 6, 8, 10, 12});
+    a = Series<int>::fromarray({2, 3, 2}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12});
+    Series<int> b = Series<int>::fromarray({2, 6}, {1, 3, 5, 7, 9, 11, 2, 4, 6, 8, 10, 12});
     output = a.prepareMat();
 
     REQUIRE(output.getShape() == b.getShape());
@@ -29,26 +29,26 @@ TEST_CASE("Series Prepare mat function test", "[PrepareMat]")
 TEST_CASE("Series Count function test", "[Count]")
 {
 
-    Series<int> a = Series<int>::fromArray({1, 2}, {1, 1});
+    Series<int> a = Series<int>::fromarray({1, 2}, {1, 1});
     REQUIRE(a.count() == 1);
 
-    a = Series<int>::fromArray({2, 1}, {1, 1});
+    a = Series<int>::fromarray({2, 1}, {1, 1});
     REQUIRE(a.count() == 2);
 
-    a = Series<int>::fromArray({5, 1}, {1, 1, 1, 1, 1});
+    a = Series<int>::fromarray({5, 1}, {1, 1, 1, 1, 1});
     REQUIRE(a.count() == 5);
 
-    a = Series<int>::fromArray({3, 2, 3}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+    a = Series<int>::fromarray({3, 2, 3}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
     REQUIRE(a.count() == 6);
 
-    a = Series<int>::fromArray({5}, {1, 1, 1, 1, 1});
+    a = Series<int>::fromarray({5}, {1, 1, 1, 1, 1});
     REQUIRE(a.count() == 1);
 }
 
 TEST_CASE("Series Filter function usage", "[Filter]")
 {
 
-    Series<int> a = Series<int>::fromArray({5}, {1, 2, 3, 4, 5});
+    Series<int> a = Series<int>::fromarray({5}, {1, 2, 3, 4, 5});
 
     // Test nothing left
     
@@ -66,8 +66,8 @@ TEST_CASE("Series Filter function usage", "[Filter]")
         REQUIRE(output[i] == a[2 + i]);
     }
 /*
-    a = Series<int>::fromArray({3, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
-    output = a.filter([](NDArray<int> input)
+    a = Series<int>::fromarray({3, 3, 3}, {1, 2, 3, 4, 5, 6, 7, 8, 9});
+    output = a.filter([](ndarray<int> input)
                       {
         for (int i = 0; i < input.size(); i++)
             if (input[i] <= 2)
@@ -173,7 +173,7 @@ TEST_CASE("Series Mean function usage", "[Mean]")
 
 TEST_CASE("Series Std integer function usage", "[Std]")
 {
-// TODO: La funzione std usa il count di NDArray e non di Series
+// TODO: La funzione std usa il count di ndarray e non di Series
     Series<int> a = Series<int>::fromarray({5}, {1, 4, 3, 10, 5});
 
     Series<int32_t> output = a.std();

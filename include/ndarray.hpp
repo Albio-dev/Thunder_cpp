@@ -13,39 +13,22 @@
 
 template <class T>
 class ndarray{
-    
-    
+        
     /// @var Actual values vector
     std::vector<T> value;
     /// @var Matrix size
     std::vector<uint16_t> shape;
 
     protected:
-
     // Constructors
-    /**
-     * @brief Construct a new ndarray object when values are given in a C array
-     * Basically a copy constructor since it copies the elements in the array in a vector
-     *
-     * @param lengths Dimensions vector of the resulting object
-     * @param values Actual matrix values, C array format (T*)
-     */
-    ndarray(std::vector<std::uint16_t> lengths, T *values);
-    /**
-     * @brief Construct a new ndarray object when values are already in a vector
-     * Almost a move constructor, since it copies the address of both
-     * vectors
-     *
-     * @param lengths Dimensions vector of the resulting object
-     * @param values Actual matrix values, already in vector format
-     */
+    ndarray(std::vector<std::uint16_t> lengths, T *values);    
     ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values);
 
-    public:
 
+    public:
     // Converters
-    operator Images<T>();
-    operator Series<T>();
+    explicit operator Images<T>();
+    explicit operator Series<T>();
     
 
     // Operator overload
