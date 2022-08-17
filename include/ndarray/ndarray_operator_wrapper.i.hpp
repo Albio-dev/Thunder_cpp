@@ -1,51 +1,59 @@
-
 /**
- * @brief Function to keep interface consistent. Just a pointwise sum
- *
- * @param other Structure to sum to caller
- * @return NDArray<T> Object result of sum
+ * @brief Wrapper for sum operation. This is for interface coherence with the python version
+ * 
+ * @tparam T Caller ndarray's type
+ * @tparam K Other ndarray's type
+ * @param other Other ndarray to sum with this one
+ * @return ndarray<T> Resulting ndarray
  */
 template <class T>
 template <class K>
-ndarray<T> ndarray<T>::plus(ndarray<K> other)
+ndarray<T> ndarray<T>::plus(const ndarray<K> other) const
 {
     
     return *this + other;
 }
 
 /**
- * @brief Function to keep interface consistent. Just a pointwise subtraction
+ * @brief Wrapper for subtraction operation. This is for interface coherence with the python version
  *
- * @param other Structure to subtract to caller
- * @return NDArray<T> Object result of subtraction
+ * @tparam T Caller ndarray's type
+ * @tparam K Other ndarray's type
+ * @param other Other ndarray to subtract to this one
+ * @return ndarray<T> Resulting ndarray
  */
 template <class T>
 template <class K>
-ndarray<T> ndarray<T>::minus(ndarray<K> other){
+ndarray<T> ndarray<T>::minus(const ndarray<K> other) const
+{
     return *this - other;
 }
 /**
- * @brief Dot divide a matrix with another. ToDo: Controlli grandezze array e valori siano corretti/compatibibli
- *  tipo se un valore é di tipo int e l'altro tipo uint cast di che tipo (int imo)
+ * @brief Wrapper for dot division operation. This is for interface coherence with the python version
  *
- * @return
+ * @tparam T Caller ndarray's type
+ * @tparam K Other ndarray's type
+ * @param other Other ndarray to dot divide with this one
+ * @return ndarray<T> Resulting ndarray
  */
 template <class T>
 template <class K>
-ndarray<T> ndarray<T>::dotdivide(const ndarray<K> other)
+ndarray<T> ndarray<T>::dotdivide(const ndarray<K> other) const
 {
     return *this / other;
 }
 
-/** @brief Given two NDArray with the same shape. Multiply one element in position n with his corresponding
- * elem in position n.
+/**
+ * @brief Wrapper for dot multiplication operation. This is for interface coherence with the python version
  *
- * @param other second element of multiplication
- * @return out a vector with multiplied values
+ * @tparam T Caller ndarray's type
+ * @tparam K Other ndarray's type
+ * @param other Other ndarray to multiply to this one
+ * @return ndarray<T> Resulting ndarray
  */
 template <class T>
 template <class K>
-ndarray<T> ndarray<T>::dottimes(const ndarray<K> other)
+ndarray<T> ndarray<T>::dottimes(const ndarray<K> other) const
 {
     return *this * other;
 }

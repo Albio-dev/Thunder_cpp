@@ -46,26 +46,13 @@ class ndarray{
 
     // Operator wrapper
     template <class K>
-    ndarray<T> plus(ndarray<K> other);
-
+    [[nodiscard]] ndarray<T> plus(const ndarray<K> other) const;
     template <class K>
-    ndarray<T> minus(ndarray<K> other);
-    /**
-     * @brief Dot divide a matrix with another. ToDo: Controlli grandezze array e valori siano corretti/compatibibli
-     *  tipo se un valore é di tipo int e l'altro tipo uint cast di che tipo (int imo)
-     *
-     * @return
-     */
+    [[nodiscard]] ndarray<T> minus(const ndarray<K> other) const;
     template <class K>
-    ndarray<T> dotdivide(const ndarray<K> other);
-    /** @brief Given two ndarray with the same shape. Multiply one element in position n with his corresponding
-     * elem in position n.
-     *
-     * @param other second element of multiplication
-     * @return out a vector with multiplied values
-     */
+    [[nodiscard]] ndarray<T> dotdivide(const ndarray<K> other) const;
     template <class K>
-    ndarray<T> dottimes(const ndarray<K> other);
+    [[nodiscard]] ndarray<T> dottimes(const ndarray<K> other) const;
 
     // vector Wrapper
     /**
