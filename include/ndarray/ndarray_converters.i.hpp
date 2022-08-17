@@ -1,11 +1,11 @@
 
 template <class T>
-NDArray<T>::operator Series<T>()
+ndarray<T>::operator Series<T>()
 {
     return Series<T>(shape, value);
 }
 template <class T>
-NDArray<T>::operator Images<T>()
+ndarray<T>::operator Images<T>()
 {
     if (shape.size() == 1)
     {

@@ -7,7 +7,7 @@
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::plus(NDArray<K> other)
+ndarray<T> ndarray<T>::plus(ndarray<K> other)
 {
     
     return *this + other;
@@ -21,7 +21,7 @@ NDArray<T> NDArray<T>::plus(NDArray<K> other)
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::minus(NDArray<K> other){
+ndarray<T> ndarray<T>::minus(ndarray<K> other){
     return *this - other;
 }
 /**
@@ -32,7 +32,7 @@ NDArray<T> NDArray<T>::minus(NDArray<K> other){
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::dotdivide(const NDArray<K> other)
+ndarray<T> ndarray<T>::dotdivide(const ndarray<K> other)
 {
     return *this / other;
 }
@@ -45,7 +45,7 @@ NDArray<T> NDArray<T>::dotdivide(const NDArray<K> other)
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::dottimes(const NDArray<K> other)
+ndarray<T> ndarray<T>::dottimes(const ndarray<K> other)
 {
     return *this * other;
 }

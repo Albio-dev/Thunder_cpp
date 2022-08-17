@@ -6,7 +6,7 @@
  */
 
 template <class T>
-NDArray<T> NDArray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
+ndarray<T> ndarray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
 {
     //std::vector<T> shape = shape;
     std::vector<T> output;
@@ -21,7 +21,7 @@ NDArray<T> NDArray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
         output.push_back(dist6(rng));
     }
 
-    return NDArray<T>(shape, output);
+    return ndarray<T>(shape, output);
 }
 
 /**
@@ -31,7 +31,7 @@ NDArray<T> NDArray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
  */
 
 template <class T>
-NDArray<T> NDArray<T>::fromlist(std::list<T> l)
+ndarray<T> ndarray<T>::fromlist(std::list<T> l)
 {
     if (l.size() == 0)
         throw "List empty. Need to have a non empty list assigned.";
@@ -41,21 +41,21 @@ NDArray<T> NDArray<T>::fromlist(std::list<T> l)
     output.reserve(l.size());
     output.assign(l.begin(), l.end());
 
-    return NDArray<T>({l.size()}, output);
+    return ndarray<T>({l.size()}, output);
 }
 template <class T>
-NDArray<T> NDArray<T>::fromarray(std::vector<T> input){
-    return NDArray<T>({static_cast<uint16_t>(input.size())}, input);
+ndarray<T> ndarray<T>::fromarray(std::vector<T> input){
+    return ndarray<T>({static_cast<uint16_t>(input.size())}, input);
 }
 template <class T>
-NDArray<T> NDArray<T>::fromarray(std::vector<uint16_t> shape, std::vector<T> input)
+ndarray<T> ndarray<T>::fromarray(std::vector<uint16_t> shape, std::vector<T> input)
 {
-    return NDArray<T>(shape, input);
+    return ndarray<T>(shape, input);
 }
 template <class T>
-NDArray<T> NDArray<T>::fromarray(std::vector<uint16_t> shape, T* input)
+ndarray<T> ndarray<T>::fromarray(std::vector<uint16_t> shape, T* input)
 {
-    return NDArray<T>(shape, input);
+    return ndarray<T>(shape, input);
 }
 
 // ToDo: https://en.cppreference.com/w/cpp/filesystem/path
@@ -66,7 +66,7 @@ NDArray<T> NDArray<T>::fromarray(std::vector<uint16_t> shape, T* input)
  */
 
 template <class T>
-NDArray<T> NDArray<T>::frombinary(std::vector<uint16_t> new_shape, std::string path)
+ndarray<T> ndarray<T>::frombinary(std::vector<uint16_t> new_shape, std::string path)
 {
     //this->shape = new_shape;
 
@@ -97,5 +97,5 @@ NDArray<T> NDArray<T>::frombinary(std::vector<uint16_t> new_shape, std::string p
 
     //this->value = vec;
 
-    return NDArray<T>(new_shape, vec);
+    return ndarray<T>(new_shape, vec);
 }

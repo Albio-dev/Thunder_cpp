@@ -6,7 +6,7 @@
  * @return vector<T> value referenced by pos
  */
 template <class T>
-NDArray<T> NDArray<T>::getPosition(std::vector<uint16_t> pos)
+ndarray<T> ndarray<T>::getPosition(std::vector<uint16_t> pos)
 {
 
     // Check indexing
@@ -56,7 +56,7 @@ NDArray<T> NDArray<T>::getPosition(std::vector<uint16_t> pos)
 
     if (new_shape.size() == 0)
         new_shape.push_back(1);
-    return NDArray<T>(new_shape, output_temp);
+    return ndarray<T>(new_shape, output_temp);
 }
 
 /**
@@ -65,7 +65,7 @@ NDArray<T> NDArray<T>::getPosition(std::vector<uint16_t> pos)
  * @return values_length Number of elements in vector
  */
 template <class T>
-int NDArray<T>::get_current_dimension()
+int ndarray<T>::get_current_dimension()
 {
     if (this->shape.size() == 0 || this->shape[0] == 0)
         throw "Requested 0 dimensioned array";
@@ -88,7 +88,7 @@ int NDArray<T>::get_current_dimension()
  * @return T* pointer to start of array (same as contained vector)
  */
 template <class T>
-T *NDArray<T>::toarray()
+T *ndarray<T>::toarray()
 {
     std::vector<T> new_value = value;
     return &(new_value)[0];
@@ -100,7 +100,7 @@ T *NDArray<T>::toarray()
  * @return multiplication of dimension sizes except first
  */
 template <class T>
-int NDArray<T>::count()
+int ndarray<T>::count()
 {
     if (shape.size() == 1)
         return shape[0];
@@ -113,14 +113,14 @@ int NDArray<T>::count()
     return size;
 }
 template <class T>
-int NDArray<T>::count(NDArray<T> input)
+int ndarray<T>::count(ndarray<T> input)
 {
     return input.count();
 }
 
 // TODO: To be protected, internal function
 template <class T>
-NDArray<T> NDArray<T>::transpose(NDArray<T> input)
+ndarray<T> ndarray<T>::transpose(ndarray<T> input)
 {
 
     if (input.getShape().size() != 2)
@@ -140,11 +140,11 @@ NDArray<T> NDArray<T>::transpose(NDArray<T> input)
         output[i] = input[M * (i % N) + (i / N)];
     }
 
-    return NDArray<T>({M, N}, output);
+    return ndarray<T>({M, N}, output);
 }
 
 template <class T>
-void NDArray<T>::reshape(std::vector<uint16_t> new_shape)
+void ndarray<T>::reshape(std::vector<uint16_t> new_shape)
 {
     shape = new_shape;
 }

@@ -6,7 +6,7 @@
  */
 template <class T>
 template <class OP, class K>
-NDArray<T> NDArray<T>::element_wise(const NDArray<K> other, OP op)
+ndarray<T> ndarray<T>::element_wise(const ndarray<K> other, OP op)
 {
     if (!(std::is_arithmetic_v<K>))
         throw "Argument tipe not arithmetic";
@@ -20,7 +20,7 @@ NDArray<T> NDArray<T>::element_wise(const NDArray<K> other, OP op)
         out.push_back(op(value[i], other.value[i]));
     }
 
-    return NDArray(shape, out);
+    return ndarray(shape, out);
 }
 
 /**
@@ -31,9 +31,9 @@ NDArray<T> NDArray<T>::element_wise(const NDArray<K> other, OP op)
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::operator+(const NDArray<K> other)
+ndarray<T> ndarray<T>::operator+(const ndarray<K> other)
 {
-    return NDArray::element_wise(other, std::plus<T>());
+    return ndarray::element_wise(other, std::plus<T>());
 }
 /**
  * @brief Subtraction operation between two NDArrays
@@ -43,25 +43,25 @@ NDArray<T> NDArray<T>::operator+(const NDArray<K> other)
  */
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::operator-(const NDArray<K> other)
+ndarray<T> ndarray<T>::operator-(const ndarray<K> other)
 {
-    return NDArray::element_wise(other, std::minus<T>());
+    return ndarray::element_wise(other, std::minus<T>());
 }
 
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::operator*(const NDArray<K> other)
+ndarray<T> ndarray<T>::operator*(const ndarray<K> other)
 {
-    return NDArray::element_wise(other, std::multiplies<T>());
+    return ndarray::element_wise(other, std::multiplies<T>());
 }
 
 template <class T>
 template <class K>
-NDArray<T> NDArray<T>::operator/(const NDArray<K> other)
+ndarray<T> ndarray<T>::operator/(const ndarray<K> other)
 {
     if (!std::is_arithmetic_v<K>)
         throw "Argument tipe not arithmetic";
-    return NDArray::element_wise(other, std::divides<T>());
+    return ndarray::element_wise(other, std::divides<T>());
 }
 
 /**
@@ -71,7 +71,7 @@ NDArray<T> NDArray<T>::operator/(const NDArray<K> other)
  * @return T type of the element in the data structure
  */
 template <class T>
-T NDArray<T>::operator[](unsigned int index)
+T ndarray<T>::operator[](unsigned int index)
 {
     if (index < this->value.size())
         return this->value[index];

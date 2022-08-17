@@ -1,6 +1,6 @@
-#include "ndarray.hpp"
-#include "../src/images.cpp"
-#include "../src/series.cpp"
+#include "include/ndarray.hpp"
+#include "src/images.cpp"
+#include "src/series.cpp"
 
 #include <stdio.h>
 #include <iostream>
@@ -8,7 +8,7 @@
 //using namespace std;
 
 template <typename T>
-void printMat(NDArray<T> input)
+void printMat(ndarray<T> input)
 {
     for (uint16_t i = 0; i < input.size(); i++)
     {
@@ -28,9 +28,9 @@ void printMat(NDArray<T> input)
 
 int main() {
 
-    std::cout << std::is_trivially_copyable<NDArray<int>>::value << "\n";
-    std::cout << std::is_standard_layout<NDArray<int>>::value << "\n";
-    std::cout << std::is_pod<NDArray<int>>::value << "\n";
+    std::cout << std::is_trivially_copyable<ndarray<int>>::value << "\n";
+    std::cout << std::is_standard_layout<ndarray<int>>::value << "\n";
+    std::cout << std::is_pod<ndarray<int>>::value << "\n";
 
     std::cout << std::is_trivially_copyable<Series<int>>::value << "\n";
     std::cout << std::is_standard_layout<Series<int>>::value << "\n";

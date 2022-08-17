@@ -6,7 +6,7 @@
  * @param values Actual matrix values, C array format (T*)
  */
 template <class T>
-NDArray<T>::NDArray(std::vector<std::uint16_t> lengths, T *values)
+ndarray<T>::ndarray(std::vector<std::uint16_t> lengths, T *values)
 {
     if (!(std::is_arithmetic_v<T>))
         throw "Not arithmetic type";
@@ -33,7 +33,7 @@ NDArray<T>::NDArray(std::vector<std::uint16_t> lengths, T *values)
  * @param values Actual matrix values, already in vector format
  */
 template <class T>
-NDArray<T>::NDArray(std::vector<std::uint16_t> lengths, std::vector<T> values)
+ndarray<T>::ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values)
 {
 
     if (!(std::is_arithmetic_v<T>))

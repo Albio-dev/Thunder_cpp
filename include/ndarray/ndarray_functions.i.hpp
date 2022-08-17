@@ -6,7 +6,7 @@
  * @param max_value max value to clip
  */
 template <class T>
-void NDArray<T>::clip(const T &min_value, const T &max_value)
+void ndarray<T>::clip(const T &min_value, const T &max_value)
 {
 
     transform(std::begin(value), std::end(value), std::begin(value),
@@ -21,7 +21,7 @@ void NDArray<T>::clip(const T &min_value, const T &max_value)
  * @return NDArray<T> Structure with result
  */
 template <class T>
-void NDArray<T>::map(T (*func)(T))
+void ndarray<T>::map(T (*func)(T))
 {
     std::transform(std::begin(value), std::end(value), value.begin(), func);
 }
@@ -33,7 +33,7 @@ void NDArray<T>::map(T (*func)(T))
  * @return NDArray<T> Filtered data
  */
 template <class T>
-NDArray<T> NDArray<T>::filter(bool (*func)(T))
+ndarray<T> ndarray<T>::filter(bool (*func)(T))
 {
     std::vector<T> output;
     std::vector<uint16_t> new_shape;
@@ -43,17 +43,17 @@ NDArray<T> NDArray<T>::filter(bool (*func)(T))
             output.push_back(value[i]);
     }
     new_shape.push_back(output.size());
-    return NDArray(new_shape, output);
+    return ndarray(new_shape, output);
 }
 
 template <class T>
-NDArray<T> NDArray<T>::filter(NDArray<T> input, bool (*func)(T))
+ndarray<T> ndarray<T>::filter(ndarray<T> input, bool (*func)(T))
 {
     return input.filter(func);
 }
 
 template <class T>
-NDArray<T> NDArray<T>::applyFunc(NDArray<T> input, std::function<T(NDArray<T>)> func)
+ndarray<T> ndarray<T>::applyFunc(ndarray<T> input, std::function<T(ndarray<T>)> func)
 {
     std::vector<T> output_value;
     std::vector<uint16_t> output_shape;
@@ -67,7 +67,7 @@ NDArray<T> NDArray<T>::applyFunc(NDArray<T> input, std::function<T(NDArray<T>)> 
     for (uint16_t i = 0; i < input.getShape()[0]; i++)
     {
         // Extract all other dimensions
-        NDArray<T> temp = input.getPosition({i});
+        ndarray<T> temp = input.getPosition({i});
 
         if (temp.shape.size() != 1)
             temp.reshape({(uint16_t)(temp.shape[0] * temp.count())});
@@ -77,7 +77,7 @@ NDArray<T> NDArray<T>::applyFunc(NDArray<T> input, std::function<T(NDArray<T>)> 
     }
     output_shape = {input.getShape()[0]};
 
-    return NDArray(output_shape, output_value);
+    return ndarray(output_shape, output_value);
 }
 
 /**
@@ -88,13 +88,13 @@ NDArray<T> NDArray<T>::applyFunc(NDArray<T> input, std::function<T(NDArray<T>)> 
  * @return NDArray<T> Structure containing the vector of maximum value(s)
  */
 template <class T>
-NDArray<T> NDArray<T>::max()
+ndarray<T> ndarray<T>::max()
 {
-    return applyFunc(*this, [](NDArray<T> a)
+    return applyFunc(*this, [](ndarray<T> a)
                      { return *max_element(a.begin(), a.end()); });
 }
 template <class T>
- NDArray<T> NDArray<T>::max(NDArray<T> input)
+ ndarray<T> ndarray<T>::max(ndarray<T> input)
 {
     return input.max();
 }
@@ -107,13 +107,13 @@ template <class T>
  * @return NDArray<T> Structure containing the vector of minimum value(s)
  */
 template <class T>
-NDArray<T> NDArray<T>::min()
+ndarray<T> ndarray<T>::min()
 {
-    return applyFunc(*this, [](NDArray<T> a)
+    return applyFunc(*this, [](ndarray<T> a)
                      { return *min_element(a.begin(), a.end()); });
 }
 template <class T>
- NDArray<T> NDArray<T>::min(NDArray<T> input)
+ ndarray<T> ndarray<T>::min(ndarray<T> input)
 {
     return input.min();
 }
@@ -126,13 +126,13 @@ template <class T>
  * @return NDArray<T> Structure containing the vector of sum value(s)
  */
 template <class T>
-NDArray<T> NDArray<T>::sum()
+ndarray<T> ndarray<T>::sum()
 {
-    return applyFunc(*this, [](NDArray<T> a)
+    return applyFunc(*this, [](ndarray<T> a)
                      { return accumulate(a.begin(), a.end(), 0.0); });
 }
 template <class T>
- NDArray<T> NDArray<T>::sum(NDArray<T> input)
+ ndarray<T> ndarray<T>::sum(ndarray<T> input)
 {
     return input.sum();
 }
@@ -145,13 +145,13 @@ template <class T>
  * @return NDArray<T> Structure containing the vector of mean value(s)
  */
 template <class T>
-NDArray<T> NDArray<T>::mean()
+ndarray<T> ndarray<T>::mean()
 {
-    return applyFunc(*this, [](NDArray<T> a)
+    return applyFunc(*this, [](ndarray<T> a)
                      { return a.sum()[0] / a.count(); });
 }
 template <class T>
- NDArray<T> NDArray<T>::mean(NDArray<T> input)
+ ndarray<T> ndarray<T>::mean(ndarray<T> input)
 {
     return input.mean();
 }
@@ -165,9 +165,9 @@ template <class T>
  */
 
 template <class T>
-NDArray<T> NDArray<T>::std()
+ndarray<T> ndarray<T>::std()
 {
-    return applyFunc(*this, [](NDArray<T> a)
+    return applyFunc(*this, [](ndarray<T> a)
                      {
             T total = 0;
             for (int i = 0; i < a.count(); i++)
@@ -177,7 +177,7 @@ NDArray<T> NDArray<T>::std()
             return sqrt(total / a.count()); });
 }
 template <class T>
- NDArray<T> NDArray<T>::std(NDArray<T> input)
+ ndarray<T> ndarray<T>::std(ndarray<T> input)
 {
     return input.std();
 }
@@ -190,9 +190,9 @@ template <class T>
  * @return NDArray<T> Structure containing the vector of variance value(s)
  */
 template <class T>
-NDArray<T> NDArray<T>::var()
+ndarray<T> ndarray<T>::var()
 {
-    return applyFunc(*this, [](NDArray<T> a)
+    return applyFunc(*this, [](ndarray<T> a)
                      {
             T total = 0;
             for (int i = 0; i < a.count(); i++)
@@ -202,7 +202,7 @@ NDArray<T> NDArray<T>::var()
             return (total / a.count()); });
 }
 template <class T>
- NDArray<T> NDArray<T>::var(NDArray<T> input)
+ ndarray<T> ndarray<T>::var(ndarray<T> input)
 {
     return input.var();
 }

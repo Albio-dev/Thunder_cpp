@@ -5,12 +5,12 @@
 #include "../include/series.hpp"
 
 template<class T>
-class Series: public NDArray<T>{
+class Series: public ndarray<T>{
     //Series() = default;
 
-    friend class NDArray<T>;
+    friend class ndarray<T>;
 
-    Series(std::vector<uint16_t> shape, std::vector<T> input) : NDArray<T>(shape, input){}
+    Series(std::vector<uint16_t> shape, std::vector<T> input) : ndarray<T>(shape, input){}
 public:
     /**
      * @brief Utility to prepare the matrix for processing by base functions
@@ -19,19 +19,19 @@ public:
      *
      * @return NDArray<T> Square matrix transposed. Collapses all dimensions except last.
      */
-    NDArray<T> prepareMat()
+    ndarray<T> prepareMat()
     {
 
         // Saving previous dimensions for restoring them later
-        std::vector<uint16_t> old_shape = NDArray<T>::getShape();
+        std::vector<uint16_t> old_shape = ndarray<T>::getShape();
         // Collapses all dimensions but last
-        NDArray<T>::reshape({(uint16_t)count(), NDArray<T>::getShape()[NDArray<T>::getShape().size() - 1]});
+        ndarray<T>::reshape({(uint16_t)count(), ndarray<T>::getShape()[ndarray<T>::getShape().size() - 1]});
 
         // Get the transpose
-        NDArray<T> temp = NDArray<T>::transpose(*this);
+        ndarray<T> temp = ndarray<T>::transpose(*this);
 
         // Restore old dimensions
-        NDArray<T>::reshape(old_shape);
+        ndarray<T>::reshape(old_shape);
 
         return temp;
     }
@@ -41,7 +41,7 @@ public:
     
     T getPosition(std::vector<uint16_t> indexes) {
 
-        NDArray<T>::getPosition(indexes);
+        ndarray<T>::getPosition(indexes);
         return NULL;
     }
 
@@ -58,7 +58,7 @@ public:
      */
     static Series<T> fromrandom(std::vector<uint16_t> shape = {100, 10}, int seed = 42)
     {
-        return static_cast<Series<T>>(NDArray<T>::fromrandom(shape, seed));
+        return static_cast<Series<T>>(ndarray<T>::fromrandom(shape, seed));
     }
 
     /** @brief Loads series data from text files. Assumes data are formatted as rows,
@@ -122,8 +122,8 @@ public:
         int output = 1;
 
         // Multiplies all dimensions except last
-        for (uint16_t i = 0; i < NDArray<T>::getShape().size() -1; i++){
-            output *= NDArray<T>::getShape()[i];
+        for (uint16_t i = 0; i < ndarray<T>::getShape().size() -1; i++){
+            output *= ndarray<T>::getShape()[i];
         }
 
         return output;
@@ -131,7 +131,7 @@ public:
 
 
     Series<T> filter(bool (*func)(T)){
-        return NDArray<T>::filter(prepareMat(), func);
+        return ndarray<T>::filter(prepareMat(), func);
     }
     /**
      * @brief Gets the max of all least-dimensioned elements
@@ -141,7 +141,7 @@ public:
      */
     Series<T> max()
     {
-        return NDArray<T>::max(prepareMat());
+        return ndarray<T>::max(prepareMat());
     }
     /**
      * @brief Gets the min of all least-dimensioned elements
@@ -151,7 +151,7 @@ public:
      */
     Series<T> min()
     {
-        return NDArray<T>::min(prepareMat());
+        return ndarray<T>::min(prepareMat());
     }
     /**
      * @brief Gets the sum of all least-dimensioned elements
@@ -161,7 +161,7 @@ public:
      */
     Series<T> sum()
     {
-        return NDArray<T>::sum(prepareMat());
+        return ndarray<T>::sum(prepareMat());
     }
     /**
      * @brief Gets the mean of all least-dimensioned elements
@@ -171,7 +171,7 @@ public:
      */
     Series<T> mean()
     {
-        return NDArray<T>::mean(prepareMat());
+        return ndarray<T>::mean(prepareMat());
     }
     /**
      * @brief Gets the standard deviation of all least-dimensioned elements
@@ -181,7 +181,7 @@ public:
      */
     Series<T> std()
     {
-        return NDArray<T>::std(prepareMat());
+        return ndarray<T>::std(prepareMat());
     }
     /**
      * @brief Gets the variance of all least-dimensioned elements
@@ -191,6 +191,6 @@ public:
      */
     Series<T> var()
     {
-        return NDArray<T>::var(prepareMat());
+        return ndarray<T>::var(prepareMat());
     }
 };

@@ -12,7 +12,7 @@
 #include "images.hpp"
 
 template <class T>
-class NDArray{
+class ndarray{
     
     
     /// @var Actual values vector
@@ -24,22 +24,22 @@ class NDArray{
 
     // Constructors
     /**
-     * @brief Construct a new NDArray object when values are given in a C array
+     * @brief Construct a new ndarray object when values are given in a C array
      * Basically a copy constructor since it copies the elements in the array in a vector
      *
      * @param lengths Dimensions vector of the resulting object
      * @param values Actual matrix values, C array format (T*)
      */
-    NDArray(std::vector<std::uint16_t> lengths, T *values);
+    ndarray(std::vector<std::uint16_t> lengths, T *values);
     /**
-     * @brief Construct a new NDArray object when values are already in a vector
+     * @brief Construct a new ndarray object when values are already in a vector
      * Almost a move constructor, since it copies the address of both
      * vectors
      *
      * @param lengths Dimensions vector of the resulting object
      * @param values Actual matrix values, already in vector format
      */
-    NDArray(std::vector<std::uint16_t> lengths, std::vector<T> values);
+    ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values);
 
     public:
 
@@ -55,21 +55,21 @@ class NDArray{
      * @return
      */
     template <class OP, class K>
-    NDArray<T> element_wise(const NDArray<K> other, OP op);
+    ndarray<T> element_wise(const ndarray<K> other, OP op);
     template <class K>
-    NDArray<T> operator+(const NDArray<K> other);
+    ndarray<T> operator+(const ndarray<K> other);
     /**
-     * @brief Subtraction operation between two NDArrays
+     * @brief Subtraction operation between two ndarrays
      *
-     * @param other Other NDArray subtracted to this one
-     * @return NDArray<T> Result of subtraction
+     * @param other Other ndarray subtracted to this one
+     * @return ndarray<T> Result of subtraction
      */
     template <class K>
-    NDArray<T> operator-(const NDArray<K> other);
+    ndarray<T> operator-(const ndarray<K> other);
     template <class K>
-    NDArray<T> operator*(const NDArray<K> other);
+    ndarray<T> operator*(const ndarray<K> other);
     template <class K>
-    NDArray<T> operator/(const NDArray<K> other);
+    ndarray<T> operator/(const ndarray<K> other);
     /**
      * @brief Function to directly address the underlaying vector
      *
@@ -80,10 +80,10 @@ class NDArray{
 
     // Operator wrapper
     template <class K>
-    NDArray<T> plus(NDArray<K> other);
+    ndarray<T> plus(ndarray<K> other);
 
     template <class K>
-    NDArray<T> minus(NDArray<K> other);
+    ndarray<T> minus(ndarray<K> other);
     /**
      * @brief Dot divide a matrix with another. ToDo: Controlli grandezze array e valori siano corretti/compatibibli
      *  tipo se un valore é di tipo int e l'altro tipo uint cast di che tipo (int imo)
@@ -91,15 +91,15 @@ class NDArray{
      * @return
      */
     template <class K>
-    NDArray<T> dotdivide(const NDArray<K> other);
-    /** @brief Given two NDArray with the same shape. Multiply one element in position n with his corresponding
+    ndarray<T> dotdivide(const ndarray<K> other);
+    /** @brief Given two ndarray with the same shape. Multiply one element in position n with his corresponding
      * elem in position n.
      *
      * @param other second element of multiplication
      * @return out a vector with multiplied values
      */
     template <class K>
-    NDArray<T> dottimes(const NDArray<K> other);
+    ndarray<T> dottimes(const ndarray<K> other);
 
     // vector Wrapper
     /**
@@ -132,7 +132,7 @@ class NDArray{
      * @param pos a vector with a position
      * @return vector<T> value referenced by pos
      */
-    NDArray<T> getPosition(std::vector<uint16_t> pos);
+    ndarray<T> getPosition(std::vector<uint16_t> pos);
     /**
      * @brief Check if shape is correct or plausibile and return number of elements
      *
@@ -151,8 +151,8 @@ class NDArray{
      * @return multiplication of dimension sizes except first
      */
     int count();
-    int count(NDArray<T> input);
-    static NDArray<T> transpose(NDArray<T> input);
+    int count(ndarray<T> input);
+    static ndarray<T> transpose(ndarray<T> input);
     void reshape(std::vector<uint16_t> new_shape);
 
     // Initializers
@@ -161,24 +161,24 @@ class NDArray{
      * @param shape a vector with the desired dimension
      * @param seed seed value for the random function
      */
-    static NDArray<T> fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42);
+    static ndarray<T> fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42);
     /**
      * @brief Passed a list assign all values to current data structure
      * as one dimensional matrix.
      *
      */
-    static NDArray<T> fromlist(std::list<T> l = {});
+    static ndarray<T> fromlist(std::list<T> l = {});
     // ToDo: https://en.cppreference.com/w/cpp/filesystem/path
     /** @brief Read a file as is to the class with some checks on possible errors
      *
      * @param shape a vector with the desired dimension
      * @param path path to a file
      */
-    static NDArray<T> frombinary(std::vector<uint16_t> new_shape, std::string path);
+    static ndarray<T> frombinary(std::vector<uint16_t> new_shape, std::string path);
     
-    static NDArray<T> fromarray(std::vector<uint16_t> shape, T *input);
-    static NDArray<T> fromarray(std::vector<uint16_t> shape, std::vector<T> input);
-    static NDArray<T> fromarray(std::vector<T> input);
+    static ndarray<T> fromarray(std::vector<uint16_t> shape, T *input);
+    static ndarray<T> fromarray(std::vector<uint16_t> shape, std::vector<T> input);
+    static ndarray<T> fromarray(std::vector<T> input);
 
     /**
      * @brief Clip values in an array above and below provided values
@@ -191,7 +191,7 @@ class NDArray{
      * @brief Applied the supplied function to every element in matrix
      *
      * @param func Unary function
-     * @return NDArray<T> Structure with result
+     * @return ndarray<T> Structure with result
      */
     void map(T (*func)(T));
 
@@ -200,67 +200,67 @@ class NDArray{
     /**
      * @brief Applies a function which should evaluate to boolean, along the first axis
      *
-     * @param func A function that accepts data of type NDArray<T>
-     * @return NDArray<T> Filtered data
+     * @param func A function that accepts data of type ndarray<T>
+     * @return ndarray<T> Filtered data
      */
-    NDArray<T> filter(bool (*func)(T));
-    NDArray<T> filter(NDArray<T> input, bool (*func)(T));
-    NDArray<T> applyFunc(NDArray<T> input, std::function<T(NDArray<T>)> func);
+    ndarray<T> filter(bool (*func)(T));
+    ndarray<T> filter(ndarray<T> input, bool (*func)(T));
+    ndarray<T> applyFunc(ndarray<T> input, std::function<T(ndarray<T>)> func);
     /**
      * @brief Returns a vector of max values.
      * If matrix is monodimensional returns a single max value, if there is more than a
      * dimension, it cycles through the first returning the maximum along all other dimensions.
      *
-     * @return NDArray<T> Structure containing the vector of maximum value(s)
+     * @return ndarray<T> Structure containing the vector of maximum value(s)
      */
-    NDArray<T> max();
-    static NDArray<T> max(NDArray<T> input);
+    ndarray<T> max();
+    static ndarray<T> max(ndarray<T> input);
     /**
      * @brief Returns a vector of min values.
      * If matrix is monodimensional returns a single min value, if there is more than a
      * dimension, it cycles through the first returning the minimum along all other dimensions.
      *
-     * @return NDArray<T> Structure containing the vector of minimum value(s)
+     * @return ndarray<T> Structure containing the vector of minimum value(s)
      */
-    NDArray<T> min();
-    static NDArray<T> min(NDArray<T> input);
+    ndarray<T> min();
+    static ndarray<T> min(ndarray<T> input);
     /**
      * @brief Returns a vector of sum values.
      * If matrix is monodimensional returns a single sum value, if there is more than a
      * dimension, it cycles through the first returning the sum along all other dimensions.
      *
-     * @return NDArray<T> Structure containing the vector of sum value(s)
+     * @return ndarray<T> Structure containing the vector of sum value(s)
      */
-    NDArray<T> sum();
-    static NDArray<T> sum(NDArray<T> input);
+    ndarray<T> sum();
+    static ndarray<T> sum(ndarray<T> input);
     /**
      * @brief Returns a vector of mean values.
      * If matrix is monodimensional returns a single mean value, if there is more than a
      * dimension, it cycles through the first returning the mean along all other dimensions.
      *
-     * @return NDArray<T> Structure containing the vector of mean value(s)
+     * @return ndarray<T> Structure containing the vector of mean value(s)
      */
-    NDArray<T> mean();
-    static NDArray<T> mean(NDArray<T> input);
+    ndarray<T> mean();
+    static ndarray<T> mean(ndarray<T> input);
     /**
      * @brief Returns a vector of standard deviation values.
      * If matrix is monodimensional returns a single standard deviation value, if there is more than a
      * dimension, it cycles through the first returning the standard deviation along all other dimensions.
      *
-     * @return NDArray<T> Structure containing the vector of standard deviation value(s)
+     * @return ndarray<T> Structure containing the vector of standard deviation value(s)
      */
 
-    NDArray<T> std();
-    static NDArray<T> std(NDArray<T> input);
+    ndarray<T> std();
+    static ndarray<T> std(ndarray<T> input);
     /**
      * @brief Returns a vector of variance values.
      * If matrix is monodimensional returns a single variance value, if there is more than a
      * dimension, it cycles through the first returning the variance along all other dimensions.
      *
-     * @return NDArray<T> Structure containing the vector of variance value(s)
+     * @return ndarray<T> Structure containing the vector of variance value(s)
      */
-    NDArray<T> var();
-    static NDArray<T> var(NDArray<T> input);
+    ndarray<T> var();
+    static ndarray<T> var(ndarray<T> input);
 
 };
 

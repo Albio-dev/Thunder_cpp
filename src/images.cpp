@@ -8,11 +8,11 @@
 
 
 template<class T>
-class Images : public NDArray<T> {
+class Images : public ndarray<T> {
 
-    friend class NDArray<T>;
+    friend class ndarray<T>;
 
-    Images(std::vector<uint16_t> shape, std::vector<T> input) : NDArray<T>(shape, input) {
+    Images(std::vector<uint16_t> shape, std::vector<T> input) : ndarray<T>(shape, input) {
         if (shape.size() < 2)
             throw "Image item must have at least 2 dimensions, got 1";
     }
@@ -83,7 +83,7 @@ public:
      * @param seed seed value for the random function
      */
     static Images<T> fromrandom(std::vector<uint16_t> shape = {10, 50, 50}, int seed = 42) {
-        return NDArray<T>::fromrandom(shape, seed);
+        return ndarray<T>::fromrandom(shape, seed);
     }
     
     bool has_suffix(const std::string &str, const std::string &suffix)
@@ -99,22 +99,22 @@ public:
      *
      * @return NDArray<T> Square matrix transposed. Collapses all dimensions and then last 2.
      */
-    NDArray<T> prepareMat() {
+    ndarray<T> prepareMat() {
 
         // Saving previous dimensions for restoring them later
-        std::vector<uint16_t> old_shape = NDArray<T>::getShape();
+        std::vector<uint16_t> old_shape = ndarray<T>::getShape();
         // Collapses all dimensions but last
-        NDArray<T>::reshape({(uint16_t) count(), (uint16_t) (NDArray<T>::getShape()[NDArray<T>::getShape().size() - 1] *
-                                                             NDArray<T>::getShape()[NDArray<T>::getShape().size() -
+        ndarray<T>::reshape({(uint16_t) count(), (uint16_t) (ndarray<T>::getShape()[ndarray<T>::getShape().size() - 1] *
+                                                             ndarray<T>::getShape()[ndarray<T>::getShape().size() -
                                                                                     2])});
 
         // Get the transpose
-        NDArray<T> temp = NDArray<T>::transpose(*this);
+        ndarray<T> temp = ndarray<T>::transpose(*this);
 
 
 
         // Restore old dimensions
-        NDArray<T>::reshape(old_shape);
+        ndarray<T>::reshape(old_shape);
 
         return temp;
     }
@@ -130,15 +130,15 @@ public:
         int output = 1;
 
         // Multiplies all dimensions except last 2
-        for (uint16_t i = 0; i < NDArray<T>::getShape().size() - 2; i++) {
-            output *= NDArray<T>::getShape()[i];
+        for (uint16_t i = 0; i < ndarray<T>::getShape().size() - 2; i++) {
+            output *= ndarray<T>::getShape()[i];
         }
 
         return output;
     }
 
     Images<T> filter(bool (*func)(T)) {
-        return (Images<T>) NDArray<T>::filter(prepareMat(), func);
+        return (Images<T>) ndarray<T>::filter(prepareMat(), func);
     }
 
     /**
@@ -148,7 +148,7 @@ public:
      * @return Images<T> Contains maximum 2D matrix
      */
     Images<T> max() {
-        return NDArray<T>::max(prepareMat());
+        return ndarray<T>::max(prepareMat());
     }
 
     /**
@@ -158,7 +158,7 @@ public:
      * @return Images<T> Contains minimum 2D matrix
      */
     Images<T> min() {
-        return NDArray<T>::min(prepareMat());
+        return ndarray<T>::min(prepareMat());
     }
 
     /**
@@ -168,7 +168,7 @@ public:
      * @return Images<T> Contains sum of 2D matrices
      */
     Images<T> sum() {
-        return NDArray<T>::sum(prepareMat());
+        return ndarray<T>::sum(prepareMat());
     }
 
     /**
@@ -178,7 +178,7 @@ public:
      * @return Images<T> Contains mean of 2D matrices
      */
     Images<T> mean() {
-        return NDArray<T>::mean(prepareMat());
+        return ndarray<T>::mean(prepareMat());
     }
 
     /**
@@ -188,7 +188,7 @@ public:
      * @return Series<T> Serie of standard deviations
      */
     Images<T> std() {
-        return NDArray<T>::std(prepareMat());
+        return ndarray<T>::std(prepareMat());
     }
 
     /**
@@ -198,6 +198,6 @@ public:
      * @return Series<T> Serie of variances
      */
     Images<T> var() {
-        return NDArray<T>::var(prepareMat());
+        return ndarray<T>::var(prepareMat());
     }
 };
