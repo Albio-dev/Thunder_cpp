@@ -1,13 +1,4 @@
 #include "testing.hpp"
-/*
-#define CATCH_CONFIG_MAIN
-#include "../third_party/catch.hpp"
-
-#include "../include/ndarray.hpp"
-#include "../src/series.cpp"
-#include "../src/images.cpp"*/
-
-//using namespace Catch;
 
 TEST_CASE("Prepare mat function test images", "[PrepareMat")
 {

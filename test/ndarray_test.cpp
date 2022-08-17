@@ -1,3 +1,4 @@
+//#define CATCH_CONFIG_MAIN
 #include "testing.hpp"
 
 using namespace std;

@@ -32,34 +32,17 @@ class ndarray{
     
 
     // Operator overload
-    /**
-     * @brief Dot function a matrix with another.
-     *
-     * @return
-     */
     template <class OP, class K>
-    ndarray<T> element_wise(const ndarray<K> other, OP op);
+    [[nodiscard]] ndarray<T> element_wise(const ndarray<K> other, OP op) const;
     template <class K>
-    ndarray<T> operator+(const ndarray<K> other);
-    /**
-     * @brief Subtraction operation between two ndarrays
-     *
-     * @param other Other ndarray subtracted to this one
-     * @return ndarray<T> Result of subtraction
-     */
+    [[nodiscard]] ndarray<T> operator+(const ndarray<K> other) const;
     template <class K>
-    ndarray<T> operator-(const ndarray<K> other);
+    [[nodiscard]] ndarray<T> operator-(const ndarray<K> other) const;
     template <class K>
-    ndarray<T> operator*(const ndarray<K> other);
+    [[nodiscard]] ndarray<T> operator*(const ndarray<K> other) const;
     template <class K>
-    ndarray<T> operator/(const ndarray<K> other);
-    /**
-     * @brief Function to directly address the underlaying vector
-     *
-     * @param index index of the referenced element
-     * @return T type of the element in the data structure
-     */
-    T operator[](unsigned int index);
+    [[nodiscard]] ndarray<T> operator/(const ndarray<K> other) const;
+    [[nodiscard]] const T& operator[](const uint16_t index) const;
 
     // Operator wrapper
     template <class K>

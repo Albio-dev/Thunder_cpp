@@ -46,6 +46,7 @@ ndarray<T>::ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values)
 
     this->shape = lengths;
 
+    // Multiplies all elements in lengths together
     uint16_t values_length = 1;
     for (uint16_t i : lengths)
         values_length *= i;

@@ -28,6 +28,7 @@ void printMat(ndarray<T> input)
 
 int main() {
 
+/*
     std::cout << std::is_trivially_copyable<ndarray<int>>::value << "\n";
     std::cout << std::is_standard_layout<ndarray<int>>::value << "\n";
     std::cout << std::is_pod<ndarray<int>>::value << "\n";
@@ -39,6 +40,11 @@ int main() {
     std::cout << std::is_trivially_copyable<Images<int>>::value << "\n";
     std::cout << std::is_standard_layout<Images<int>>::value << "\n";
     std::cout << std::is_pod<Images<int>>::value << "\n";
+*/
+    auto a = ndarray<int>::fromarray({5}, {1, 2, 3, 4, 5});
+    //a[2] +=1;
+
+    std::cout << a[2] << "\n";
 
     return 0;
 }
