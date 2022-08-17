@@ -54,7 +54,7 @@ class ndarray{
     template <class K>
     [[nodiscard]] ndarray<T> dottimes(const ndarray<K> other) const;
 
-    // vector Wrapper
+    // vector Wrappers
     [[nodiscard]] uint16_t size() const;
     [[nodiscard]] const std::vector<T>& getValue() const;
     [[nodiscard]] const std::vector<uint16_t>& getShape() const;
@@ -63,42 +63,26 @@ class ndarray{
     [[nodiscard]] auto end() const;
 
     // Utils
-    /**
-     * @brief Get the value in position given a vector with a precise location
-     *
-     * @param pos a vector with a position
-     * @return vector<T> value referenced by pos
-     */
-    ndarray<T> getPosition(std::vector<uint16_t> pos);
-    /**
-     * @brief Check if shape is correct or plausibile and return number of elements
-     *
-     * @return values_length Number of elements in vector
-     */
-    int get_current_dimension();
-    /**
-     * @brief Extract the underlaying array
-     *
-     * @return T* pointer to start of array (same as contained vector)
-     */
-    T *toarray();
-    /**
-     * @brief Count how many elements there are in every matrix along the first dimension
-     *
-     * @return multiplication of dimension sizes except first
-     */
-    int count();
-    int count(ndarray<T> input);
-    static ndarray<T> transpose(ndarray<T> input);
-    void reshape(std::vector<uint16_t> new_shape);
+    [[nodiscard]] ndarray<T> getPosition(const std::vector<uint16_t> pos) const;
+    [[nodiscard]] int get_current_dimension() const;
+    [[nodiscard]] T *toarray() const;
+    [[nodiscard]] uint16_t count() const;
+    [[nodiscard]] uint16_t count(const ndarray<T> input) const;
 
+    protected:
+    [[nodiscard]] static ndarray<T> transpose(const ndarray<T> input);
+    void reshape(const std::vector<uint16_t> new_shape);
+    public:
+    
     // Initializers
      /** @brief Initialize with random values this->value
      *
+     *      
      * @param shape a vector with the desired dimension
-     * @param seed seed value for the random function
+    * @param seed seed value for the random function
      */
     static ndarray<T> fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42);
+
     /**
      * @brief Passed a list assign all values to current data structure
      * as one dimensional matrix.
