@@ -28,11 +28,17 @@ void printMat(NDArray<T> input)
 
 int main() {
 
-    Series<int> a = Series<int>::fromarray({1, 5}, {1, 2, 3, 4, 5});
-    Images<int> b = Images<int>::fromarray({1, 5}, {1, 2, 3, 4, 5});
-    //cimg_library::CImg<float> p = b.read_image("../data/singlelayer_png/dot2_grey.png");
+    std::cout << std::is_trivially_copyable<NDArray<int>>::value << "\n";
+    std::cout << std::is_standard_layout<NDArray<int>>::value << "\n";
+    std::cout << std::is_pod<NDArray<int>>::value << "\n";
 
-    NDArray<int> c = a.element_wise(b, std::minus<int>());
-    printMat(c);
+    std::cout << std::is_trivially_copyable<Series<int>>::value << "\n";
+    std::cout << std::is_standard_layout<Series<int>>::value << "\n";
+    std::cout << std::is_pod<Series<int>>::value << "\n";
+
+    std::cout << std::is_trivially_copyable<Images<int>>::value << "\n";
+    std::cout << std::is_standard_layout<Images<int>>::value << "\n";
+    std::cout << std::is_pod<Images<int>>::value << "\n";
+
     return 0;
 }

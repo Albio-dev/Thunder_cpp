@@ -75,3 +75,5 @@ sistemato cmake per la nuova organizzazione dei file; incluso catch in cmake e c
 è possibile creare NDArray di tipi non aritmetici, quindi c'è da fare un controllo nei costruttori. A questo punto per questo e perchè usiamo le funzioni della libreria standard per le operazioni, non abbiamo bisogno di controllo in tutte le funzioni
 
 qui applichiamo la rule of zero perchè creiamo il costruttore custom e lasciamo copy e move default perchè deleghiamo tutto ai vector
+
+ndarray, images e series sono classi standard layout. non sono trivial per via dei costruttori
