@@ -55,28 +55,12 @@ class ndarray{
     [[nodiscard]] ndarray<T> dottimes(const ndarray<K> other) const;
 
     // vector Wrapper
-    /**
-     * @brief Encapsulates underlaying vector size
-     *
-     * @return int Number of elements in vector
-     */
-    int size();
-    uint16_t getCount();
-    /**
-     * @brief Get the Data vector stored
-     *
-     * @return vector<T> of the contained data
-     */
-    std::vector<T> getValue();
-    /**
-     * @brief Get the Shape vector
-     *
-     * @return vector<uint16_t> shape vector: every position is the dimension size
-     */
-    std::vector<uint16_t> getShape();
-    T first();
-    auto begin();
-    auto end();
+    [[nodiscard]] uint16_t size() const;
+    [[nodiscard]] const std::vector<T>& getValue() const;
+    [[nodiscard]] const std::vector<uint16_t>& getShape() const;
+    [[nodiscard]] const T& first() const;
+    [[nodiscard]] auto begin() const;
+    [[nodiscard]] auto end() const;
 
     // Utils
     /**

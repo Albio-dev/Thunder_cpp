@@ -4,16 +4,17 @@
  *
  * @return int Number of elements in vector
  */
-template <class T>
-int ndarray<T>::size()
-{
-    return this->value.size();
-}
 
+/**
+ * @brief Wrapper for underlaying structure data count
+ * 
+ * @tparam T ndarray type
+ * @return uint16_t number of elements stored
+ */
 template <class T>
-uint16_t ndarray<T>::getCount()
+uint16_t ndarray<T>::size() const
 {
-    return this->dimCount;
+    return value.size();
 }
 
 /**
@@ -22,9 +23,9 @@ uint16_t ndarray<T>::getCount()
  * @return vector<T> of the contained data
  */
 template <class T>
-std::vector<T> ndarray<T>::getValue()
+const std::vector<T>& ndarray<T>::getValue() const
 {
-    return this->value;
+    return value;
 }
 
 /**
@@ -33,9 +34,9 @@ std::vector<T> ndarray<T>::getValue()
  * @return vector<uint16_t> shape vector: every position is the dimension size
  */
 template <class T>
-std::vector<uint16_t> ndarray<T>::getShape()
+const std::vector<uint16_t>& ndarray<T>::getShape() const
 {
-    return this->shape;
+    return shape;
 }
 
 /**
@@ -44,19 +45,19 @@ std::vector<uint16_t> ndarray<T>::getShape()
  * @return T First value
  */
 template <class T>
-T ndarray<T>::first()
+const T& ndarray<T>::first() const
 {
     return this->value[0];
 }
 
 template <class T>
-auto ndarray<T>::begin()
+auto ndarray<T>::begin() const
 {
     return value.begin();
 }
 
 template <class T>
-auto ndarray<T>::end()
+auto ndarray<T>::end() const
 {
     return value.end();
 }
