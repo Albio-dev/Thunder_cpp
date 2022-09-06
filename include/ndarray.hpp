@@ -72,34 +72,18 @@ class ndarray{
     protected:
     [[nodiscard]] static ndarray<T> transpose(const ndarray<T> input);
     void reshape(const std::vector<uint16_t> new_shape);
+
     public:
     
     // Initializers
-     /** @brief Initialize with random values this->value
-     *
-     *      
-     * @param shape a vector with the desired dimension
-    * @param seed seed value for the random function
-     */
-    static ndarray<T> fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42);
+    [[nodiscard]] static ndarray<T> fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42);
+    [[nodiscard]] static ndarray<T> fromlist(std::list<T> l = {});
 
-    /**
-     * @brief Passed a list assign all values to current data structure
-     * as one dimensional matrix.
-     *
-     */
-    static ndarray<T> fromlist(std::list<T> l = {});
-    // ToDo: https://en.cppreference.com/w/cpp/filesystem/path
-    /** @brief Read a file as is to the class with some checks on possible errors
-     *
-     * @param shape a vector with the desired dimension
-     * @param path path to a file
-     */
-    static ndarray<T> frombinary(std::vector<uint16_t> new_shape, std::string path);
-    
-    static ndarray<T> fromarray(std::vector<uint16_t> shape, T *input);
-    static ndarray<T> fromarray(std::vector<uint16_t> shape, std::vector<T> input);
-    static ndarray<T> fromarray(std::vector<T> input);
+    [[nodiscard]] static ndarray<T> frombinary(std::vector<uint16_t> new_shape, std::string path);
+
+    [[nodiscard]] static ndarray<T> fromarray(std::vector<uint16_t> shape, T *input);
+    [[nodiscard]] static ndarray<T> fromarray(std::vector<uint16_t> shape, std::vector<T> input);
+    [[nodiscard]] static ndarray<T> fromarray(std::vector<T> input);
 
     /**
      * @brief Clip values in an array above and below provided values
@@ -115,8 +99,6 @@ class ndarray{
      * @return ndarray<T> Structure with result
      */
     void map(T (*func)(T));
-
-
 
     /**
      * @brief Applies a function which should evaluate to boolean, along the first axis

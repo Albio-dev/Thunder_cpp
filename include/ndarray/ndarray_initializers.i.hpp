@@ -1,14 +1,15 @@
 
-/** @brief Initialize with random values this->value
- *
- * @param shape a vector with the desired dimension
- * @param seed seed value for the random function
+/**
+ * @brief Creates an ndarray with random values
+ * 
+ * @tparam T Underlaying type
+ * @param shape Shape of the new ndarray
+ * @param seed Seed for RNG
+ * @return ndarray<T> Ndarray with shape shape and random values
  */
-
 template <class T>
 ndarray<T> ndarray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
 {
-    //std::vector<T> shape = shape;
     std::vector<T> output;
     int num_values = std::accumulate(shape.begin(), shape.end(), 1, std::multiplies<T>());
 
@@ -25,51 +26,75 @@ ndarray<T> ndarray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
 }
 
 /**
- * @brief Passed a list assign all values to current data structure
- * as one dimensional matrix.
+ * @brief Creates an ndarray from a given list
  *
+ * @tparam T Underlaying data type
+ * @param l Input list
+ * @return ndarray<T> Resulting ndarray 1 by list length
  */
-
 template <class T>
 ndarray<T> ndarray<T>::fromlist(std::list<T> l)
 {
     if (l.size() == 0)
         throw "List empty. Need to have a non empty list assigned.";
 
-    //this->shape = {l.size()};
     std::vector<T> output;
     output.reserve(l.size());
     output.assign(l.begin(), l.end());
 
     return ndarray<T>({l.size()}, output);
 }
+
+/**
+ * @brief Creates an ndarray from a given vector
+ *
+ * @tparam T Underlaying data type
+ * @param input Input vector
+ * @return ndarray<T> Resulting ndarray 1 by vector length
+ */
 template <class T>
 ndarray<T> ndarray<T>::fromarray(std::vector<T> input){
     return ndarray<T>({static_cast<uint16_t>(input.size())}, input);
 }
+/**
+ * @brief Creates an ndarray from a given vector with a given shape
+ *
+ * @tparam T Underlaying data type
+ * @param shape Final ndarray shape
+ * @param input Input vector
+ * @return ndarray<T> Resulting ndarray
+ */
 template <class T>
 ndarray<T> ndarray<T>::fromarray(std::vector<uint16_t> shape, std::vector<T> input)
 {
     return ndarray<T>(shape, input);
 }
+/**
+ * @brief Creates an ndarray from a C array with a given shape
+ *
+ * @tparam T Underlaying data type
+ * @param shape Final ndarray shape
+ * @param input Input array
+ * @return ndarray<T> Resulting ndarray
+ */
 template <class T>
 ndarray<T> ndarray<T>::fromarray(std::vector<uint16_t> shape, T* input)
 {
     return ndarray<T>(shape, input);
 }
 
-// ToDo: https://en.cppreference.com/w/cpp/filesystem/path
-/** @brief Read a file as is to the class with some checks on possible errors
+/**
+ * @brief Read file and writes it directly into ndarray
  *
- * @param shape a vector with the desired dimension
- * @param path path to a file
+ * @tparam T Underlaying data type
+ * @param new_shape Final ndarray shape
+ * @param path Input file path
+ * @return ndarray<T> Resulting ndarray
  */
-
+// ToDo: https://en.cppreference.com/w/cpp/filesystem/path
 template <class T>
 ndarray<T> ndarray<T>::frombinary(std::vector<uint16_t> new_shape, std::string path)
 {
-    //this->shape = new_shape;
-
     std::ifstream file(path, std::ios::in | std::ios::binary);
     if (!file.is_open())
         throw "Can't open file. Some error occurred.";
@@ -94,8 +119,6 @@ ndarray<T> ndarray<T>::frombinary(std::vector<uint16_t> new_shape, std::string p
     */
     std::vector<T> vec(fileSize / sizeof(T));
     file.read(reinterpret_cast<char *>(vec.data()), vec.size() * sizeof(T));
-
-    //this->value = vec;
 
     return ndarray<T>(new_shape, vec);
 }
