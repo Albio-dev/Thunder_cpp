@@ -1,24 +1,27 @@
 #include "../ndarray.hpp"
+
 /**
- * @brief Clip values in an array above and below provided values
+ * @brief Clip ndarray above and below provided values
+ * and stores the result in place
  *
- * @param min_value min value to clip
- * @param max_value max value to clip
+ * @tparam T Underlaying data type
+ * @param min_value Minimum allowed value
+ * @param max_value Maximum allowed value
  */
 template <class T>
 void ndarray<T>::clip(const T &min_value, const T &max_value)
 {
-
     transform(std::begin(value), std::end(value), std::begin(value),
               [&](const T &v)
               { return std::clamp(v, min_value, max_value); });
 }
 
 /**
- * @brief Applied the supplied function to every element in matrix
+ * @brief Applies the supplied unary function to every element in matrix 
+ * and stores the result in place
  *
+ * @tparam T Underlaying data type
  * @param func Unary function
- * @return NDArray<T> Structure with result
  */
 template <class T>
 void ndarray<T>::map(T (*func)(T))
@@ -27,10 +30,11 @@ void ndarray<T>::map(T (*func)(T))
 }
 
 /**
- * @brief Applies a function which should evaluate to boolean, along the first axis
+ * @brief For every element evaluates a function to boolean and keeps the value when true
  *
- * @param func A function that accepts data of type NDArray<T>
- * @return NDArray<T> Filtered data
+ * @tparam T Underlaying data type
+ * @param func Unary boolean function
+ * @return ndarray<T> Values that evaluates to true
  */
 template <class T>
 ndarray<T> ndarray<T>::filter(bool (*func)(T))
@@ -45,13 +49,30 @@ ndarray<T> ndarray<T>::filter(bool (*func)(T))
     new_shape.push_back(output.size());
     return ndarray(new_shape, output);
 }
-
+/**
+ * @brief For every element evaluates a function to boolean on the supplied ndarray
+ * and keeps the value when true
+ *
+ * @tparam T Underlaying data type
+ * @param input input ndarray to filter
+ * @param func Unary boolean function
+ * @return ndarray<T> Values that evaluates to true
+ */
 template <class T>
 ndarray<T> ndarray<T>::filter(ndarray<T> input, bool (*func)(T))
 {
     return input.filter(func);
 }
 
+/**
+ * @brief Applies a function to the supplied ndarray. Evaluates along the first dimension
+ * e.g. ndarray [3, 2, 2] -> func([1, :, :]), func([2, :, :]), func([3, :, :])
+ *
+ * @tparam T Underlaying data type
+ * @param input input ndarray to apply the function to
+ * @param func Unary boolean function
+ * @return ndarray<T> Values that evaluates to true
+ */
 template <class T>
 ndarray<T> ndarray<T>::applyFunc(ndarray<T> input, std::function<T(ndarray<T>)> func)
 {
@@ -61,9 +82,11 @@ ndarray<T> ndarray<T>::applyFunc(ndarray<T> input, std::function<T(ndarray<T>)> 
     // Single dimension case
     if (input.getShape().size() == 1)
     {
+        // Was [n], reshape into [1, n]
         input.reshape({1, input.getShape()[0]});
     }
 
+    // Along the first dimension
     for (uint16_t i = 0; i < input.getShape()[0]; i++)
     {
         // Extract all other dimensions
@@ -72,7 +95,7 @@ ndarray<T> ndarray<T>::applyFunc(ndarray<T> input, std::function<T(ndarray<T>)> 
         if (temp.shape.size() != 1)
             temp.reshape({(uint16_t)(temp.shape[0] * temp.count())});
 
-        // Append maximum along those dimensions
+        // Append function result along those dimensions
         output_value.push_back(func(temp));
     }
     output_shape = {input.getShape()[0]};
@@ -81,11 +104,10 @@ ndarray<T> ndarray<T>::applyFunc(ndarray<T> input, std::function<T(ndarray<T>)> 
 }
 
 /**
- * @brief Returns a vector of max values.
- * If matrix is monodimensional returns a single max value, if there is more than a
- * dimension, it cycles through the first returning the maximum along all other dimensions.
+ * @brief Returns ndarray of max values
  *
- * @return NDArray<T> Structure containing the vector of maximum value(s)
+ * @tparam T Underlaying data type
+ * @return ndarray<T> Ndarray of maximum values
  */
 template <class T>
 ndarray<T> ndarray<T>::max()
@@ -93,18 +115,24 @@ ndarray<T> ndarray<T>::max()
     return applyFunc(*this, [](ndarray<T> a)
                      { return *max_element(a.begin(), a.end()); });
 }
+/**
+ * @brief Returns ndarray of max values of the supplied ndarray
+ *
+ * @tparam T Underlaying data type
+ * @param input Input ndarray
+ * @return ndarray<T> Ndarray of maximum values 
+ */
 template <class T>
- ndarray<T> ndarray<T>::max(ndarray<T> input)
+ndarray<T> ndarray<T>::max(ndarray<T> input)
 {
     return input.max();
 }
 
 /**
- * @brief Returns a vector of min values.
- * If matrix is monodimensional returns a single min value, if there is more than a
- * dimension, it cycles through the first returning the minimum along all other dimensions.
+ * @brief Returns ndarray of min values
  *
- * @return NDArray<T> Structure containing the vector of minimum value(s)
+ * @tparam T Underlaying data type
+ * @return ndarray<T> Ndarray of minimum values
  */
 template <class T>
 ndarray<T> ndarray<T>::min()
@@ -112,18 +140,24 @@ ndarray<T> ndarray<T>::min()
     return applyFunc(*this, [](ndarray<T> a)
                      { return *min_element(a.begin(), a.end()); });
 }
+/**
+ * @brief Returns ndarray of min values of the supplied ndarray
+ *
+ * @tparam T Underlaying data type
+ * @param input Input ndarray
+ * @return ndarray<T> Ndarray of minimum values
+ */
 template <class T>
- ndarray<T> ndarray<T>::min(ndarray<T> input)
+ndarray<T> ndarray<T>::min(ndarray<T> input)
 {
     return input.min();
 }
 
 /**
- * @brief Returns a vector of sum values.
- * If matrix is monodimensional returns a single sum value, if there is more than a
- * dimension, it cycles through the first returning the sum along all other dimensions.
+ * @brief Returns ndarray of sums of values
  *
- * @return NDArray<T> Structure containing the vector of sum value(s)
+ * @tparam T Underlaying data type
+ * @return ndarray<T> Ndarray of sums
  */
 template <class T>
 ndarray<T> ndarray<T>::sum()
@@ -131,18 +165,24 @@ ndarray<T> ndarray<T>::sum()
     return applyFunc(*this, [](ndarray<T> a)
                      { return accumulate(a.begin(), a.end(), 0.0); });
 }
+/**
+ * @brief Returns ndarray of sums of values of the supplied ndarray
+ *
+ * @tparam T Underlaying data type
+ * @param input Input ndarray
+ * @return ndarray<T> Ndarray of sums
+ */
 template <class T>
- ndarray<T> ndarray<T>::sum(ndarray<T> input)
+ndarray<T> ndarray<T>::sum(ndarray<T> input)
 {
     return input.sum();
 }
 
 /**
- * @brief Returns a vector of mean values.
- * If matrix is monodimensional returns a single mean value, if there is more than a
- * dimension, it cycles through the first returning the mean along all other dimensions.
+ * @brief Returns ndarray of mean values
  *
- * @return NDArray<T> Structure containing the vector of mean value(s)
+ * @tparam T Underlaying data type
+ * @return ndarray<T> Ndarray of means
  */
 template <class T>
 ndarray<T> ndarray<T>::mean()
@@ -150,6 +190,13 @@ ndarray<T> ndarray<T>::mean()
     return applyFunc(*this, [](ndarray<T> a)
                      { return a.sum()[0] / a.count(); });
 }
+/**
+ * @brief Returns ndarray of mean values of the supplied ndarray
+ *
+ * @tparam T Underlaying data type
+ * @param input Input ndarray
+ * @return ndarray<T> Ndarray of means
+ */
 template <class T>
  ndarray<T> ndarray<T>::mean(ndarray<T> input)
 {
@@ -157,13 +204,11 @@ template <class T>
 }
 
 /**
- * @brief Returns a vector of standard deviation values.
- * If matrix is monodimensional returns a single standard deviation value, if there is more than a
- * dimension, it cycles through the first returning the standard deviation along all other dimensions.
+ * @brief Returns ndarray of standard deviation values
  *
- * @return NDArray<T> Structure containing the vector of standard deviation value(s)
+ * @tparam T Underlaying data type
+ * @return ndarray<T> Ndarray of standard deviations
  */
-
 template <class T>
 ndarray<T> ndarray<T>::std()
 {
@@ -176,18 +221,24 @@ ndarray<T> ndarray<T>::std()
             }
             return sqrt(total / a.count()); });
 }
+/**
+ * @brief Returns ndarray of standard deviation values of the supplied ndarray
+ *
+ * @tparam T Underlaying data type
+ * @param input Input ndarray
+ * @return ndarray<T> Ndarray of standard deviations
+ */
 template <class T>
- ndarray<T> ndarray<T>::std(ndarray<T> input)
+ndarray<T> ndarray<T>::std(ndarray<T> input)
 {
     return input.std();
 }
 
 /**
- * @brief Returns a vector of variance values.
- * If matrix is monodimensional returns a single variance value, if there is more than a
- * dimension, it cycles through the first returning the variance along all other dimensions.
+ * @brief Returns ndarray of variance values
  *
- * @return NDArray<T> Structure containing the vector of variance value(s)
+ * @tparam T Underlaying data type
+ * @return ndarray<T> Ndarray of variances
  */
 template <class T>
 ndarray<T> ndarray<T>::var()
@@ -201,8 +252,15 @@ ndarray<T> ndarray<T>::var()
             }
             return (total / a.count()); });
 }
+/**
+ * @brief Returns ndarray of variance values of the supplied ndarray
+ *
+ * @tparam T Underlaying data type
+ * @param input Input ndarray
+ * @return ndarray<T> Ndarray of variances
+ */
 template <class T>
- ndarray<T> ndarray<T>::var(ndarray<T> input)
+ndarray<T> ndarray<T>::var(ndarray<T> input)
 {
     return input.var();
 }

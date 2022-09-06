@@ -85,85 +85,28 @@ class ndarray{
     [[nodiscard]] static ndarray<T> fromarray(std::vector<uint16_t> shape, std::vector<T> input);
     [[nodiscard]] static ndarray<T> fromarray(std::vector<T> input);
 
-    /**
-     * @brief Clip values in an array above and below provided values
-     *
-     * @param min_value min value to clip
-     * @param max_value max value to clip
-     */
+    // Functions
+    // In place
     void clip(const T &min_value, const T &max_value);
-    /**
-     * @brief Applied the supplied function to every element in matrix
-     *
-     * @param func Unary function
-     * @return ndarray<T> Structure with result
-     */
     void map(T (*func)(T));
 
-    /**
-     * @brief Applies a function which should evaluate to boolean, along the first axis
-     *
-     * @param func A function that accepts data of type ndarray<T>
-     * @return ndarray<T> Filtered data
-     */
-    ndarray<T> filter(bool (*func)(T));
-    ndarray<T> filter(ndarray<T> input, bool (*func)(T));
-    ndarray<T> applyFunc(ndarray<T> input, std::function<T(ndarray<T>)> func);
-    /**
-     * @brief Returns a vector of max values.
-     * If matrix is monodimensional returns a single max value, if there is more than a
-     * dimension, it cycles through the first returning the maximum along all other dimensions.
-     *
-     * @return ndarray<T> Structure containing the vector of maximum value(s)
-     */
-    ndarray<T> max();
-    static ndarray<T> max(ndarray<T> input);
-    /**
-     * @brief Returns a vector of min values.
-     * If matrix is monodimensional returns a single min value, if there is more than a
-     * dimension, it cycles through the first returning the minimum along all other dimensions.
-     *
-     * @return ndarray<T> Structure containing the vector of minimum value(s)
-     */
-    ndarray<T> min();
-    static ndarray<T> min(ndarray<T> input);
-    /**
-     * @brief Returns a vector of sum values.
-     * If matrix is monodimensional returns a single sum value, if there is more than a
-     * dimension, it cycles through the first returning the sum along all other dimensions.
-     *
-     * @return ndarray<T> Structure containing the vector of sum value(s)
-     */
-    ndarray<T> sum();
-    static ndarray<T> sum(ndarray<T> input);
-    /**
-     * @brief Returns a vector of mean values.
-     * If matrix is monodimensional returns a single mean value, if there is more than a
-     * dimension, it cycles through the first returning the mean along all other dimensions.
-     *
-     * @return ndarray<T> Structure containing the vector of mean value(s)
-     */
-    ndarray<T> mean();
-    static ndarray<T> mean(ndarray<T> input);
-    /**
-     * @brief Returns a vector of standard deviation values.
-     * If matrix is monodimensional returns a single standard deviation value, if there is more than a
-     * dimension, it cycles through the first returning the standard deviation along all other dimensions.
-     *
-     * @return ndarray<T> Structure containing the vector of standard deviation value(s)
-     */
+    // Returning
+    [[nodiscard]] ndarray<T> filter(bool (*func)(T));
+    [[nodiscard]] ndarray<T> filter(ndarray<T> input, bool (*func)(T));
 
-    ndarray<T> std();
-    static ndarray<T> std(ndarray<T> input);
-    /**
-     * @brief Returns a vector of variance values.
-     * If matrix is monodimensional returns a single variance value, if there is more than a
-     * dimension, it cycles through the first returning the variance along all other dimensions.
-     *
-     * @return ndarray<T> Structure containing the vector of variance value(s)
-     */
-    ndarray<T> var();
-    static ndarray<T> var(ndarray<T> input);
+    [[nodiscard]] ndarray<T> applyFunc(ndarray<T> input, std::function<T(ndarray<T>)> func);
+    [[nodiscard]] ndarray<T> max();
+    [[nodiscard]] static ndarray<T> max(ndarray<T> input);
+    [[nodiscard]] ndarray<T> min();
+    [[nodiscard]] static ndarray<T> min(ndarray<T> input);
+    [[nodiscard]] ndarray<T> sum();
+    [[nodiscard]] static ndarray<T> sum(ndarray<T> input);
+    [[nodiscard]] ndarray<T> mean();
+    [[nodiscard]] static ndarray<T> mean(ndarray<T> input);
+    [[nodiscard]] ndarray<T> std();
+    [[nodiscard]] static ndarray<T> std(ndarray<T> input);
+    [[nodiscard]] ndarray<T> var();
+    [[nodiscard]] static ndarray<T> var(ndarray<T> input);
 
 };
 
