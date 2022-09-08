@@ -10,7 +10,14 @@ class Series: public ndarray<T>{
 
     friend class ndarray<T>;
 
+    /**
+     * @brief Construct a new Series object
+     * 
+     * @param shape Series shape    
+     * @param input Input data vector
+     */
     Series(std::vector<uint16_t> shape, std::vector<T> input) : ndarray<T>(shape, input){}
+
 public:
     /**
      * @brief Utility to prepare the matrix for processing by base functions
@@ -37,7 +44,6 @@ public:
     }
 
 
-
     
     T getPosition(std::vector<uint16_t> indexes) {
 
@@ -45,27 +51,34 @@ public:
         return NULL;
     }
 
+    /**
+     * @brief Wrapper of the constructor from a vector
+     * 
+     * @param shape Shape of the desired series object
+     * @param input Input data vector
+     * @return Series<T> Resulting series object
+     */
     static Series<T> fromarray(std::vector<uint16_t> shape, std::vector<T> input)
     {
         return Series<T>(shape, input);
     }
 
-    /** @brief The only use of this class is for auto instancing these three default values to a standard. Then call
-     * subclass constructor to create the real values
+    /** @brief Return an example series object with random values
      *
-     * @param shape a vector with the desired dimension
+     * @param shape a vector with the desired dimensions
      * @param seed seed value for the random function
+     * @return Series<T> Resulting series object
      */
     static Series<T> fromrandom(std::vector<uint16_t> shape = {100, 10}, int seed = 42)
     {
         return static_cast<Series<T>>(ndarray<T>::fromrandom(shape, seed));
     }
 
-    /** @brief Loads series data from text files. Assumes data are formatted as rows,
-     * where each record is a row of numbers separated by spaces e.g. 'v v v v v'.
-     * You can optionally specify a fixed number of initial items per row to skip / discard.
+    /**
+     * @brief Loads data from text files. Assumes data is formatted by rows with spaced elements
      *
-     *
+     * @param path Path to file to read
+     * @return Series<T> Resulting series object
      */
     static Series<T> fromtext(std::string path)
     {
@@ -104,12 +117,16 @@ public:
     /** @brief Construct this class with a default base series from random.
      *
      */
+
+    /**
+     * @brief Return an example series object with random values
+     *
+     * @return Series<T> Resulting series object
+     */
     static Series<T> fromexample()
     {
         return fromrandom({25}, 42);
     }
-
-    
 
     /**
      * @brief Counts how many least-dimensioned elements there are. 
@@ -129,7 +146,12 @@ public:
         return output;
     }
 
-
+    /**
+     * @brief Filter function wrapper from ndarray
+     * 
+     * @param func Boolean function to use as filter
+     * @return Series<T> Resulting series object
+     */
     Series<T> filter(bool (*func)(T)){
         return static_cast<Series<T>>(ndarray<T>::filter(prepareMat(), func));
     }
