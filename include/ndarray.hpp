@@ -24,13 +24,11 @@ class ndarray{
     ndarray(std::vector<std::uint16_t> lengths, T *values);    
     ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values);
 
-
     public:
     // Converters
     explicit operator Images<T>();
     explicit operator Series<T>();
     
-
     // Operator overload
     template <class OP, class K>
     [[nodiscard]] ndarray<T> element_wise(const ndarray<K> other, OP op) const;

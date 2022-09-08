@@ -39,7 +39,7 @@ Noto ora che sul sito fanno scaricare i binari da http://cimg.eu/download.html i
 o cose simili ..... AH per migliorare il tutto il link della libreria portabile non funziona
 
 implementate tutte le funzioni base e cominciato a portarle nelle classi figlie
-problema tipo. quando dalla classe figlia di chiama la classe base passando la classe figlia nessun problema (downcasting) ma quando bisogna accettare il risultato della classe padre e trasformarlo in una classe figlia si rompe di brutto (upcasting). soluzione: implementato nella classe figlia l'operatore di conversione che è anche molto semplice, ma c++ da solo non era capace di gestirlo
+problema tipo. quando dalla classe figlia di chiama la classe base passando la classe figlia nessun problema (downcasting) ma quando bisogna accettare il risultato della classe padre e trasformarlo in una classe figlia si rompe di brutto (upcasting). soluzione: implementato nella classe figlia l'operatore di conversione che è anche molto semplice, ma c++ da solo non era capace di gestirlo e dichiarato classe padre friend per poterli usare nei metodi delle classi figlie
 grosso problema nel calcolo di varianza e deviazione standard per incongruenze del metodo di calcolo tra thunder e il nostro (differenza nella geometria dell'input)
 
 libreria libpng-dev, libjpeg-dev, libtiff-dev e lcov

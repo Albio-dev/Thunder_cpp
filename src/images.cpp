@@ -12,6 +12,12 @@ class Images : public ndarray<T>
 
     friend class ndarray<T>;
 
+    /**
+     * @brief Construct a new Images object by converting an ndarray object
+     * 
+     * @param shape Shape of the image object
+     * @param input Vector of input data
+     */
     Images(std::vector<uint16_t> shape, std::vector<T> input) : ndarray<T>(shape, input) {
         if (shape.size() < 2)
             throw "Image item must have at least 2 dimensions, got 1";
@@ -19,18 +25,25 @@ class Images : public ndarray<T>
 
 public:
 
-    static Images<T> fromArray(std::vector<uint16_t> shape, std::vector<T> input)
+    /**
+     * @brief Wrapper of the costructor from an input vector
+     * 
+     * @param shape Desired shape of the data
+     * @param input Data vector
+     * @return Images<T> Resulting images object
+     */
+    [[nodiscard]] static Images<T> fromArray(std::vector<uint16_t> shape, std::vector<T> input)
     {
         return Images<T>(shape, input);
     }
-
 
     /** @brief Construct class with an example image.
      * Default is "dot1_grey.png", usable images are: "dot2_grey.png" and "dot3_grey.png".
      *
      * @param image_name filename that is in /data folder
+     * @return Images<T> Resulting images object
      */
-    static Images<T> fromexample(std::string image_name = "dot1_grey.png") {
+    [[nodiscard]] static Images<T> fromexample(std::string image_name = "dot1_grey.png") {
         return frompng("../data/" + image_name);
     }
 
@@ -38,8 +51,9 @@ public:
      * call the correct function. Default file type is a binary file
      *
      * @param path path to file
+     * @return Images<T> Resulting images object
      */
-    static Images<T> frompath(std::string path){
+    [[nodiscard]] static Images<T> frompath(std::string path){
         cimg_library::CImg<float> img;
         try {
             img.load(path.c_str());
@@ -51,7 +65,7 @@ public:
         std::vector<uint16_t> shape = {(unsigned short int)img.width(), (unsigned short int)img.height(), 3};
         for(int i=0; i < img.width(); i++){
             for(int j=0; j < img.width(); j++){
-                output.push_back(img(i, j, 0, 0));      // R
+                output.push_back(img(i, j, 0, 0)); // R
                 output.push_back(img(i, j, 0, 1)); // G
                 output.push_back(img(i, j, 0, 2)); // B
             }
@@ -63,30 +77,43 @@ public:
     /** @brief Read a tif image and load data to Image<T>
      *
      * @param path path to .tif file
+     * @return Images<T> Resulting images object
      */
-    static Images<T> fromtif(std::string path) {
+    [[nodiscard]] static Images<T> fromtif(std::string path)
+    {
         return frompath(path);
     }
 
     /** @brief Read a png image and load data to Image<T>
      *
      * @param path path to .png file
+     * @return Images<T> Resulting images object
      */
-    static Images<T> frompng(std::string path) {
+    [[nodiscard]] static Images<T> frompng(std::string path)
+    {
         return frompath(path);
     }
 
-    /** @brief The only use of this class is for auto instancing these three default values to a standard. Then call
-     * subclass constructor to create the real values
+    /** @brief Create image object with random values
      *
      * @param shape a vector with the desired dimension
      * @param seed seed value for the random function
+     * @return Images<T> Resulting images object
      */
-    static Images<T> fromrandom(std::vector<uint16_t> shape = {10, 50, 50}, int seed = 42) {
+    [[nodiscard]] static Images<T> fromrandom(std::vector<uint16_t> shape = {10, 50, 50}, int seed = 42)
+    {
         return ndarray<T>::fromrandom(shape, seed);
     }
-    
-    bool has_suffix(const std::string &str, const std::string &suffix)
+
+    /**
+     * @brief 
+     * 
+     * @param str 
+     * @param suffix 
+     * @return true 
+     * @return false 
+     */
+    [[nodiscard]] bool has_suffix(const std::string &str, const std::string &suffix)
     {
         return str.size() >= suffix.size() &&
                str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
@@ -99,7 +126,7 @@ public:
      *
      * @return NDArray<T> Square matrix transposed. Collapses all dimensions and then last 2.
      */
-    ndarray<T> prepareMat() {
+    [[nodiscard]] ndarray<T> prepareMat() {
 
         // Saving previous dimensions for restoring them later
         std::vector<uint16_t> old_shape = ndarray<T>::getShape();
@@ -110,8 +137,6 @@ public:
 
         // Get the transpose
         ndarray<T> temp = ndarray<T>::transpose(*this);
-
-
 
         // Restore old dimensions
         ndarray<T>::reshape(old_shape);
@@ -125,7 +150,8 @@ public:
      *
      * @return int Number of elements
      */
-    int count() {
+    [[nodiscard]] int count()
+    {
 
         int output = 1;
 
@@ -137,7 +163,14 @@ public:
         return output;
     }
 
-    Images<T> filter(bool (*func)(T)) {
+    /**
+     * @brief Filter wrapper from ndarray.
+     *
+     * @param func Boolean function to use as filter
+     * @return Images<T> Resulting images object
+     */
+    [[nodiscard]] Images<T> filter(bool (*func)(T))
+    {
         return static_cast<Images<T>>(ndarray<T>::filter(prepareMat(), func));
     }
 
@@ -147,7 +180,7 @@ public:
      *
      * @return Images<T> Contains maximum 2D matrix
      */
-    Images<T> max() {
+    [[nodiscard]] Images<T> max() {
         return static_cast<Images<T>>(ndarray<T>::max(prepareMat()));
     }
 
@@ -157,7 +190,7 @@ public:
      *
      * @return Images<T> Contains minimum 2D matrix
      */
-    Images<T> min() {
+    [[nodiscard]] Images<T> min() {
         return static_cast<Images<T>>(ndarray<T>::min(prepareMat()));
     }
 
@@ -167,7 +200,7 @@ public:
      *
      * @return Images<T> Contains sum of 2D matrices
      */
-    Images<T> sum() {
+    [[nodiscard]] Images<T> sum() {
         return static_cast<Images<T>>(ndarray<T>::sum(prepareMat()));
     }
 
@@ -177,7 +210,7 @@ public:
      *
      * @return Images<T> Contains mean of 2D matrices
      */
-    Images<T> mean() {
+    [[nodiscard]] Images<T> mean() {
         return static_cast<Images<T>>(ndarray<T>::mean(prepareMat()));
     }
 
@@ -187,7 +220,7 @@ public:
      *
      * @return Series<T> Serie of standard deviations
      */
-    Images<T> std() {
+    [[nodiscard]] Images<T> std() {
         return static_cast<Images<T>>(ndarray<T>::std(prepareMat()));
     }
 
@@ -197,7 +230,7 @@ public:
      *
      * @return Series<T> Serie of variances
      */
-    Images<T> var() {
+    [[nodiscard]] Images<T> var() {
         return static_cast<Images<T>>(ndarray<T>::var(prepareMat()));
     }
 };
