@@ -6,7 +6,6 @@
 
 template<class T>
 class Series: public ndarray<T>{
-    //Series() = default;
 
     friend class ndarray<T>;
 
@@ -26,7 +25,7 @@ public:
      *
      * @return NDArray<T> Square matrix transposed. Collapses all dimensions except last.
      */
-    ndarray<T> prepareMat()
+    [[nodiscard]] ndarray<T> prepareMat()
     {
 
         // Saving previous dimensions for restoring them later
@@ -45,7 +44,7 @@ public:
 
 
     
-    T getPosition(std::vector<uint16_t> indexes) {
+    [[nodiscard]] T getPosition(std::vector<uint16_t> indexes) {
 
         ndarray<T>::getPosition(indexes);
         return NULL;
@@ -58,7 +57,7 @@ public:
      * @param input Input data vector
      * @return Series<T> Resulting series object
      */
-    static Series<T> fromarray(std::vector<uint16_t> shape, std::vector<T> input)
+    [[nodiscard]] static Series<T> fromarray(std::vector<uint16_t> shape, std::vector<T> input)
     {
         return Series<T>(shape, input);
     }
@@ -69,7 +68,7 @@ public:
      * @param seed seed value for the random function
      * @return Series<T> Resulting series object
      */
-    static Series<T> fromrandom(std::vector<uint16_t> shape = {100, 10}, int seed = 42)
+    [[nodiscard]] static Series<T> fromrandom(std::vector<uint16_t> shape = {100, 10}, int seed = 42)
     {
         return static_cast<Series<T>>(ndarray<T>::fromrandom(shape, seed));
     }
@@ -80,7 +79,7 @@ public:
      * @param path Path to file to read
      * @return Series<T> Resulting series object
      */
-    static Series<T> fromtext(std::string path)
+    [[nodiscard]] static Series<T> fromtext(std::string path)
     {
         std::vector<T> output;
         std::string line;
@@ -123,7 +122,7 @@ public:
      *
      * @return Series<T> Resulting series object
      */
-    static Series<T> fromexample()
+    [[nodiscard]] static Series<T> fromexample()
     {
         return fromrandom({25}, 42);
     }
@@ -134,7 +133,7 @@ public:
      * 
      * @return int Number of least dimensioned elements
      */
-    int count(){
+    [[nodiscard]] int count(){
         
         int output = 1;
 
@@ -152,7 +151,7 @@ public:
      * @param func Boolean function to use as filter
      * @return Series<T> Resulting series object
      */
-    Series<T> filter(bool (*func)(T)){
+    [[nodiscard]] Series<T> filter(bool (*func)(T)){
         return static_cast<Series<T>>(ndarray<T>::filter(prepareMat(), func));
     }
     /**
@@ -161,7 +160,7 @@ public:
      * 
      * @return Series<T> Serie of max elements 
      */
-    Series<T> max()
+    [[nodiscard]] Series<T> max()
     {
         return static_cast<Series<T>>(ndarray<T>::max(prepareMat()));
     }
@@ -171,7 +170,7 @@ public:
      * 
      * @return Series<T> Serie of min elements 
      */
-    Series<T> min()
+    [[nodiscard]] Series<T> min()
     {
         return static_cast<Series<T>>(ndarray<T>::min(prepareMat()));
     }
@@ -181,7 +180,7 @@ public:
      * 
      * @return Series<T> Serie of sum elements 
      */
-    Series<T> sum()
+    [[nodiscard]] Series<T> sum()
     {
         return static_cast<Series<T>>(ndarray<T>::sum(prepareMat()));
     }
@@ -191,7 +190,7 @@ public:
      * 
      * @return Series<T> Serie of means 
      */
-    Series<T> mean()
+    [[nodiscard]] Series<T> mean()
     {
         return static_cast<Series<T>>(ndarray<T>::mean(prepareMat()));
     }
@@ -201,7 +200,7 @@ public:
      *
      * @return Series<T> Serie of standard deviations
      */
-    Series<T> std()
+    [[nodiscard]] Series<T> std()
     {
         return static_cast<Series<T>>(ndarray<T>::std(prepareMat()));
     }
@@ -211,7 +210,7 @@ public:
      *
      * @return Series<T> Serie of variances
      */
-    Series<T> var()
+    [[nodiscard]] Series<T> var()
     {
         return static_cast<Series<T>>(ndarray<T>::var(prepareMat()));
     }
