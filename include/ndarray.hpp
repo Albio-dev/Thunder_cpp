@@ -5,6 +5,8 @@
 #include <functional>
 #include <iostream>
 #include <list>
+#include <deque>
+#include <forward_list>
 #include <random>
 #include <type_traits>
 
@@ -75,17 +77,22 @@ class ndarray{
     
     // Initializers
     [[nodiscard]] static ndarray<T> fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42);
-    [[nodiscard]] static ndarray<T> fromlist(std::list<T> l = {});
-
     [[nodiscard]] static ndarray<T> frombinary(std::vector<uint16_t> new_shape, std::string path);
 
     [[nodiscard]] static ndarray<T> fromarray(std::vector<uint16_t> shape, T *input);
-    [[nodiscard]] static ndarray<T> fromarray(std::vector<uint16_t> shape, std::vector<T> input);
-    [[nodiscard]] static ndarray<T> fromarray(std::vector<T> input);
+    [[nodiscard]] static ndarray<T> fromlist(std::vector<uint16_t> shape, std::list<T> l = {});
+    [[nodiscard]] static ndarray<T> fromlist(std::list<T> l = {});
+    [[nodiscard]] static ndarray<T> fromvector(std::vector<uint16_t> shape, std::vector<T> input);
+    [[nodiscard]] static ndarray<T> fromvector(std::vector<T> input);
+    [[nodiscard]] static ndarray<T> fromdeque(std::vector<uint16_t> shape, std::deque<T> input);
+    [[nodiscard]] static ndarray<T> fromdeque(std::deque<T> input);
+    [[nodiscard]] static ndarray<T> fromforward_list(std::vector<uint16_t> shape, std::forward_list<T> input);
+    [[nodiscard]] static ndarray<T> fromforward_list(std::forward_list<T> input);
 
     // Functions
     // In place
-    void clip(const T &min_value, const T &max_value);
+    void
+    clip(const T &min_value, const T &max_value);
     void map(T (*func)(T));
 
     // Returning

@@ -26,7 +26,25 @@ ndarray<T> ndarray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
 }
 
 /**
- * @brief Creates an ndarray from a given list
+ * @brief Creates an ndarray from a C-style array with a given shape
+ *
+ * @tparam T Underlaying data type
+ * @param shape Final ndarray shape
+ * @param input Input array
+ * @return ndarray<T> Resulting ndarray
+ */
+template <class T>
+ndarray<T> ndarray<T>::fromarray(std::vector<uint16_t> shape, T *input)
+{
+    // Multiplies all elements in lengths together
+    uint16_t values_length = 1;
+    for (auto i : shape)
+        values_length *= i;
+    return ndarray<T>(shape, {input, input + values_length});
+}
+
+/**
+ * @brief Creates an ndarray from a given list. Assumes 1 by list size
  *
  * @tparam T Underlaying data type
  * @param l Input list
@@ -38,23 +56,32 @@ ndarray<T> ndarray<T>::fromlist(std::list<T> l)
     if (l.size() == 0)
         throw "List empty. Need to have a non empty list assigned.";
 
-    std::vector<T> output;
-    output.reserve(l.size());
-    output.assign(l.begin(), l.end());
-
-    return ndarray<T>({l.size()}, output);
+    return fromvector({l.size()}, {l.begin(), l.end()});
 }
 
 /**
- * @brief Creates an ndarray from a given vector
+ * @brief Creates an ndarray from a given list and with given shape
+ *
+ * @tparam T Underlaying data type
+ * @param l Input list
+ * @return ndarray<T> Resulting ndarray
+ */
+template <class T>
+ndarray<T> ndarray<T>::fromlist(std::vector<uint16_t> shape, std::list<T> l)
+{
+    return fromvector(shape, {l.begin(), l.end()});
+}
+
+/**
+ * @brief Creates an ndarray from a given vector. Supposes 1 by vector length
  *
  * @tparam T Underlaying data type
  * @param input Input vector
- * @return ndarray<T> Resulting ndarray 1 by vector length
+ * @return ndarray<T> Resulting ndarray
  */
 template <class T>
-ndarray<T> ndarray<T>::fromarray(std::vector<T> input){
-    return ndarray<T>({static_cast<uint16_t>(input.size())}, input);
+ndarray<T> ndarray<T>::fromvector(std::vector<T> input){
+    return fromvector({static_cast<uint16_t>(input.size())}, input);
 }
 /**
  * @brief Creates an ndarray from a given vector with a given shape
@@ -65,23 +92,64 @@ ndarray<T> ndarray<T>::fromarray(std::vector<T> input){
  * @return ndarray<T> Resulting ndarray
  */
 template <class T>
-ndarray<T> ndarray<T>::fromarray(std::vector<uint16_t> shape, std::vector<T> input)
+ndarray<T> ndarray<T>::fromvector(std::vector<uint16_t> shape, std::vector<T> input)
 {
     return ndarray<T>(shape, input);
 }
+
 /**
- * @brief Creates an ndarray from a C array with a given shape
+ * @brief Creates an ndarray from a given dequeue. Supposes 1 by vector length
  *
  * @tparam T Underlaying data type
- * @param shape Final ndarray shape
- * @param input Input array
+ * @param input Input dequeue
  * @return ndarray<T> Resulting ndarray
  */
 template <class T>
-ndarray<T> ndarray<T>::fromarray(std::vector<uint16_t> shape, T* input)
+ndarray<T> ndarray<T>::fromdeque(std::deque<T> input)
 {
-    return ndarray<T>(shape, input);
+    return fromvector({static_cast<uint16_t>(input.size())}, {input.begin(), input.end()});
 }
+/**
+ * @brief Creates an ndarray from a given dequeue with a given shape
+ *
+ * @tparam T Underlaying data type
+ * @param shape Final ndarray shape
+ * @param input Input dequeue
+ * @return ndarray<T> Resulting ndarray
+ */
+template <class T>
+ndarray<T> ndarray<T>::fromdeque(std::vector<uint16_t> shape, std::deque<T> input)
+{
+    return fromvector(shape, {input.begin(), input.end()});
+}
+
+/**
+ * @brief Creates an ndarray from a given forward_list. Supposes 1 by vector length
+ *
+ * @tparam T Underlaying data type
+ * @param input Input forward_list
+ * @return ndarray<T> Resulting ndarray
+ */
+template <class T>
+ndarray<T> ndarray<T>::fromforward_list(std::forward_list<T> input)
+{
+    return fromvector({static_cast<uint16_t>(input.size())}, {input.begin(), input.end()});
+}
+/**
+ * @brief Creates an ndarray from a given forward_list with a given shape
+ *
+ * @tparam T Underlaying data type
+ * @param shape Final ndarray shape
+ * @param input Input forward_list
+ * @return ndarray<T> Resulting ndarray
+ */
+template <class T>
+ndarray<T> ndarray<T>::fromforward_list(std::vector<uint16_t> shape, std::forward_list<T> input)
+{
+    return fromvector(shape, {input.begin(), input.end()});
+}
+
+
 
 /**
  * @brief Read file and writes it directly into ndarray
