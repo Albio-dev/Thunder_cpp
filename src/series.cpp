@@ -50,16 +50,119 @@ public:
         return NULL;
     }
 
-    /**
-     * @brief Wrapper of the constructor from a vector
-     * 
-     * @param shape Shape of the desired series object
-     * @param input Input data vector
-     * @return Series<T> Resulting series object
+        /**
+     * @brief Creates an Series from a C-style array with a given shape
+     *
+     * @tparam T Underlaying data type
+     * @param shape Final ndarray shape
+     * @param input Input array
+     * @return Series<T> Resulting Series
      */
-    [[nodiscard]] static Series<T> fromarray(std::vector<uint16_t> shape, std::vector<T> input)
+    [[nodiscard]] static Series<T> fromarray(std::vector<uint16_t> shape, T *input)
     {
-        return Series<T>(shape, input);
+        // Multiplies all elements in lengths together
+        uint16_t values_length = 1;
+        for (auto i : shape)
+            values_length *= i;
+        return fromvector(shape, {input, input + values_length});
+    }
+
+    /**
+     * @brief Creates an Series from a given list. Assumes 1 by list size
+     *
+     * @tparam T Underlaying data type
+     * @param l Input list
+     * @return Series<T> Resulting Series 1 by list length
+     */
+    [[nodiscard]] static Series<T> fromlist(std::list<T> l)
+    {
+        if (l.size() == 0)
+            throw "List empty. Need to have a non empty list assigned.";
+
+        return fromvector({l.size()}, {l.begin(), l.end()});
+    }
+
+    /**
+     * @brief Creates an Series from a given list and with given shape
+     *
+     * @tparam T Underlaying data type
+     * @param l Input list
+     * @return Series<T> Resulting Series
+     */
+    [[nodiscard]] static Series<T> fromlist(std::vector<uint16_t> shape, std::list<T> l)
+    {
+        return fromvector(shape, {l.begin(), l.end()});
+    }
+
+    /**
+     * @brief Creates an Series from a given vector. Supposes 1 by vector length
+     *
+     * @tparam T Underlaying data type
+     * @param input Input vector
+     * @return Series<T> Resulting Series
+     */
+    [[nodiscard]] static Series<T> fromvector(std::vector<T> input)
+    {
+        return fromvector({static_cast<uint16_t>(input.size())}, input);
+    }
+    /**
+     * @brief Wrapper of the costructor from an input vector
+     *
+     * @param shape Desired shape of the data
+     * @param input Data vector
+     * @return Series<T> Resulting Series object
+     */
+    [[nodiscard]] static Series<T> fromvector(std::vector<uint16_t> shape, std::vector<T> input)
+    {
+        return Series(shape, input);
+    }
+
+    /**
+     * @brief Creates an Series from a given dequeue. Supposes 1 by vector length
+     *
+     * @tparam T Underlaying data type
+     * @param input Input dequeue
+     * @return Series<T> Resulting Series
+     */
+    [[nodiscard]] static Series<T> fromdeque(std::deque<T> input)
+    {
+        return fromvector({static_cast<uint16_t>(input.size())}, {input.begin(), input.end()});
+    }
+    /**
+     * @brief Creates an Series from a given dequeue with a given shape
+     *
+     * @tparam T Underlaying data type
+     * @param shape Final Series shape
+     * @param input Input dequeue
+     * @return Series<T> Resulting Series
+     */
+    [[nodiscard]] static Series<T> fromdeque(std::vector<uint16_t> shape, std::deque<T> input)
+    {
+        return fromvector(shape, {input.begin(), input.end()});
+    }
+
+    /**
+     * @brief Creates an Series from a given forward_list. Supposes 1 by vector length
+     *
+     * @tparam T Underlaying data type
+     * @param input Input forward_list
+     * @return Series<T> Resulting Series
+     */
+    [[nodiscard]] static Series<T> fromforward_list(std::forward_list<T> input)
+    {
+        return fromvector({static_cast<uint16_t>(input.size())}, {input.begin(), input.end()});
+    }
+    /**
+     * @brief Creates an Series from a given forward_list with a given shape
+     *
+     * @tparam T Underlaying data type
+     * @param shape Final Series shape
+     * @param input Input forward_list
+     * @return Series<T> Resulting Series
+     */
+    [[nodiscard]] static Series<T> fromforward_list(std::vector<uint16_t> shape, std::forward_list<T> input)
+    {
+        return fromvector(shape, {input.begin(), input.end()});
     }
 
     /** @brief Return an example series object with random values
