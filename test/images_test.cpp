@@ -3,21 +3,21 @@
 TEST_CASE("Prepare mat function test images", "[PrepareMat")
 {
 
-    Images<int> a = Images<int>::fromArray({3, 2}, {1, 2, 3, 4, 5, 6});
+    Images<int> a = Images<int>::fromvector({3, 2}, {1, 2, 3, 4, 5, 6});
     ndarray<int> output = a.prepareMat();
 
     for (uint16_t i = 0; i < output.size(); i++){
         REQUIRE(output[i] == a[i]);
     }
 
-    a = Images<int>::fromArray({2, 3, 2}, {1, 2,
-                                3, 4,
-                                5, 6,
+    a = Images<int>::fromvector({2, 3, 2}, {1, 2,
+                                            3, 4,
+                                            5, 6,
 
-                                7, 8,
-                                9, 10,
-                                11, 12});
-    Images<int> b = Images<int>::fromArray({6, 2}, {1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12});
+                                            7, 8,
+                                            9, 10,
+                                            11, 12});
+    Images<int> b = Images<int>::fromvector({6, 2}, {1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12});
     output = a.prepareMat();
 
     REQUIRE(output.getShape() == b.getShape());
@@ -31,25 +31,25 @@ TEST_CASE("Prepare mat function test images", "[PrepareMat")
 TEST_CASE("Count function test images", "[Count]")
 {
 
-    Images<int> a = Images<int>::fromArray({1, 2}, {1, 1});
+    Images<int> a = Images<int>::fromvector({1, 2}, {1, 1});
     REQUIRE(a.count() == 1);
 
-    a = Images<int>::fromArray({2, 1}, {1, 1});
+    a = Images<int>::fromvector({2, 1}, {1, 1});
     REQUIRE(a.count() == 1);
 
-    a = Images<int>::fromArray({5, 1}, {1, 1, 1, 1, 1});
+    a = Images<int>::fromvector({5, 1}, {1, 1, 1, 1, 1});
     REQUIRE(a.count() == 1);
 
-    a = Images<int>::fromArray({3, 2, 3}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+    a = Images<int>::fromvector({3, 2, 3}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
     REQUIRE(a.count() == 3);
 
-    REQUIRE_THROWS(Images<int>::fromArray({5}, {1, 1, 1, 1, 1}));
+    REQUIRE_THROWS(Images<int>::fromvector({5}, {1, 1, 1, 1, 1}));
 }
 
 TEST_CASE("Filter function usage images", "[Filter]")
 {
 
-    Images<int> a = Images<int>::fromArray({5, 1}, {1, 2, 3, 4, 5});
+    Images<int> a = Images<int>::fromvector({5, 1}, {1, 2, 3, 4, 5});
 
     // Test nothing left
 
@@ -71,7 +71,7 @@ TEST_CASE("Filter function usage images", "[Filter]")
 TEST_CASE("Max function usage images", "[Max]")
 {
 
-    Images<int> a = Images<int>::fromArray({6, 1}, {1, 2, 3, 4, 5, 6});
+    Images<int> a = Images<int>::fromvector({6, 1}, {1, 2, 3, 4, 5, 6});
 
     Images<int> output = a.max();
     for (int i = 0; i < output.size(); i++)
@@ -79,14 +79,14 @@ TEST_CASE("Max function usage images", "[Max]")
         REQUIRE(output[i] == a[i]);
     }
 
-    a = Images<int>::fromArray({3, 2, 2}, {1, 2,
-                                3, 4,
+    a = Images<int>::fromvector({3, 2, 2}, {1, 2,
+                                            3, 4,
 
-                                5, 6,
-                                7, 8,
+                                            5, 6,
+                                            7, 8,
 
-                                9, 10,
-                                11, 12});
+                                            9, 10,
+                                            11, 12});
     output = a.max();
     REQUIRE(output[0] == 9);   
     REQUIRE(output[1] == 10);    
@@ -97,7 +97,7 @@ TEST_CASE("Max function usage images", "[Max]")
 TEST_CASE("Min function usage images", "[Min]")
 {
 
-    Images<int> a = Images<int>::fromArray({6, 1}, {1, 2, 3, 4, 5, 6});
+    Images<int> a = Images<int>::fromvector({6, 1}, {1, 2, 3, 4, 5, 6});
 
     Images<int> output = a.min();
     for (int i = 0; i < output.size(); i++)
@@ -105,14 +105,14 @@ TEST_CASE("Min function usage images", "[Min]")
         REQUIRE(output[i] == a[i]);
     }
 
-    a = Images<int>::fromArray({3, 2, 2}, {1, 2,
-                                3, 4,
+    a = Images<int>::fromvector({3, 2, 2}, {1, 2,
+                                            3, 4,
 
-                                5, 6,
-                                7, 8,
+                                            5, 6,
+                                            7, 8,
 
-                                9, 10,
-                                11, 12});
+                                            9, 10,
+                                            11, 12});
     output = a.min();
     REQUIRE(output[0] == 1);
     REQUIRE(output[1] == 2);
@@ -123,7 +123,7 @@ TEST_CASE("Min function usage images", "[Min]")
 TEST_CASE("Sum function usage images", "[Sum]")
 {
 
-    Images<int> a = Images<int>::fromArray({6, 1}, {1, 2, 3, 4, 5, 6});
+    Images<int> a = Images<int>::fromvector({6, 1}, {1, 2, 3, 4, 5, 6});
 
     Images<int> output = a.sum();
     for (int i = 0; i < output.size(); i++)
@@ -131,14 +131,14 @@ TEST_CASE("Sum function usage images", "[Sum]")
         REQUIRE(output[i] == a[i]);
     }
 
-    a = Images<int>::fromArray({3, 2, 2}, {1, 2,
-                                3, 4,
+    a = Images<int>::fromvector({3, 2, 2}, {1, 2,
+                                            3, 4,
 
-                                5, 6,
-                                7, 8,
+                                            5, 6,
+                                            7, 8,
 
-                                9, 10,
-                                11, 12});
+                                            9, 10,
+                                            11, 12});
     output = a.sum();
     REQUIRE(output[0] == 15);
     REQUIRE(output[1] == 18);    
@@ -149,7 +149,7 @@ TEST_CASE("Sum function usage images", "[Sum]")
 TEST_CASE("Mean function usage images", "[Mean]")
 {
 
-    Images<int> a = Images<int>::fromArray({6, 1}, {1, 2, 3, 4, 5, 6});
+    Images<int> a = Images<int>::fromvector({6, 1}, {1, 2, 3, 4, 5, 6});
 
     Images<int> output = a.mean();
     for (int i = 0; i < output.size(); i++)
@@ -157,14 +157,14 @@ TEST_CASE("Mean function usage images", "[Mean]")
         REQUIRE(output[i] == a[i]);
     }
 
-    a = Images<int>::fromArray({3, 2, 2}, {1, 2,
-                                3, 4,
+    a = Images<int>::fromvector({3, 2, 2}, {1, 2,
+                                            3, 4,
 
-                                5, 6,
-                                7, 8,
+                                            5, 6,
+                                            7, 8,
 
-                                9, 10,
-                                11, 12});
+                                            9, 10,
+                                            11, 12});
     output = a.mean();
     REQUIRE(output[0] == 5);
     REQUIRE(output[1] == 6);
@@ -174,7 +174,7 @@ TEST_CASE("Mean function usage images", "[Mean]")
 
 TEST_CASE("Std integer function usage images", "[Std]")
 {
-    Images<int> a = Images<int>::fromArray({5, 1}, {1, 4, 3, 10, 5});
+    Images<int> a = Images<int>::fromvector({5, 1}, {1, 4, 3, 10, 5});
 
     Images<int32_t> output = a.std();
     for (int i = 0; i < output.size(); i++)
@@ -182,14 +182,14 @@ TEST_CASE("Std integer function usage images", "[Std]")
         REQUIRE(output[i] == 0);
     }
 
-    a = Images<int>::fromArray({3, 2, 2}, {11, 12,
-                                5, 6,
+    a = Images<int>::fromvector({3, 2, 2}, {11, 12,
+                                            5, 6,
 
-                                3, 4,
-                                7, 8,
+                                            3, 4,
+                                            7, 8,
 
-                                9, 10,
-                                1, 2});
+                                            9, 10,
+                                            1, 2});
     output = a.std();
     REQUIRE(output[0] == 3);
     REQUIRE(output[1] == 3);
@@ -200,7 +200,7 @@ TEST_CASE("Std integer function usage images", "[Std]")
 TEST_CASE("Std double function usage images", "[Std]")
 {
 
-    Images<double> a = Images<double>::fromArray({5, 1}, {1.0, 4.0, 3.0, 10.0, 5.0});
+    Images<double> a = Images<double>::fromvector({5, 1}, {1.0, 4.0, 3.0, 10.0, 5.0});
 
     Images<double> output = a.std();
     for (int i = 0; i < output.size(); i++)
@@ -208,7 +208,7 @@ TEST_CASE("Std double function usage images", "[Std]")
         REQUIRE(output[i] == Approx(0));
     }
 
-    a = Images<double>::fromArray({3, 2, 2}, {11.0, 12.0,
+    a = Images<double>::fromvector({3, 2, 2}, {11.0, 12.0,
                                    5.0, 6.0,
 
                                    3.0, 4.0,
@@ -226,7 +226,7 @@ TEST_CASE("Std double function usage images", "[Std]")
 TEST_CASE("Var integer function usage images", "[Var]")
 {
 
-    Images<int> a = Images<int>::fromArray({5, 1}, {1, 4, 3, 10, 5});
+    Images<int> a = Images<int>::fromvector({5, 1}, {1, 4, 3, 10, 5});
 
     Images<int32_t> output = a.var();
     for (int i = 0; i < output.size(); i++)
@@ -234,7 +234,7 @@ TEST_CASE("Var integer function usage images", "[Var]")
         REQUIRE(output[i] == 0);
     }
 
-    a = Images<int>::fromArray({3, 2, 2}, {11, 12,
+    a = Images<int>::fromvector({3, 2, 2}, {11, 12,
                                 5, 6,
 
                                 3, 4,
@@ -252,7 +252,7 @@ TEST_CASE("Var integer function usage images", "[Var]")
 TEST_CASE("Var double function usage images", "[Var]")
 {
 
-    Images<double> a = Images<double>::fromArray({5, 1}, {1.0, 4.0, 3.0, 10.0, 5.0});
+    Images<double> a = Images<double>::fromvector({5, 1}, {1.0, 4.0, 3.0, 10.0, 5.0});
 
     Images<double> output = a.var();
     for (int i = 0; i < output.size(); i++)
@@ -260,7 +260,7 @@ TEST_CASE("Var double function usage images", "[Var]")
         REQUIRE(output[i] == Approx(0));
     }
 
-    a = Images<double>::fromArray({3, 2, 2}, {11.0, 12.0,
+    a = Images<double>::fromvector({3, 2, 2}, {11.0, 12.0,
                                    5.0, 6.0,
 
                                    3.0, 4.0,
