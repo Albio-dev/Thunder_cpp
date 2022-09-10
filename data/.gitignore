@@ -4,3 +4,4 @@
 !.gitignore
 !binary_values.txt
 !./singlelayer_png/*
+!./singlelayer_tif/*

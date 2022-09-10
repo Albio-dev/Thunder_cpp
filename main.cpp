@@ -41,10 +41,12 @@ int main() {
     std::cout << std::is_standard_layout<Images<int>>::value << "\n";
     std::cout << std::is_pod<Images<int>>::value << "\n";
 */
-    auto a = ndarray<int>::fromvector({5}, {1, 2, 3, 4, 5});
-    //a[2] +=1;
+//    Series<float> a = Series<float>::fromarray({5}, {1, 4, 3, 10, 5});
+//
+//    Series<float> output = a.std();
 
-    std::cout << a[2] << "\n";
+    Series<float> a = Series<float>::fromrandom({2,4});
+    printMat(a);
 
     return 0;
 }
