@@ -109,9 +109,12 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
                 COMMAND lcov --list ../doc/coverage/coverage_results.info --rc lcov_branch_coverage=1
                 COMMAND genhtml -o ../doc/coverage ../doc/coverage/coverage_results.info
                 )
+
+
+#         add_custom_target(
+#                 format ALL
+#                 COMMAND clang-format --style=file:../.clang-tidy -i  ../src/*
+#         )
+
 endif()
 
-# add_custom_target(
-#         format ALL
-#         COMMAND clang-format --style=file:../.clang-tidy -i  ../src/*
-# )

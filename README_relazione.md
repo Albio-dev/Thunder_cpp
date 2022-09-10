@@ -1,25 +1,37 @@
 # Thunder
 
-
 ## Autori
 
 Alberto Carli
-Aleardo Lodi
+
+Aleardo Lodi VR463652 [E-Mail](mailto:aleardo.lodi@studenti.univr.it)
 
 ## Link progetto originale 
 
 http://thunder-project.org/
 
 ## Descrizione del progetto
-Il nostro progetto é un porting di una sezione del codice di thunder (link) in C++. Il progetto originario é una collezione di librerie per importare immagini e serie dati e poi analizzarle. Scritto in python puó supportare data set molto grandi usando spark o essere eseguito in locale.
-Thunder é composto da vari pacchetti (link/es) esterni e un core package che definisce delle semplici funzioni di lettura e scrittura dei dati.
+Il nostro progetto é una riscrittura di una sezione del codice di [thunder](https://github.com/thunder-project/thunder) in C++17. 
+Il progetto originario é una collezione di librerie, suddivisa in piú pacchetti, per importare immagini o serie dati e poi analizzarle. 
+Scritto in python puó essere eseguito in locale o con il supporto di uno Spark cluster.
+Thunder é suddiviso in un core package che definisce delle semplici funzioni di lettura e scrittura dei dati e da vari pacchetti (si veda [questo](https://github.com/thunder-project/thunder-regression) o [questo](https://github.com/thunder-project/thunder-registration)) di supporto.
 
-Un oggetto di Thunder é semplicemente un contenitore di array multi dimensionali
-(immagini e serie di dati)
+Come progetto non é piú supportato e attivamente in sviluppo, per questo durante la fase di benchmark abbiamo trovato alcune funzioni che tornano errori.
+
 
 ## Il porting
 ### Design implementation choices
-IL nostro porting della libreria é stato concentrato sulla parte di caricamento di immagini o serie numeriche
+IL nostro porting della libreria comprende dua parti: il caricamento d'immagini e serie numeriche e il poter applicare alcune operazioni classiche sui dati.
+Per quanto concerne il caricamento dei dati in un oggetto generico della nostra libreria é possible tramite vari sistemi:
+- Passare al costruttore array o liste 
+- Caricare un'immagine di tipo png
+- Caricare un'immagine di tipo tif
+- Estrarre una serie numerica o serie da un file
+
+Questi dati vengono poi salvati in un array all'interno dell'oggetto NDArray da cui si potranno poi accedere varie funzioni. 
+Delle funzioni aggiuntive sono state scelte la maggior parte presente nel pacchetto base di [thunder](https://github.com/thunder-project/thunder).
+Quali ad esempio: count, max, min, filter, std, var...
+
 
 ## Program workflow
 
