@@ -86,6 +86,7 @@ template <class T>
 template <class K>
 ndarray<T> ndarray<T>::operator/(const ndarray<K> other) const
 {
+    // ToDo: study how it works
     if (!std::is_arithmetic_v<K>)
         throw "Argument tipe not arithmetic";
     return ndarray::element_wise(other, std::divides<T>());

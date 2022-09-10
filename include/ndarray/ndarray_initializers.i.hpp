@@ -13,13 +13,25 @@ ndarray<T> ndarray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
     std::vector<T> output;
     int num_values = std::accumulate(shape.begin(), shape.end(), 1, std::multiplies<T>());
 
-    // ToDo: Works only with float values not int
+    // Workaround, I create a value of type T and check value type
+    T value = 0;
+    value++;
+
     std::random_device dev;
     std::default_random_engine rng(seed);
-    std::uniform_real_distribution<T> dist6(1, 100);
-    for (int k = 0; k < num_values; k++)
-    {
-        output.push_back(dist6(rng));
+    if(std::is_floating_point<T>::value){
+        std::uniform_real_distribution<T> dist6(1, 100);
+        for (int k = 0; k < num_values; k++)
+        {
+            output.push_back(dist6(rng));
+        }
+    }else{
+        std::uniform_int_distribution<T> dist6(1, 6);
+        for (int k = 0; k < num_values; k++)
+        {
+            output.push_back(dist6(rng));
+        }
+
     }
 
     return ndarray<T>(shape, output);
@@ -163,6 +175,7 @@ ndarray<T> ndarray<T>::fromforward_list(std::vector<uint16_t> shape, std::forwar
 template <class T>
 ndarray<T> ndarray<T>::frombinary(std::vector<uint16_t> new_shape, std::string path)
 {
+    // ToDo: try to use std::filesystem::path
     std::ifstream file(path, std::ios::in | std::ios::binary);
     if (!file.is_open())
         throw "Can't open file. Some error occurred.";

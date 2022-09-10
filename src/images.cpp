@@ -168,7 +168,7 @@ public:
         std::vector<T> output;
         std::vector<uint16_t> shape = {(unsigned short int)img.width(), (unsigned short int)img.height(), 3};
         for(int i=0; i < img.width(); i++){
-            for(int j=0; j < img.width(); j++){
+            for(int j=0; j < img.height(); j++){
                 output.push_back(img(i, j, 0, 0)); // R
                 output.push_back(img(i, j, 0, 1)); // G
                 output.push_back(img(i, j, 0, 2)); // B
