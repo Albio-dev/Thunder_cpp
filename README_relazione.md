@@ -41,9 +41,13 @@ Quali ad esempio: count, max, min, filter, std, var...
 ### __cloc tool__
 ### Coverage
 ### Static analysis (maybe)
-###
 
 ## Testing
+
+É stata usata la libreria catch2 importata in third_party/ per eseguire i test. 
+Per ogni componente principale sono stati creati dei file equivalenti per il testing, sia per testare il caricamento di file e immagini sia per tutte le funzioni create.
+
+
 
 ## Third party libraries
 
