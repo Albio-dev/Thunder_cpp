@@ -16,7 +16,7 @@ Il progetto originario é una collezione di librerie, suddivisa in piú pacchett
 Scritto in python puó essere eseguito in locale o con il supporto di uno Spark cluster.
 Thunder é suddiviso in un core package che definisce delle semplici funzioni di lettura e scrittura dei dati e da vari pacchetti (si veda [questo](https://github.com/thunder-project/thunder-regression) o [questo](https://github.com/thunder-project/thunder-registration)) di supporto.
 
-Come progetto non é piú supportato e attivamente in sviluppo, per questo durante la fase di benchmark abbiamo trovato alcune funzioni che tornano errori.
+Il progetto non é piú in attivo sviluppo o supportato e attivamente in sviluppo, per questo durante la fase di benchmark abbiamo trovato alcune funzioni che tornano errori.
 
 
 ## Il porting
@@ -50,5 +50,9 @@ Per ogni componente principale sono stati creati dei file equivalenti per il tes
 
 
 ## Third party libraries
+
+Come librerie esterne é stato usato catch2 per testare il programma e CImg per poter leggere i file immagine e caricare in memoria immagini di vari formati. 
+É stata scelta questa libreria perché la piú semplice e che conteneva tutto quello che ci serviva per caricare le immagini.
+
 
 ## Performance C++ vs Python
