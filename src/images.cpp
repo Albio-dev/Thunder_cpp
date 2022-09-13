@@ -158,7 +158,7 @@ public:
      * @return Images<T> Resulting images object
      */
     [[nodiscard]] static Images<T> frompath(std::string path){
-        cimg_library::CImg<float> img;
+        cimg_library::CImg<T> img;
         if (!std::filesystem::exists(path))
             throw "Image not in path";
 
@@ -168,17 +168,24 @@ public:
             throw "Image loading exception caught";
         }
 
-        std::vector<T> output;
+        std::vector<T> output(img.width()*3*img.height());
         std::vector<uint16_t> shape = {(unsigned short int)img.width(), (unsigned short int)img.height(), 3};
-        for(int i=0; i < img.width(); i++){
-            for(int j=0; j < img.height(); j++){
-                output.push_back(img(i, j, 0, 0)); // R
-                output.push_back(img(i, j, 0, 1)); // G
-                output.push_back(img(i, j, 0, 2)); // B
-            }
-        }
-
+        std::copy(output.begin(), output.end(), img.begin());
         return Images(shape, output);
+
+
+//        std::vector<T> output;
+//        std::vector<uint16_t> shape = {(unsigned short int)img.width(), (unsigned short int)img.height(), 3};
+//
+//        for(int i=0; i < img.width(); i++){
+//            for(int j=0; j < img.height(); j++){
+//                output.push_back(img(i, j, 0, 0)); // R
+//                output.push_back(img(i, j, 0, 1)); // G
+//                output.push_back(img(i, j, 0, 2)); // B
+//            }
+//        }
+//
+//        return Images(shape, output);
     }
 
     /** @brief Read a tif image and load data to Image<T>
