@@ -2,16 +2,61 @@ import thunder as td
 from thunder.images.readers import fromlist, fromarray, frompng, fromtif, frombinary, fromexample
 from thunder import series, images
 import numpy as np
+from random import seed
+from random import randint
 
-data = td.images.fromrandom()
-ts = data.median_filter(3).toseries()
-frequencies = ts.detrend().fourier(freq=3).toarray()
-data = fromtif("./data/1.tif")
-# data = frompng("./data/1.png")
-
-a = np.array([211, 12, 5, 6, 3, 4, 17, 18, 9, 10, 1, 1]).reshape((3, 4))
+# seed random number generator
+seed(1)
 
 
-data = series.fromlist(a)
+@profile
+def read_data_tif():
+    for _ in range(10000):
+        value = randint(1, 4)
+        data = fromtif("./data/" + str(value) + ".tif")
 
-print(data.var().toarray())
+@profile
+def read_data_array():
+    data = np.random.rand(10, 10)
+    for _ in range(10000):
+        data = fromarray(data)
+
+@profile
+def function_clip():
+    for _ in range(10000):
+        data = fromtif("./data/1.tif")
+        data.clip(min=2, max=4)
+
+@profile
+def function_count():
+    for _ in range(10000):
+        data = fromtif("./data/1.tif")
+        data.count()
+
+@profile
+def function_mean():
+    for _ in range(10000):
+        data = fromtif("./data/1.tif")
+        data.mean()
+
+@profile
+def function_std():
+    for _ in range(10000):
+        data = fromtif("./data/1.tif")
+        data.std()
+
+@profile
+def function_var():
+    for _ in range(10000):
+        data = fromtif("./data/1.tif")
+        data.var()
+
+
+
+read_data_tif()
+read_data_array()
+function_clip()
+function_count()
+function_mean()
+function_std()
+function_var()
