@@ -287,7 +287,7 @@ TEST_CASE("Retrieve and image png", "[Var]")
 
 TEST_CASE("Retrieve and image tif", "[Var]")
 {
-    Images<double> a = Images<double>::frompng("../data/singlelayer_tif/1.tif");
+    Images<double> a = Images<double>::fromtif("../data/singlelayer_tif/1.tif");
     REQUIRE(a.getShape()[0] == 75);
     REQUIRE(a.getShape()[1] == 70);
     REQUIRE(a.getShape()[2] == 3);

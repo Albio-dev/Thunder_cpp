@@ -61,7 +61,7 @@ public:
     [[nodiscard]] static Series<T> fromarray(std::vector<uint16_t> shape, T *input)
     {
         // Multiplies all elements in lengths together
-        uint16_t values_length = 1;
+        uint64_t values_length = 1;
         for (auto i : shape)
             values_length *= i;
         return fromvector(shape, {input, input + values_length});

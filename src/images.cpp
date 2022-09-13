@@ -37,7 +37,7 @@ public:
     [[nodiscard]] static Images<T> fromarray(std::vector<uint16_t> shape, T *input)
     {
         // Multiplies all elements in lengths together
-        uint16_t values_length = 1;
+        uint64_t values_length = 1;
         for (auto i : shape)
             values_length *= i;
         return fromvector(shape, {input, input + values_length});
@@ -159,6 +159,9 @@ public:
      */
     [[nodiscard]] static Images<T> frompath(std::string path){
         cimg_library::CImg<float> img;
+        if (!std::filesystem::exists(path))
+            throw "Image not in path";
+
         try {
             img.load(path.c_str());
         }catch (const cimg_library::CImgIOException& e) {

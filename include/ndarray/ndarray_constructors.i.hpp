@@ -9,7 +9,6 @@
 template <class T>
 ndarray<T>::ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values)
 {
-
     if (!(std::is_arithmetic_v<T>))
         throw "Not arithmetic type";
 
@@ -18,15 +17,15 @@ ndarray<T>::ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values)
         throw "Requested 0 dimensioned array";
 
     this->shape = lengths;
+    this->value = values;
 
     // Multiplies all elements in lengths together
-    uint16_t values_length = 1;
+    uint64_t values_length = 1;
     for (uint16_t i : lengths)
         values_length *= i;
 
     if (values.size() != values_length)
         throw "Matrix dimensions and data length mismatch";
 
-    this->value = values;
 }
 
