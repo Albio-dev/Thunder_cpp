@@ -19,7 +19,7 @@ set(LIB
 add_library(thunder ${SRC})
 target_include_directories(thunder PUBLIC include)
 
-add_compile_options(-std=c++17 -Wall -Wextra -Wpedantic -Werror -g)
+add_compile_options(-std=c++17 -Wall -Wextra -Wpedantic -Werror)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     include_directories(SYSTEM /usr/local/Cellar/libpng/1.6.37/include/
@@ -74,6 +74,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         add_library(test_sources OBJECT ${TEST_SRC})
         target_link_libraries(test_sources Catch2 )
         target_include_directories(test_sources PUBLIC include)
+        target_compile_options(test_sources PUBLIC "--coverage" "-fprofile-arcs" "-ftest-coverage")
 
         add_executable(${TEST_TARGET} test/test.cpp )
         if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -87,9 +88,9 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
             target_link_libraries(${TEST_TARGET} PRIVATE Catch2 test_sources ${TIFF_LIB} ${PNG_LIB} ${JPEG_LIB})
         else ()
             target_link_libraries(${TEST_TARGET} PUBLIC Catch2 gcov test_sources ${TIFF_LIB} ${PNG_LIB} ${JPEG_LIB})
-            target_compile_options(${TEST_TARGET} PUBLIC "--coverage" "-fprofile-arcs" "-ftest-coverage")
+            target_compile_options(${TEST_TARGET} PUBLIC "-g" "--coverage")
         endif ()
-        target_compile_options(${TEST_TARGET} PUBLIC "--coverage")
+        target_compile_options(${TEST_TARGET} PUBLIC "-g" "--coverage")
         
         #------------------
         # COVERAGE SECTION
