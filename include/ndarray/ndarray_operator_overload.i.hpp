@@ -20,11 +20,11 @@ ndarray<T> ndarray<T>::element_wise(const ndarray<K> other, OP op) const
 
     std::vector<K> out;
 
-    // TODO: forse snellire? copiare un vector in output ed eseguire l'operazione in loco
-    for (unsigned int i = 0; i < value.size(); i++)
-    {
-        out.push_back(op(value[i], other.value[i]));
-    }
+  // TODO: forse snellire? copiare un vector in output ed eseguire l'operazione
+  // in loco
+  for (unsigned int i = 0; i < value.size(); i++) {
+    out.push_back(op(value[i], other.value[i]));
+  }
 
     return ndarray(shape, out);
 }

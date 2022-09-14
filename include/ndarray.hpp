@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include <algorithm>
 #include <functional>
 #include <iostream>
@@ -9,9 +8,10 @@
 #include <forward_list>
 #include <random>
 #include <type_traits>
+#include <vector>
 
-#include "series.hpp"
 #include "images.hpp"
+#include "series.hpp"
 
 template <class T>
 class ndarray{

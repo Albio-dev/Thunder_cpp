@@ -10,26 +10,24 @@ template <class T>
 ndarray<T> ndarray<T>::getPosition(const std::vector<uint16_t> pos) const
 {
 
-    // Check indexing
-    if (pos.size() > shape.size())
-        throw "Wrong dimensional indexing: dimensions mismatch";
+  // Check indexing
+  if (pos.size() > shape.size())
+    throw "Wrong dimensional indexing: dimensions mismatch";
 
-    int lastdim = pos.size();
+  int lastdim = pos.size();
 
-    // Calculate requested element's position up to the specified dimension
-    int startIndex = 0;
-    for (unsigned int i = 0; i < pos.size(); i++)
-    {
-        // Check if index out of bounds
-        if (pos[i] < 0 || pos[i] >= shape[i])
-            throw "Index out of bounds";
+  // Calculate requested element's position up to the specified dimension
+  int startIndex = 0;
+  for (unsigned int i = 0; i < pos.size(); i++) {
+    // Check if index out of bounds
+    if (pos[i] < 0 || pos[i] >= shape[i])
+      throw "Index out of bounds";
 
-        // Calculating chunk size
-        int subDimensionSize = 1;
-        for (unsigned int k = shape.size() - 1; k != i; k--)
-        {
-            subDimensionSize *= shape[k];
-        }
+    // Calculating chunk size
+    int subDimensionSize = 1;
+    for (unsigned int k = shape.size() - 1; k != i; k--) {
+      subDimensionSize *= shape[k];
+    }
 
         // Shift index by input * chunk size
         startIndex = startIndex + pos[i] * subDimensionSize;
@@ -81,7 +79,7 @@ int ndarray<T>::get_current_dimension() const
         values_length = values_length * i;
     }
 
-    return values_length;
+  return values_length;
 }
 
 /**
@@ -97,7 +95,8 @@ T *ndarray<T>::toarray() const
 }
 
 /**
- * @brief Count how many elements there are in every matrix along the first dimension
+ * @brief Count how many elements there are in every matrix along the first
+ * dimension
  *
  * @tparam T ndarray stored type
  * @return uint16_t multiplication of dimension sizes except first
@@ -145,17 +144,16 @@ ndarray<T> ndarray<T>::transpose(const ndarray<T> input)
         throw "Wrong size for transposition. Expected NxM";
     }
 
-    uint16_t N = input.getShape()[0];
-    uint16_t M = input.getShape()[1];
-    int size = (N * M);
+  uint16_t N = input.getShape()[0];
+  uint16_t M = input.getShape()[1];
+  int size = (N * M);
 
-    // TODO: attenzione allo 0 per altri tipi
-    std::vector<T> output(size, 0);
+  // TODO: attenzione allo 0 per altri tipi
+  std::vector<T> output(size, 0);
 
-    for (uint16_t i = 0; i < size; i++)
-    {
-        output[i] = input[M * (i % N) + (i / N)];
-    }
+  for (uint16_t i = 0; i < size; i++) {
+    output[i] = input[M * (i % N) + (i / N)];
+  }
 
     return ndarray<T>({M, N}, output);
 }

@@ -28,7 +28,6 @@ void ndarray<T>::map(T (*func)(T))
 {
     std::transform(std::begin(value), std::end(value), value.begin(), func);
 }
-
 /**
  * @brief For every element evaluates a function to boolean and keeps the value when true
  *

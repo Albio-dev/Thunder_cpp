@@ -24,8 +24,8 @@ ndarray<T>::ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values)
     for (uint16_t i : lengths)
         values_length *= i;
 
-    if (values.size() != values_length)
-        throw "Matrix dimensions and data length mismatch";
+  if (values.size() != values_length)
+    throw "Matrix dimensions and data length mismatch";
 
 }
 

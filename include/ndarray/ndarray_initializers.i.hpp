@@ -180,14 +180,14 @@ ndarray<T> ndarray<T>::frombinary(std::vector<uint16_t> new_shape, std::string p
     if (!file.is_open())
         throw "Can't open file. Some error occurred.";
 
-    // Disables skipping of leading whitespace by the formatted input functions
-    // https://en.cppreference.com/w/cpp/io/manip/skipws
-    file.unsetf(std::ios::skipws);
+  // Disables skipping of leading whitespace by the formatted input functions
+  // https://en.cppreference.com/w/cpp/io/manip/skipws
+  file.unsetf(std::ios::skipws);
 
-    std::streampos fileSize;
-    file.seekg(0, std::ios::end);
-    fileSize = file.tellg();
-    file.seekg(0, std::ios::beg);
+  std::streampos fileSize;
+  file.seekg(0, std::ios::end);
+  fileSize = file.tellg();
+  file.seekg(0, std::ios::beg);
 
     // reserve capacity in vector
     //int dimension = (int)(fileSize / sizeof(T));
