@@ -126,7 +126,17 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
                 target_link_libraries(${TARGET_NAME} PRIVATE stdc++)
         endif()
-        add_compile_options(-fsanitize=address 
+        target_compile_options(${TEST_TARGET} PUBLIC
+                        -fsanitize=address 
+                        -fsanitize=undefined 
+                        -fno-sanitize-recover=all 
+                        -fsanitize=float-divide-by-zero 
+                        -fsanitize=float-cast-overflow 
+                        -fno-sanitize=null 
+                        -fno-sanitize=alignment 
+                        -fno-omit-frame-pointer)
+        target_compile_options(${TARGET_NAME} PUBLIC
+                        -fsanitize=address 
                         -fsanitize=undefined 
                         -fno-sanitize-recover=all 
                         -fsanitize=float-divide-by-zero 

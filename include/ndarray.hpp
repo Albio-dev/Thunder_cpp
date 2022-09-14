@@ -1,11 +1,11 @@
 #pragma once
 
 #include <algorithm>
+#include <deque>
+#include <forward_list>
 #include <functional>
 #include <iostream>
 #include <list>
-#include <deque>
-#include <forward_list>
 #include <random>
 #include <type_traits>
 #include <vector>
@@ -13,106 +13,109 @@
 #include "images.hpp"
 #include "series.hpp"
 
-template <class T>
-class ndarray{
-        
-    /// @var Actual values vector
-    std::vector<T> value;
-    /// @var Matrix size
-    std::vector<uint16_t> shape;
+template <class T> class ndarray {
 
-    protected:
-    // Constructors
-    ndarray(std::vector<std::uint16_t> lengths, T *values);    
-    ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values);
+  /// @var Actual values vector
+  std::vector<T> value;
+  /// @var Matrix size
+  std::vector<uint16_t> shape;
 
-    public:
-    // Converters
-    explicit operator Images<T>();
-    explicit operator Series<T>();
-    
-    // Operator overload
-    template <class OP, class K>
-    [[nodiscard]] ndarray<T> element_wise(const ndarray<K> other, OP op) const;
-    template <class K>
-    [[nodiscard]] ndarray<T> operator+(const ndarray<K> other) const;
-    template <class K>
-    [[nodiscard]] ndarray<T> operator-(const ndarray<K> other) const;
-    template <class K>
-    [[nodiscard]] ndarray<T> operator*(const ndarray<K> other) const;
-    template <class K>
-    [[nodiscard]] ndarray<T> operator/(const ndarray<K> other) const;
-    [[nodiscard]] const T& operator[](const uint16_t index) const;
+protected:
+  // Constructors
+  ndarray(std::vector<std::uint16_t> lengths, T *values);
+  ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values);
 
-    // Operator wrapper
-    template <class K>
-    [[nodiscard]] ndarray<T> plus(const ndarray<K> other) const;
-    template <class K>
-    [[nodiscard]] ndarray<T> minus(const ndarray<K> other) const;
-    template <class K>
-    [[nodiscard]] ndarray<T> dotdivide(const ndarray<K> other) const;
-    template <class K>
-    [[nodiscard]] ndarray<T> dottimes(const ndarray<K> other) const;
+public:
+  // Converters
+  explicit operator Images<T>();
+  explicit operator Series<T>();
 
-    // vector Wrappers
-    [[nodiscard]] uint16_t size() const;
-    [[nodiscard]] const std::vector<T>& getValue() const;
-    [[nodiscard]] const std::vector<uint16_t>& getShape() const;
-    [[nodiscard]] const T& first() const;
-    [[nodiscard]] auto begin() const;
-    [[nodiscard]] auto end() const;
+  // Operator overload
+  template <class OP, class K>
+  [[nodiscard]] ndarray<T> element_wise(const ndarray<K> other, OP op) const;
+  template <class K>
+  [[nodiscard]] ndarray<T> operator+(const ndarray<K> other) const;
+  template <class K>
+  [[nodiscard]] ndarray<T> operator-(const ndarray<K> other) const;
+  template <class K>
+  [[nodiscard]] ndarray<T> operator*(const ndarray<K> other) const;
+  template <class K>
+  [[nodiscard]] ndarray<T> operator/(const ndarray<K> other) const;
+  [[nodiscard]] const T &operator[](const uint16_t index) const;
 
-    // Utils
-    [[nodiscard]] ndarray<T> getPosition(const std::vector<uint16_t> pos) const;
-    [[nodiscard]] int get_current_dimension() const;
-    [[nodiscard]] T *toarray() const;
-    [[nodiscard]] uint16_t count() const;
-    [[nodiscard]] uint16_t count(const ndarray<T> input) const;
+  // Operator wrapper
+  template <class K>[[nodiscard]] ndarray<T> plus(const ndarray<K> other) const;
+  template <class K>
+  [[nodiscard]] ndarray<T> minus(const ndarray<K> other) const;
+  template <class K>
+  [[nodiscard]] ndarray<T> dotdivide(const ndarray<K> other) const;
+  template <class K>
+  [[nodiscard]] ndarray<T> dottimes(const ndarray<K> other) const;
 
-    protected:
-    [[nodiscard]] static ndarray<T> transpose(const ndarray<T> input);
-    void reshape(const std::vector<uint16_t> new_shape);
+  // vector Wrappers
+  [[nodiscard]] uint16_t size() const;
+  [[nodiscard]] const std::vector<T> &getValue() const;
+  [[nodiscard]] const std::vector<uint16_t> &getShape() const;
+  [[nodiscard]] const T &first() const;
+  [[nodiscard]] auto begin() const;
+  [[nodiscard]] auto end() const;
 
-    public:
-    
-    // Initializers
-    [[nodiscard]] static ndarray<T> fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42);
-    [[nodiscard]] static ndarray<T> frombinary(std::vector<uint16_t> new_shape, std::string path);
+  // Utils
+  [[nodiscard]] ndarray<T> getPosition(const std::vector<uint16_t> pos) const;
+  [[nodiscard]] int get_current_dimension() const;
+  [[nodiscard]] T *toarray() const;
+  [[nodiscard]] uint16_t count() const;
+  [[nodiscard]] uint16_t count(const ndarray<T> input) const;
 
-    [[nodiscard]] static ndarray<T> fromarray(std::vector<uint16_t> shape, T *input);
-    [[nodiscard]] static ndarray<T> fromlist(std::vector<uint16_t> shape, std::list<T> l = {});
-    [[nodiscard]] static ndarray<T> fromlist(std::list<T> l = {});
-    [[nodiscard]] static ndarray<T> fromvector(std::vector<uint16_t> shape, std::vector<T> input);
-    [[nodiscard]] static ndarray<T> fromvector(std::vector<T> input);
-    [[nodiscard]] static ndarray<T> fromdeque(std::vector<uint16_t> shape, std::deque<T> input);
-    [[nodiscard]] static ndarray<T> fromdeque(std::deque<T> input);
-    [[nodiscard]] static ndarray<T> fromforward_list(std::vector<uint16_t> shape, std::forward_list<T> input);
-    [[nodiscard]] static ndarray<T> fromforward_list(std::forward_list<T> input);
+protected:
+  [[nodiscard]] static ndarray<T> transpose(const ndarray<T> input);
+  void reshape(const std::vector<uint16_t> new_shape);
 
-    // Functions
-    // In place
-    void
-    clip(const T &min_value, const T &max_value);
-    void map(T (*func)(T));
+public:
+  // Initializers
+  [[nodiscard]] static ndarray<T>
+  fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42);
+  [[nodiscard]] static ndarray<T> frombinary(std::vector<uint16_t> new_shape,
+                                             std::string path);
 
-    // Returning
-    [[nodiscard]] ndarray<T> filter(bool (*func)(T));
-    [[nodiscard]] ndarray<T> filter(ndarray<T> input, bool (*func)(T));
+  [[nodiscard]] static ndarray<T> fromarray(std::vector<uint16_t> shape,
+                                            T *input);
+  [[nodiscard]] static ndarray<T> fromlist(std::vector<uint16_t> shape,
+                                           std::list<T> l = {});
+  [[nodiscard]] static ndarray<T> fromlist(std::list<T> l = {});
+  [[nodiscard]] static ndarray<T> fromvector(std::vector<uint16_t> shape,
+                                             std::vector<T> input);
+  [[nodiscard]] static ndarray<T> fromvector(std::vector<T> input);
+  [[nodiscard]] static ndarray<T> fromdeque(std::vector<uint16_t> shape,
+                                            std::deque<T> input);
+  [[nodiscard]] static ndarray<T> fromdeque(std::deque<T> input);
+  [[nodiscard]] static ndarray<T> fromforward_list(std::vector<uint16_t> shape,
+                                                   std::forward_list<T> input);
+  [[nodiscard]] static ndarray<T> fromforward_list(std::forward_list<T> input);
 
-    [[nodiscard]] ndarray<T> applyFunc(ndarray<T> input, std::function<T(ndarray<T>)> func);
-    [[nodiscard]] ndarray<T> max();
-    [[nodiscard]] static ndarray<T> max(ndarray<T> input);
-    [[nodiscard]] ndarray<T> min();
-    [[nodiscard]] static ndarray<T> min(ndarray<T> input);
-    [[nodiscard]] ndarray<T> sum();
-    [[nodiscard]] static ndarray<T> sum(ndarray<T> input);
-    [[nodiscard]] ndarray<T> mean();
-    [[nodiscard]] static ndarray<T> mean(ndarray<T> input);
-    [[nodiscard]] ndarray<T> std();
-    [[nodiscard]] static ndarray<T> std(ndarray<T> input);
-    [[nodiscard]] ndarray<T> var();
-    [[nodiscard]] static ndarray<T> var(ndarray<T> input);
+  // Functions
+  // In place
+  void clip(const T &min_value, const T &max_value);
+  void map(T (*func)(T));
 
+  // Returning
+  [[nodiscard]] ndarray<T> filter(bool (*func)(T));
+  [[nodiscard]] ndarray<T> filter(ndarray<T> input, bool (*func)(T));
+
+  [[nodiscard]] ndarray<T> applyFunc(ndarray<T> input,
+                                     std::function<T(ndarray<T>)> func);
+  [[nodiscard]] ndarray<T> max();
+  [[nodiscard]] static ndarray<T> max(ndarray<T> input);
+  [[nodiscard]] ndarray<T> min();
+  [[nodiscard]] static ndarray<T> min(ndarray<T> input);
+  [[nodiscard]] ndarray<T> sum();
+  [[nodiscard]] static ndarray<T> sum(ndarray<T> input);
+  [[nodiscard]] ndarray<T> mean();
+  [[nodiscard]] static ndarray<T> mean(ndarray<T> input);
+  [[nodiscard]] ndarray<T> std();
+  [[nodiscard]] static ndarray<T> std(ndarray<T> input);
+  [[nodiscard]] ndarray<T> var();
+  [[nodiscard]] static ndarray<T> var(ndarray<T> input);
 };
 
 #include "ndarray/ndarray_constructors.i.hpp"
