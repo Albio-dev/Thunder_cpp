@@ -70,7 +70,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         endif ()
         target_include_directories(Catch2 INTERFACE ${CATCH_INCLUDE_DIR})
 
-
+        target_link_libraries(thunder PUBLIC gcov)
+        target_compile_options(thunder PUBLIC "--coverage" "-fprofile-arcs" "-ftest-coverage")
 
         set(TEST_SRC
                 test/ndarray_test.cpp   
@@ -81,7 +82,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
         add_library(test_sources OBJECT ${TEST_SRC})
         target_link_libraries(test_sources Catch2 )
-        target_include_directories(test_sources PRIVATE include)
+        target_include_directories(test_sources PUBLIC include)
 
         add_executable(${TEST_TARGET} test/test.cpp )
         if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -94,8 +95,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
             target_link_libraries(${TEST_TARGET} PRIVATE Catch2 test_sources ${TIFF_LIB} ${PNG_LIB} ${JPEG_LIB})
         else ()
-            target_link_libraries(${TEST_TARGET} PRIVATE Catch2 gcov test_sources ${TIFF_LIB} ${PNG_LIB} ${JPEG_LIB})
-            target_compile_options(${TEST_TARGET} PUBLIC "--coverage")
+            target_link_libraries(${TEST_TARGET} PUBLIC Catch2 gcov test_sources ${TIFF_LIB} ${PNG_LIB} ${JPEG_LIB})
+            target_compile_options(${TEST_TARGET} PUBLIC "--coverage" "-fprofile-arcs" "-ftest-coverage")
         endif ()
 
 

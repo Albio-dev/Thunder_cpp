@@ -89,11 +89,12 @@ int main() {
 
     std::cout << "Elapsed time std: " << elapsed_seconds.count() << "s" << std::endl;
 
-
-    
+    uint16_t f = 0;
+    f++;
+    f--;
     start = std::chrono::system_clock::now();
     for (int i = 0; i < 10000; i++) {
-        n.count();
+        f = n.count();
     }
     end = std::chrono::system_clock::now();
     elapsed_seconds = end - start;
