@@ -94,7 +94,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 
             target_link_libraries(${TEST_TARGET} PRIVATE Catch2 test_sources ${TIFF_LIB} ${PNG_LIB} ${JPEG_LIB})
         else ()
-            target_link_libraries(${TEST_TARGET} PRIVATE Catch2 gcov test_sources )
+            target_link_libraries(${TEST_TARGET} PRIVATE Catch2 gcov test_sources ${TIFF_LIB} ${PNG_LIB} ${JPEG_LIB})
             target_compile_options(${TEST_TARGET} PUBLIC "--coverage")
         endif ()
 

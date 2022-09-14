@@ -277,11 +277,11 @@ TEST_CASE("Var double function usage images", "[Var]")
 
 TEST_CASE("Retrieve and image png", "[Var]")
 {
-    Images<double> a = Images<double>::frompng("../data/singlelayer_png/dot1_grey.png");
+    Images<float> a = Images<float>::frompng("../data/singlelayer_png/dot1_grey.png");
     REQUIRE(a.getShape()[0] == 75);
     REQUIRE(a.getShape()[1] == 70);
-    REQUIRE(a.getShape()[2] == 3);
-    REQUIRE(a.get_current_dimension() == 15750);
+    REQUIRE(a.getShape()[2] == 1);
+    REQUIRE(a.get_current_dimension() == 5250);
 
 }
 
@@ -290,8 +290,8 @@ TEST_CASE("Retrieve and image tif", "[Var]")
     Images<double> a = Images<double>::fromtif("../data/singlelayer_tif/1.tif");
     REQUIRE(a.getShape()[0] == 75);
     REQUIRE(a.getShape()[1] == 70);
-    REQUIRE(a.getShape()[2] == 3);
-    REQUIRE(a.get_current_dimension() == 15750);
+    REQUIRE(a.getShape()[2] == 1);
+    REQUIRE(a.get_current_dimension() == 5250);
 
 }
 

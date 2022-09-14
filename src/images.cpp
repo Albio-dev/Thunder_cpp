@@ -168,8 +168,8 @@ public:
             throw "Image loading exception caught";
         }
 
-        std::vector<T> output(img.width()*3*img.height());
-        std::vector<uint16_t> shape = {(unsigned short int)img.width(), (unsigned short int)img.height(), 3};
+        std::vector<T> output(img.width()*img.depth()*img.height());
+        std::vector<uint16_t> shape = {(unsigned short int)img.width(), (unsigned short int)img.height(), (unsigned short int)img.depth()};
         std::copy(output.begin(), output.end(), img.begin());
         return Images(shape, output);
 

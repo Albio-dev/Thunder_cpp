@@ -9,6 +9,9 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
+                "-ltiff",
+                "-lpng",
+                "-ljpeg",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
