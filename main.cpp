@@ -45,7 +45,7 @@ int main() {
 
     auto start = std::chrono::system_clock::now();
 
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 10000; i++) {
         std::string value = std::to_string(idist(rgen));
 //        std::cout << value << "\t";
         Images<float> k = Images<float>::fromtif("../benchmark/data/" + value + ".tif");
