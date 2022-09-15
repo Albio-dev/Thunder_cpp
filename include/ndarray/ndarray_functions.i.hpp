@@ -9,48 +9,43 @@
  * @param max_value Maximum allowed value
  */
 template <class T>
-void ndarray<T>::clip(const T &min_value, const T &max_value)
-{
-    transform(std::begin(value), std::end(value), std::begin(value),
-              [&](const T &v)
-              { return std::clamp(v, min_value, max_value); });
+void ndarray<T>::clip(const T &min_value, const T &max_value) {
+  transform(std::begin(value), std::end(value), std::begin(value),
+            [&](const T &v) { return std::clamp(v, min_value, max_value); });
 }
 
 /**
- * @brief Applies the supplied unary function to every element in matrix 
+ * @brief Applies the supplied unary function to every element in matrix
  * and stores the result in place
  *
  * @tparam T Underlaying data type
  * @param func Unary function
  */
-template <class T>
-void ndarray<T>::map(T (*func)(T))
-{
-    std::transform(std::begin(value), std::end(value), value.begin(), func);
+template <class T> void ndarray<T>::map(T (*func)(T)) {
+  std::transform(std::begin(value), std::end(value), value.begin(), func);
 }
 /**
- * @brief For every element evaluates a function to boolean and keeps the value when true
+ * @brief For every element evaluates a function to boolean and keeps the value
+ * when true
  *
  * @tparam T Underlaying data type
  * @param func Unary boolean function
  * @return ndarray<T> Values that evaluates to true
  */
-template <class T>
-ndarray<T> ndarray<T>::filter(bool (*func)(T))
-{
-    std::vector<T> output;
-    std::vector<uint16_t> new_shape;
+template <class T> ndarray<T> ndarray<T>::filter(bool (*func)(T)) {
+  std::vector<T> output;
+  std::vector<uint16_t> new_shape;
 
-    for (uint16_t i = 0; i < value.size(); i++){
-        if (func(value[i]))
-            output.push_back(value[i]);
-    }
-    new_shape.push_back(output.size());
-    return ndarray(new_shape, output);
+  for (uint16_t i = 0; i < value.size(); i++) {
+    if (func(value[i]))
+      output.push_back(value[i]);
+  }
+  new_shape.push_back(output.size());
+  return ndarray(new_shape, output);
 }
 /**
- * @brief For every element evaluates a function to boolean on the supplied ndarray
- * and keeps the value when true
+ * @brief For every element evaluates a function to boolean on the supplied
+ * ndarray and keeps the value when true
  *
  * @tparam T Underlaying data type
  * @param input input ndarray to filter
@@ -58,14 +53,14 @@ ndarray<T> ndarray<T>::filter(bool (*func)(T))
  * @return ndarray<T> Values that evaluates to true
  */
 template <class T>
-ndarray<T> ndarray<T>::filter(ndarray<T> input, bool (*func)(T))
-{
-    return input.filter(func);
+ndarray<T> ndarray<T>::filter(ndarray<T> input, bool (*func)(T)) {
+  return input.filter(func);
 }
 
 /**
- * @brief Applies a function to the supplied ndarray. Evaluates along the first dimension
- * e.g. ndarray [3, 2, 2] -> func([1, :, :]), func([2, :, :]), func([3, :, :])
+ * @brief Applies a function to the supplied ndarray. Evaluates along the first
+ * dimension e.g. ndarray [3, 2, 2] -> func([1, :, :]), func([2, :, :]),
+ * func([3, :, :])
  *
  * @tparam T Underlaying data type
  * @param input input ndarray to apply the function to
@@ -73,33 +68,31 @@ ndarray<T> ndarray<T>::filter(ndarray<T> input, bool (*func)(T))
  * @return ndarray<T> Values that evaluates to true
  */
 template <class T>
-ndarray<T> ndarray<T>::applyFunc(ndarray<T> input, std::function<T(ndarray<T>)> func)
-{
-    std::vector<T> output_value;
-    std::vector<uint16_t> output_shape;
+ndarray<T> ndarray<T>::applyFunc(ndarray<T> input,
+                                 std::function<T(ndarray<T>)> func) {
+  std::vector<T> output_value;
+  std::vector<uint16_t> output_shape;
 
-    // Single dimension case
-    if (input.getShape().size() == 1)
-    {
-        // Was [n], reshape into [1, n]
-        input.reshape({1, input.getShape()[0]});
-    }
+  // Single dimension case
+  if (input.getShape().size() == 1) {
+    // Was [n], reshape into [1, n]
+    input.reshape({1, input.getShape()[0]});
+  }
 
-    // Along the first dimension
-    for (uint16_t i = 0; i < input.getShape()[0]; i++)
-    {
-        // Extract all other dimensions
-        ndarray<T> temp = input.getPosition({i});
+  // Along the first dimension
+  for (uint16_t i = 0; i < input.getShape()[0]; i++) {
+    // Extract all other dimensions
+    ndarray<T> temp = input.getPosition({i});
 
-        if (temp.shape.size() != 1)
-            temp.reshape({(uint16_t)(temp.shape[0] * temp.count())});
+    if (temp.shape.size() != 1)
+      temp.reshape({(uint16_t)(temp.shape[0] * temp.count())});
 
-        // Append function result along those dimensions
-        output_value.push_back(func(temp));
-    }
-    output_shape = {input.getShape()[0]};
+    // Append function result along those dimensions
+    output_value.push_back(func(temp));
+  }
+  output_shape = {input.getShape()[0]};
 
-    return ndarray(output_shape, output_value);
+  return ndarray(output_shape, output_value);
 }
 
 /**
@@ -108,23 +101,19 @@ ndarray<T> ndarray<T>::applyFunc(ndarray<T> input, std::function<T(ndarray<T>)> 
  * @tparam T Underlaying data type
  * @return ndarray<T> Ndarray of maximum values
  */
-template <class T>
-ndarray<T> ndarray<T>::max()
-{
-    return applyFunc(*this, [](ndarray<T> a)
-                     { return *max_element(a.begin(), a.end()); });
+template <class T> ndarray<T> ndarray<T>::max() {
+  return applyFunc(
+      *this, [](ndarray<T> a) { return *max_element(a.begin(), a.end()); });
 }
 /**
  * @brief Returns ndarray of max values of the supplied ndarray
  *
  * @tparam T Underlaying data type
  * @param input Input ndarray
- * @return ndarray<T> Ndarray of maximum values 
+ * @return ndarray<T> Ndarray of maximum values
  */
-template <class T>
-ndarray<T> ndarray<T>::max(ndarray<T> input)
-{
-    return input.max();
+template <class T> ndarray<T> ndarray<T>::max(ndarray<T> input) {
+  return input.max();
 }
 
 /**
@@ -133,11 +122,9 @@ ndarray<T> ndarray<T>::max(ndarray<T> input)
  * @tparam T Underlaying data type
  * @return ndarray<T> Ndarray of minimum values
  */
-template <class T>
-ndarray<T> ndarray<T>::min()
-{
-    return applyFunc(*this, [](ndarray<T> a)
-                     { return *min_element(a.begin(), a.end()); });
+template <class T> ndarray<T> ndarray<T>::min() {
+  return applyFunc(
+      *this, [](ndarray<T> a) { return *min_element(a.begin(), a.end()); });
 }
 /**
  * @brief Returns ndarray of min values of the supplied ndarray
@@ -146,10 +133,8 @@ ndarray<T> ndarray<T>::min()
  * @param input Input ndarray
  * @return ndarray<T> Ndarray of minimum values
  */
-template <class T>
-ndarray<T> ndarray<T>::min(ndarray<T> input)
-{
-    return input.min();
+template <class T> ndarray<T> ndarray<T>::min(ndarray<T> input) {
+  return input.min();
 }
 
 /**
@@ -158,11 +143,9 @@ ndarray<T> ndarray<T>::min(ndarray<T> input)
  * @tparam T Underlaying data type
  * @return ndarray<T> Ndarray of sums
  */
-template <class T>
-ndarray<T> ndarray<T>::sum()
-{
-    return applyFunc(*this, [](ndarray<T> a)
-                     { return accumulate(a.begin(), a.end(), 0.0); });
+template <class T> ndarray<T> ndarray<T>::sum() {
+  return applyFunc(
+      *this, [](ndarray<T> a) { return accumulate(a.begin(), a.end(), 0.0); });
 }
 /**
  * @brief Returns ndarray of sums of values of the supplied ndarray
@@ -171,10 +154,8 @@ ndarray<T> ndarray<T>::sum()
  * @param input Input ndarray
  * @return ndarray<T> Ndarray of sums
  */
-template <class T>
-ndarray<T> ndarray<T>::sum(ndarray<T> input)
-{
-    return input.sum();
+template <class T> ndarray<T> ndarray<T>::sum(ndarray<T> input) {
+  return input.sum();
 }
 
 /**
@@ -183,11 +164,8 @@ ndarray<T> ndarray<T>::sum(ndarray<T> input)
  * @tparam T Underlaying data type
  * @return ndarray<T> Ndarray of means
  */
-template <class T>
-ndarray<T> ndarray<T>::mean()
-{
-    return applyFunc(*this, [](ndarray<T> a)
-                     { return a.sum()[0] / a.count(); });
+template <class T> ndarray<T> ndarray<T>::mean() {
+  return applyFunc(*this, [](ndarray<T> a) { return a.sum()[0] / a.count(); });
 }
 /**
  * @brief Returns ndarray of mean values of the supplied ndarray
@@ -196,10 +174,8 @@ ndarray<T> ndarray<T>::mean()
  * @param input Input ndarray
  * @return ndarray<T> Ndarray of means
  */
-template <class T>
- ndarray<T> ndarray<T>::mean(ndarray<T> input)
-{
-    return input.mean();
+template <class T> ndarray<T> ndarray<T>::mean(ndarray<T> input) {
+  return input.mean();
 }
 
 /**
@@ -208,17 +184,14 @@ template <class T>
  * @tparam T Underlaying data type
  * @return ndarray<T> Ndarray of standard deviations
  */
-template <class T>
-ndarray<T> ndarray<T>::std()
-{
-    return applyFunc(*this, [](ndarray<T> a)
-                     {
-            T total = 0;
-            for (int i = 0; i < a.count(); i++)
-            {
-                total += (a[i] - a.mean()[0]) * (a[i] - a.mean()[0]);
-            }
-            return sqrt(total / a.count()); });
+template <class T> ndarray<T> ndarray<T>::std() {
+  return applyFunc(*this, [](ndarray<T> a) {
+    T total = 0;
+    for (int i = 0; i < a.count(); i++) {
+      total += (a[i] - a.mean()[0]) * (a[i] - a.mean()[0]);
+    }
+    return sqrt(total / a.count());
+  });
 }
 /**
  * @brief Returns ndarray of standard deviation values of the supplied ndarray
@@ -227,10 +200,8 @@ ndarray<T> ndarray<T>::std()
  * @param input Input ndarray
  * @return ndarray<T> Ndarray of standard deviations
  */
-template <class T>
-ndarray<T> ndarray<T>::std(ndarray<T> input)
-{
-    return input.std();
+template <class T> ndarray<T> ndarray<T>::std(ndarray<T> input) {
+  return input.std();
 }
 
 /**
@@ -239,17 +210,14 @@ ndarray<T> ndarray<T>::std(ndarray<T> input)
  * @tparam T Underlaying data type
  * @return ndarray<T> Ndarray of variances
  */
-template <class T>
-ndarray<T> ndarray<T>::var()
-{
-    return applyFunc(*this, [](ndarray<T> a)
-                     {
-            T total = 0;
-            for (int i = 0; i < a.count(); i++)
-            {
-                total += (a[i] - a.mean()[0]) * (a[i] - a.mean()[0]);
-            }
-            return (total / a.count()); });
+template <class T> ndarray<T> ndarray<T>::var() {
+  return applyFunc(*this, [](ndarray<T> a) {
+    T total = 0;
+    for (int i = 0; i < a.count(); i++) {
+      total += (a[i] - a.mean()[0]) * (a[i] - a.mean()[0]);
+    }
+    return (total / a.count());
+  });
 }
 /**
  * @brief Returns ndarray of variance values of the supplied ndarray
@@ -258,8 +226,6 @@ ndarray<T> ndarray<T>::var()
  * @param input Input ndarray
  * @return ndarray<T> Ndarray of variances
  */
-template <class T>
-ndarray<T> ndarray<T>::var(ndarray<T> input)
-{
-    return input.var();
+template <class T> ndarray<T> ndarray<T>::var(ndarray<T> input) {
+  return input.var();
 }

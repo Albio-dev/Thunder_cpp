@@ -2,7 +2,7 @@
 
 ## Autori
 
-Alberto Carli
+Alberto Carli VR473845 [E-Mail](mailto:alberto.carli_01@studenti.univr.it)
 
 Aleardo Lodi VR463652 [E-Mail](mailto:aleardo.lodi@studenti.univr.it)
 
@@ -16,22 +16,25 @@ Il progetto originario é una collezione di librerie, suddivisa in piú pacchett
 Scritto in python puó essere eseguito in locale o con il supporto di uno Spark cluster.
 Thunder é suddiviso in un core package che definisce delle semplici funzioni di lettura e scrittura dei dati e da vari pacchetti (si veda [questo](https://github.com/thunder-project/thunder-regression) o [questo](https://github.com/thunder-project/thunder-registration)) di supporto.
 
-Il progetto non é piú in attivo sviluppo o supportato e attivamente in sviluppo, per questo durante la fase di benchmark abbiamo trovato alcune funzioni che tornano errori.
+Il progetto non é piú in attivamente sviluppato e supportato, per cui durante la fase di benchmark abbiamo trovato alcune funzioni che tornano errori.
 
 
 ## Il porting
-### Design implementation choices
-IL nostro porting della libreria comprende dua parti: il caricamento d'immagini e serie numeriche e il poter applicare alcune operazioni classiche sui dati.
+### Scelte implementative
+Il nostro porting della libreria comprende due componenti principali: il caricamento dei dati e l'applicazione di alcune operazioni classiche sui dati.
 Per quanto concerne il caricamento dei dati in un oggetto generico della nostra libreria é possible tramite vari sistemi:
-- Passare al costruttore array o liste 
+- Passare al costruttore C-like array o altri sequence iterators
 - Caricare un'immagine di tipo png
 - Caricare un'immagine di tipo tif
 - Estrarre una serie numerica o serie da un file
 
-Questi dati vengono poi salvati in un array all'interno dell'oggetto NDArray da cui si potranno poi accedere varie funzioni. 
+Questi dati vengono poi salvati in un vector all'interno della relativa classe che si basa su ndarray. Le funzioni di elaborazione dei dati appartengono alla classe ndarray, mentre funzioni specifiche per caricare e manipolare i dati appropriatamente si trovano nelle classi series e images.
 Delle funzioni aggiuntive sono state scelte la maggior parte presente nel pacchetto base di [thunder](https://github.com/thunder-project/thunder).
 Quali ad esempio: count, max, min, filter, std, var...
 
+
+## Program workflow
+Innanzi tutto è necessario caricare i dati in qualche maniera. Si possono utilizzare diverse funzioni a seconda della classe, appropriate al tipo di struttura dati che vogliamo modellare e alle sue caratteristiche
 
 ## I/O esempi
 

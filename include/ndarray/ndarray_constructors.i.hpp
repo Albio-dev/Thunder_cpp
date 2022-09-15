@@ -7,25 +7,22 @@
  * @param values Actual matrix values, already in vector format
  */
 template <class T>
-ndarray<T>::ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values)
-{
-    if (!(std::is_arithmetic_v<T>))
-        throw "Not arithmetic type";
+ndarray<T>::ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values) {
+  if (!(std::is_arithmetic_v<T>))
+    throw "Not arithmetic type";
 
-    // Data checks
-    if (lengths.size() == 0 || lengths[0] == 0)
-        throw "Requested 0 dimensioned array";
+  // Data checks
+  if (lengths.size() == 0 || lengths[0] == 0)
+    throw "Requested 0 dimensioned array";
 
-    this->shape = lengths;
-    this->value = values;
+  this->shape = lengths;
+  this->value = values;
 
-    // Multiplies all elements in lengths together
-    uint64_t values_length = 1;
-    for (uint16_t i : lengths)
-        values_length *= i;
+  // Multiplies all elements in lengths together
+  uint64_t values_length = 1;
+  for (uint16_t i : lengths)
+    values_length *= i;
 
   if (values.size() != values_length)
     throw "Matrix dimensions and data length mismatch";
-
 }
-

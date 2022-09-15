@@ -1,40 +1,37 @@
 
 /**
  * @brief Creates an ndarray with random values
- * 
+ *
  * @tparam T Underlaying type
  * @param shape Shape of the new ndarray
  * @param seed Seed for RNG
  * @return ndarray<T> Ndarray with shape shape and random values
  */
 template <class T>
-ndarray<T> ndarray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
-{
-    std::vector<T> output;
-    int num_values = std::accumulate(shape.begin(), shape.end(), 1, std::multiplies<T>());
+ndarray<T> ndarray<T>::fromrandom(std::vector<uint16_t> shape, int seed) {
+  std::vector<T> output;
+  int num_values =
+      std::accumulate(shape.begin(), shape.end(), 1, std::multiplies<T>());
 
-    // Workaround, I create a value of type T and check value type
-    T value = 0;
-    value++;
+  // Workaround, I create a value of type T and check value type
+  T value = 0;
+  value++;
 
-    std::random_device dev;
-    std::default_random_engine rng(seed);
-    if(std::is_floating_point<T>::value){
-        std::uniform_real_distribution<T> dist6(1, 100);
-        for (int k = 0; k < num_values; k++)
-        {
-            output.push_back(dist6(rng));
-        }
-    }else{
-        std::uniform_int_distribution<T> dist6(1, 6);
-        for (int k = 0; k < num_values; k++)
-        {
-            output.push_back(dist6(rng));
-        }
-
+  std::random_device dev;
+  std::default_random_engine rng(seed);
+  if (std::is_floating_point<T>::value) {
+    std::uniform_real_distribution<T> dist6(1, 100);
+    for (int k = 0; k < num_values; k++) {
+      output.push_back(dist6(rng));
     }
+  } else {
+    std::uniform_int_distribution<T> dist6(1, 6);
+    for (int k = 0; k < num_values; k++) {
+      output.push_back(dist6(rng));
+    }
+  }
 
-    return ndarray<T>(shape, output);
+  return ndarray<T>(shape, output);
 }
 
 /**
@@ -46,13 +43,12 @@ ndarray<T> ndarray<T>::fromrandom(std::vector<uint16_t> shape, int seed)
  * @return ndarray<T> Resulting ndarray
  */
 template <class T>
-ndarray<T> ndarray<T>::fromarray(std::vector<uint16_t> shape, T *input)
-{
-    // Multiplies all elements in lengths together
-    uint64_t values_length = 1;
-    for (auto i : shape)
-        values_length *= i;
-    return ndarray<T>(shape, {input, input + values_length});
+ndarray<T> ndarray<T>::fromarray(std::vector<uint16_t> shape, T *input) {
+  // Multiplies all elements in lengths together
+  uint64_t values_length = 1;
+  for (auto i : shape)
+    values_length *= i;
+  return ndarray<T>(shape, {input, input + values_length});
 }
 
 /**
@@ -62,13 +58,11 @@ ndarray<T> ndarray<T>::fromarray(std::vector<uint16_t> shape, T *input)
  * @param l Input list
  * @return ndarray<T> Resulting ndarray 1 by list length
  */
-template <class T>
-ndarray<T> ndarray<T>::fromlist(std::list<T> l)
-{
-    if (l.size() == 0)
-        throw "List empty. Need to have a non empty list assigned.";
+template <class T> ndarray<T> ndarray<T>::fromlist(std::list<T> l) {
+  if (l.size() == 0)
+    throw "List empty. Need to have a non empty list assigned.";
 
-    return fromvector({l.size()}, {l.begin(), l.end()});
+  return fromvector({l.size()}, {l.begin(), l.end()});
 }
 
 /**
@@ -79,9 +73,8 @@ ndarray<T> ndarray<T>::fromlist(std::list<T> l)
  * @return ndarray<T> Resulting ndarray
  */
 template <class T>
-ndarray<T> ndarray<T>::fromlist(std::vector<uint16_t> shape, std::list<T> l)
-{
-    return fromvector(shape, {l.begin(), l.end()});
+ndarray<T> ndarray<T>::fromlist(std::vector<uint16_t> shape, std::list<T> l) {
+  return fromvector(shape, {l.begin(), l.end()});
 }
 
 /**
@@ -91,9 +84,8 @@ ndarray<T> ndarray<T>::fromlist(std::vector<uint16_t> shape, std::list<T> l)
  * @param input Input vector
  * @return ndarray<T> Resulting ndarray
  */
-template <class T>
-ndarray<T> ndarray<T>::fromvector(std::vector<T> input){
-    return fromvector({static_cast<uint16_t>(input.size())}, input);
+template <class T> ndarray<T> ndarray<T>::fromvector(std::vector<T> input) {
+  return fromvector({static_cast<uint16_t>(input.size())}, input);
 }
 /**
  * @brief Creates an ndarray from a given vector with a given shape
@@ -104,9 +96,9 @@ ndarray<T> ndarray<T>::fromvector(std::vector<T> input){
  * @return ndarray<T> Resulting ndarray
  */
 template <class T>
-ndarray<T> ndarray<T>::fromvector(std::vector<uint16_t> shape, std::vector<T> input)
-{
-    return ndarray<T>(shape, input);
+ndarray<T> ndarray<T>::fromvector(std::vector<uint16_t> shape,
+                                  std::vector<T> input) {
+  return ndarray<T>(shape, input);
 }
 
 /**
@@ -116,10 +108,9 @@ ndarray<T> ndarray<T>::fromvector(std::vector<uint16_t> shape, std::vector<T> in
  * @param input Input dequeue
  * @return ndarray<T> Resulting ndarray
  */
-template <class T>
-ndarray<T> ndarray<T>::fromdeque(std::deque<T> input)
-{
-    return fromvector({static_cast<uint16_t>(input.size())}, {input.begin(), input.end()});
+template <class T> ndarray<T> ndarray<T>::fromdeque(std::deque<T> input) {
+  return fromvector({static_cast<uint16_t>(input.size())},
+                    {input.begin(), input.end()});
 }
 /**
  * @brief Creates an ndarray from a given dequeue with a given shape
@@ -130,22 +121,23 @@ ndarray<T> ndarray<T>::fromdeque(std::deque<T> input)
  * @return ndarray<T> Resulting ndarray
  */
 template <class T>
-ndarray<T> ndarray<T>::fromdeque(std::vector<uint16_t> shape, std::deque<T> input)
-{
-    return fromvector(shape, {input.begin(), input.end()});
+ndarray<T> ndarray<T>::fromdeque(std::vector<uint16_t> shape,
+                                 std::deque<T> input) {
+  return fromvector(shape, {input.begin(), input.end()});
 }
 
 /**
- * @brief Creates an ndarray from a given forward_list. Supposes 1 by vector length
+ * @brief Creates an ndarray from a given forward_list. Supposes 1 by vector
+ * length
  *
  * @tparam T Underlaying data type
  * @param input Input forward_list
  * @return ndarray<T> Resulting ndarray
  */
 template <class T>
-ndarray<T> ndarray<T>::fromforward_list(std::forward_list<T> input)
-{
-    return fromvector({static_cast<uint16_t>(input.size())}, {input.begin(), input.end()});
+ndarray<T> ndarray<T>::fromforward_list(std::forward_list<T> input) {
+  return fromvector({static_cast<uint16_t>(input.size())},
+                    {input.begin(), input.end()});
 }
 /**
  * @brief Creates an ndarray from a given forward_list with a given shape
@@ -156,12 +148,10 @@ ndarray<T> ndarray<T>::fromforward_list(std::forward_list<T> input)
  * @return ndarray<T> Resulting ndarray
  */
 template <class T>
-ndarray<T> ndarray<T>::fromforward_list(std::vector<uint16_t> shape, std::forward_list<T> input)
-{
-    return fromvector(shape, {input.begin(), input.end()});
+ndarray<T> ndarray<T>::fromforward_list(std::vector<uint16_t> shape,
+                                        std::forward_list<T> input) {
+  return fromvector(shape, {input.begin(), input.end()});
 }
-
-
 
 /**
  * @brief Read file and writes it directly into ndarray
@@ -173,12 +163,12 @@ ndarray<T> ndarray<T>::fromforward_list(std::vector<uint16_t> shape, std::forwar
  */
 // ToDo: https://en.cppreference.com/w/cpp/filesystem/path
 template <class T>
-ndarray<T> ndarray<T>::frombinary(std::vector<uint16_t> new_shape, std::string path)
-{
-    // ToDo: try to use std::filesystem::path
-    std::ifstream file(path, std::ios::in | std::ios::binary);
-    if (!file.is_open())
-        throw "Can't open file. Some error occurred.";
+ndarray<T> ndarray<T>::frombinary(std::vector<uint16_t> new_shape,
+                                  std::string path) {
+  // ToDo: try to use std::filesystem::path
+  std::ifstream file(path, std::ios::in | std::ios::binary);
+  if (!file.is_open())
+    throw "Can't open file. Some error occurred.";
 
   // Disables skipping of leading whitespace by the formatted input functions
   // https://en.cppreference.com/w/cpp/io/manip/skipws
@@ -189,17 +179,17 @@ ndarray<T> ndarray<T>::frombinary(std::vector<uint16_t> new_shape, std::string p
   fileSize = file.tellg();
   file.seekg(0, std::ios::beg);
 
-    // reserve capacity in vector
-    //int dimension = (int)(fileSize / sizeof(T));
-    // Maybe I should use this code for file.read directly on this->value
-    // this->value.reserve(dimension);
+  // reserve capacity in vector
+  // int dimension = (int)(fileSize / sizeof(T));
+  // Maybe I should use this code for file.read directly on this->value
+  // this->value.reserve(dimension);
 
-    /*
-    if (NDArray<T>::get_current_dimension() != dimension)
-        throw "File is larger or shorter then expected.";
-    */
-    std::vector<T> vec(fileSize / sizeof(T));
-    file.read(reinterpret_cast<char *>(vec.data()), vec.size() * sizeof(T));
+  /*
+  if (NDArray<T>::get_current_dimension() != dimension)
+      throw "File is larger or shorter then expected.";
+  */
+  std::vector<T> vec(fileSize / sizeof(T));
+  file.read(reinterpret_cast<char *>(vec.data()), vec.size() * sizeof(T));
 
-    return ndarray<T>(new_shape, vec);
+  return ndarray<T>(new_shape, vec);
 }

@@ -1,7 +1,7 @@
 
 /**
  * @brief Dot function a matrix with another.
- * 
+ *
  * @tparam T caller ndarray's type
  * @tparam OP type of binary operation
  * @tparam K type of other ndarray
@@ -11,14 +11,13 @@
  */
 template <class T>
 template <class OP, class K>
-ndarray<T> ndarray<T>::element_wise(const ndarray<K> other, OP op) const
-{
-    if (!(std::is_arithmetic_v<K>))
-        throw "Argument tipe not arithmetic";
-    if (shape != other.shape)
-        throw "Array shapes don't match";
+ndarray<T> ndarray<T>::element_wise(const ndarray<K> other, OP op) const {
+  if (!(std::is_arithmetic_v<K>))
+    throw "Argument tipe not arithmetic";
+  if (shape != other.shape)
+    throw "Array shapes don't match";
 
-    std::vector<K> out;
+  std::vector<K> out;
 
   // TODO: forse snellire? copiare un vector in output ed eseguire l'operazione
   // in loco
@@ -26,7 +25,7 @@ ndarray<T> ndarray<T>::element_wise(const ndarray<K> other, OP op) const
     out.push_back(op(value[i], other.value[i]));
   }
 
-    return ndarray(shape, out);
+  return ndarray(shape, out);
 }
 
 /**
@@ -39,9 +38,8 @@ ndarray<T> ndarray<T>::element_wise(const ndarray<K> other, OP op) const
  */
 template <class T>
 template <class K>
-ndarray<T> ndarray<T>::operator+(const ndarray<K> other) const
-{
-    return ndarray::element_wise(other, std::plus<T>());
+ndarray<T> ndarray<T>::operator+(const ndarray<K> other) const {
+  return ndarray::element_wise(other, std::plus<T>());
 }
 
 /**
@@ -54,9 +52,8 @@ ndarray<T> ndarray<T>::operator+(const ndarray<K> other) const
  */
 template <class T>
 template <class K>
-ndarray<T> ndarray<T>::operator-(const ndarray<K> other) const
-{
-    return ndarray::element_wise(other, std::minus<T>());
+ndarray<T> ndarray<T>::operator-(const ndarray<K> other) const {
+  return ndarray::element_wise(other, std::minus<T>());
 }
 
 /**
@@ -69,9 +66,8 @@ ndarray<T> ndarray<T>::operator-(const ndarray<K> other) const
  */
 template <class T>
 template <class K>
-ndarray<T> ndarray<T>::operator*(const ndarray<K> other) const
-{
-    return ndarray::element_wise(other, std::multiplies<T>());
+ndarray<T> ndarray<T>::operator*(const ndarray<K> other) const {
+  return ndarray::element_wise(other, std::multiplies<T>());
 }
 
 /**
@@ -84,12 +80,11 @@ ndarray<T> ndarray<T>::operator*(const ndarray<K> other) const
  */
 template <class T>
 template <class K>
-ndarray<T> ndarray<T>::operator/(const ndarray<K> other) const
-{
-    // ToDo: study how it works
-    if (!std::is_arithmetic_v<K>)
-        throw "Argument tipe not arithmetic";
-    return ndarray::element_wise(other, std::divides<T>());
+ndarray<T> ndarray<T>::operator/(const ndarray<K> other) const {
+  // ToDo: study how it works
+  if (!std::is_arithmetic_v<K>)
+    throw "Argument tipe not arithmetic";
+  return ndarray::element_wise(other, std::divides<T>());
 }
 
 /**
@@ -99,11 +94,9 @@ ndarray<T> ndarray<T>::operator/(const ndarray<K> other) const
  * @param index index to retrieve the value from
  * @return T value type
  */
-template <class T>
-const T& ndarray<T>::operator[](const uint16_t index) const
-{
-    if (index < value.size())
-        return value[index];
-    else
-        throw "Out of bound indexing";
+template <class T> const T &ndarray<T>::operator[](const uint16_t index) const {
+  if (index < value.size())
+    return value[index];
+  else
+    throw "Out of bound indexing";
 }
