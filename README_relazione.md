@@ -33,9 +33,11 @@ Delle funzioni aggiuntive sono state scelte la maggior parte presente nel pacche
 Quali ad esempio: count, max, min, filter, std, var...
 
 
-## Program workflow
-
 ## I/O esempi
+
+Come dati d'input é possibile caricare immagini, array o serie numeriche. 
+Per quanto riguarda le serie numeriche basta che il file sia composto da numeri separati da uno spazio.
+Le immagini devono essere di due formati, tif o png, per essere caricate e poi elaborate.
 
 ## Code statistics 
 ### __cloc tool__
@@ -56,3 +58,6 @@ Come librerie esterne é stato usato catch2 per testare il programma e CImg per 
 
 
 ## Performance C++ vs Python
+
+![alt text](./data/Performance%201.png)
+![alt text](./data/Performance%202.png)
