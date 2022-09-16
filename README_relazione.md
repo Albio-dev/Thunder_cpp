@@ -62,5 +62,10 @@ Come librerie esterne é stato usato catch2 per testare il programma e CImg per 
 
 ## Performance C++ vs Python
 
+Come si puó vedere dai grafici sotto riportati le performance, con il flag di compilazione -O3, portano tutte C++ al primo posto come tempi di esecuzione.
+Per quanto riguarda la lettura delle immagini direttamente da file non é stato possibile testare i file png.
+
+
+
 ![alt text](./data/Performance%201.png)
 ![alt text](./data/Performance%202.png)

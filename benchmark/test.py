@@ -21,17 +21,6 @@ def read_data_array():
     for _ in range(10000):
         data = fromarray(data)
 
-@profile
-def function_clip():
-    for _ in range(10000):
-        data = fromtif("./data/1.tif")
-        data.clip(min=2, max=4)
-
-@profile
-def function_count():
-    for _ in range(10000):
-        data = fromtif("./data/1.tif")
-        data.count()
 
 @profile
 def function_mean():
@@ -55,8 +44,6 @@ def function_var():
 
 read_data_tif()
 read_data_array()
-function_clip()
-function_count()
 function_mean()
 function_std()
 function_var()
