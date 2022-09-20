@@ -36,7 +36,7 @@ endif ()
 
 add_executable(${TARGET_NAME} main.cpp)
 
-target_link_libraries(${TARGET_NAME} PRIVATE thunder ${TIFF_LIB} ${PNG_LIB} ${JPEG_LIB})
+target_link_libraries(${TARGET_NAME} PUBLIC thunder ${TIFF_LIB} ${PNG_LIB} ${JPEG_LIB})
 
 
 # Docs
@@ -101,9 +101,9 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
                 COMMAND ./test_Thundercpp
                 COMMAND lcov --capture --directory .. --output-file coverage.info --rc lcov_branch_coverage=1
                 COMMAND lcov -a baseline.info -a coverage.info -o coverage_results.info --rc lcov_branch_coverage=1
-                COMMAND lcov --extract coverage_results.info '*${PROJECT_SOURCE_DIR}/include/*' '${PROJECT_SOURCE_DIR}/src/*' --output-file ../doc/coverage/coverage_results.info --rc lcov_branch_coverage=1
+                COMMAND lcov --extract coverage_results.info '*${PROJECT_SOURCE_DIR}/include/*' '*${PROJECT_SOURCE_DIR}/src/*' --output-file ../doc/coverage/coverage_results.info --rc lcov_branch_coverage=1
                 COMMAND lcov --list ../doc/coverage/coverage_results.info --rc lcov_branch_coverage=1
-                COMMAND genhtml -o ../doc/coverage ../doc/coverage/coverage_results.info
+                COMMAND genhtml -o ../doc/coverage ../doc/coverage/coverage_results.info  --rc lcov_branch_coverage=1
                 )
 
         #------------------
@@ -126,24 +126,24 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
         if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
                 target_link_libraries(${TARGET_NAME} PRIVATE stdc++)
         endif()
-        target_compile_options(${TEST_TARGET} PUBLIC
-                        -fsanitize=address 
-                        -fsanitize=undefined 
-                        -fno-sanitize-recover=all 
-                        -fsanitize=float-divide-by-zero 
-                        -fsanitize=float-cast-overflow 
-                        -fno-sanitize=null 
-                        -fno-sanitize=alignment 
-                        -fno-omit-frame-pointer)
-        target_compile_options(${TARGET_NAME} PUBLIC
-                        -fsanitize=address 
-                        -fsanitize=undefined 
-                        -fno-sanitize-recover=all 
-                        -fsanitize=float-divide-by-zero 
-                        -fsanitize=float-cast-overflow 
-                        -fno-sanitize=null 
-                        -fno-sanitize=alignment 
-                        -fno-omit-frame-pointer)
+        set(SANITIZERS 
+                -fsanitize=address
+                -fsanitize=undefined
+                -fno-sanitize-recover=all 
+                -fsanitize=float-divide-by-zero 
+                -fsanitize=float-cast-overflow 
+                -fno-sanitize=null 
+                -fno-sanitize=alignment 
+                -fno-omit-frame-pointer
+                )
+        target_compile_options(${TEST_TARGET} PUBLIC ${SANITIZERS})
+        target_compile_options(${TARGET_NAME} PUBLIC ${SANITIZERS})
+        target_compile_options(test_sources PUBLIC ${SANITIZERS})
+        target_compile_options(thunder PUBLIC ${SANITIZERS})
+        target_link_options(${TEST_TARGET} PUBLIC ${SANITIZERS})
+        target_link_options(${TARGET_NAME} PUBLIC ${SANITIZERS})
+        target_link_options(test_sources PUBLIC ${SANITIZERS})
+        target_link_options(thunder PUBLIC ${SANITIZERS})
 
         #------------------
         # STATIC ANALYZER SECTION

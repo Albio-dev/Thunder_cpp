@@ -45,6 +45,12 @@ Le immagini devono essere di due formati, tif o png, per essere caricate e poi e
 ## Code statistics 
 ### __cloc tool__
 ### Coverage
+Man mano che venivano implementati i metodi venivano scritti anche i relativi unit test con ```Catch2``` fino al raggiungimento di una line coverage soddisfacente.
+La coverage viene rilevata con ```lcov```, che viene utilizzato nel target ```make coverage```
+per ottenere line, function e branch coverage, stamparla a schermo e generare, nella cartella ```doc/coverage```, un report in html.
+![alt text](./data/Coverage.png)
+
+
 ### Static analysis (maybe)
 
 ## Testing

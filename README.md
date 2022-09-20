@@ -9,6 +9,17 @@ Alberto Carli VR473845
 Aleardo Lodi VR463652
 
 ## Build and Controls
+### Prerequisites
+A few dependancies are needed to build:
+* `libpng`
+* `jpeglib`
+* `libtiff`
+
+On linux you could install those by simply running
+```bash
+sudo apt install libpng-dev jpeglib-dev libtiff-dev
+```
+
 ### Build
 Use `cmake` >= 3.23.3 to build the project, simply launch
 ```bash
@@ -33,6 +44,15 @@ make -C build doc
 ```
 
 ### Test
+## Prerequisites
+To compile in debug mode the following programs will need to be available on the system:
+* lcov
+
+by using 
+```bash
+sudo apt install lcov
+```
+
 If `-DCMAKE_BUILD_TYPE=Debug` is specified while building the makefile, like so
 ```
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
