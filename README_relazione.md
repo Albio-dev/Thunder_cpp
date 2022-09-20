@@ -52,6 +52,13 @@ per ottenere line, function e branch coverage, stamparla a schermo e generare, n
 
 
 ### Static analysis (maybe)
+Abbiamo eseguito diversi analizzatori statici e dinamici, quelli presentati all'interno del corso
+
+* Valgrind: All heap blocks were freed -- no leaks are possible
+* Scan-build: No bugs found
+* Lizard: ![alt text](./data/cyclomatic_complexity.png)
+
+Diversi possibili sanitizers sono stati aggiunti a tempo di compilazionee clang-tidy e clang-format sono stati lanciati su tutto il codice
 
 ## Testing
 

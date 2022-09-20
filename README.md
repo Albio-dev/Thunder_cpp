@@ -46,12 +46,17 @@ make -C build doc
 ### Test
 ## Prerequisites
 To compile in debug mode the following programs will need to be available on the system:
-* lcov
-
+* `lcov`
+* `clang-tools`
+* `valgrind`
+* `clang-tidy`
+* `lizard`
 by using 
 ```bash
-sudo apt install lcov
+sudo apt install lcov clang-tools valgrind clang-tidy
+sudo pip install lizard
 ```
+Optionally clang-tidy and clang-format can be downloaded to be used on the code with the proper make target
 
 If `-DCMAKE_BUILD_TYPE=Debug` is specified while building the makefile, like so
 ```
