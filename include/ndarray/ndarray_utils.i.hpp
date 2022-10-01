@@ -62,6 +62,7 @@ ndarray<T> ndarray<T>::getPosition(const std::vector<uint16_t> pos) const {
  *
  * @return values_length Number of elements in vector
  */
+/*
 template <class T> int ndarray<T>::get_current_dimension() const {
   if (this->shape.size() == 0 || this->shape[0] == 0)
     throw "Requested 0 dimensioned array";
@@ -75,7 +76,7 @@ template <class T> int ndarray<T>::get_current_dimension() const {
   }
 
   return values_length;
-}
+}*/
 
 /**
  * @brief Retrieve the underlaying array
@@ -153,9 +154,9 @@ template <class T> ndarray<T> ndarray<T>::transpose(const ndarray<T> input) {
  * @param new_shape new shape of data
  */
 template <class T>
-void ndarray<T>::reshape(const std::vector<uint16_t> new_shape) {
+ndarray<T> ndarray<T>::reshape(const std::vector<uint16_t> new_shape) const {
   if (std::accumulate(new_shape.begin(), new_shape.end(), 1u,
                       std::multiplies<>()) != value.size())
     throw "Reshaping a different number of elements";
-  shape = new_shape;
+  return ndarray(new_shape, value);
 }

@@ -34,13 +34,15 @@ Quali ad esempio: count, max, min, filter, std, var...
 
 
 ## Program workflow
-Innanzi tutto è necessario caricare i dati in qualche maniera. Si possono utilizzare diverse funzioni a seconda della classe, appropriate al tipo di struttura dati che vogliamo modellare e alle sue caratteristiche
+Innanzi tutto è necessario caricare i dati in qualche maniera. Si possono utilizzare diverse funzioni a seconda della classe, appropriate al tipo di struttura dati che vogliamo modellare e alle sue caratteristiche. 
+Successivamente si possono eseguire diverse manipolazioni e applicare diverse funzioni ai dati.
 
 ## I/O esempi
 
 Come dati d'input é possibile caricare immagini, array o serie numeriche. 
 Per quanto riguarda le serie numeriche basta che il file sia composto da numeri separati da uno spazio.
 Le immagini devono essere di due formati, tif o png, per essere caricate e poi elaborate.
+La procedura è molto semplice (stile python): data un oggetto supportato 
 
 ## Code statistics 
 ### __cloc tool__
@@ -51,7 +53,7 @@ per ottenere line, function e branch coverage, stamparla a schermo e generare, n
 ![alt text](./data/Coverage.png)
 
 
-### Static analysis (maybe)
+### Static analysis
 Abbiamo eseguito diversi analizzatori statici e dinamici, quelli presentati all'interno del corso
 
 * Valgrind: All heap blocks were freed -- no leaks are possible

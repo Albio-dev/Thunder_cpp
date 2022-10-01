@@ -4,7 +4,7 @@
 #include "../include/images.hpp"
 
 // ToDo: Remove only for macos
-#define AVOID_READ_DATA 0
+//#define AVOID_READ_DATA 0
 
 template <class T> class Images : public ndarray<T> {
 
@@ -16,7 +16,7 @@ template <class T> class Images : public ndarray<T> {
    * @param shape Shape of the image object
    * @param input Vector of input data
    */
-  Images(std::vector<uint16_t> shape, std::vector<T> input)
+  Images(const std::vector<uint16_t> shape, const std::vector<T> input)
       : ndarray<T>(shape, input) {
     if (shape.size() < 2)
       throw "Image object must have at least 2 dimensions, got 1";
@@ -31,8 +31,8 @@ public:
    * @param input Input array
    * @return Images<T> Resulting Images
    */
-  [[nodiscard]] static Images<T> fromarray(std::vector<uint16_t> shape,
-                                           T *input) {
+  [[nodiscard]] static Images<T> fromarray(const std::vector<uint16_t> shape,
+                                           const T *input) {
     // Multiplies all elements in lengths together
     uint64_t values_length = 1;
     for (auto i : shape)
@@ -47,7 +47,7 @@ public:
    * @param l Input list
    * @return Images<T> Resulting Images 1 by list length
    */
-  [[nodiscard]] static Images<T> fromlist(std::list<T> l) {
+  [[nodiscard]] static Images<T> fromlist(const std::list<T> l){
     if (l.size() == 0)
       throw "List empty. Need to have a non empty list assigned.";
 
@@ -61,8 +61,8 @@ public:
    * @param l Input list
    * @return Images<T> Resulting Images
    */
-  [[nodiscard]] static Images<T> fromlist(std::vector<uint16_t> shape,
-                                          std::list<T> l) {
+  [[nodiscard]] static Images<T> fromlist(const std::vector<uint16_t> shape,
+                                          const std::list<T> l){
     return fromvector(shape, {l.begin(), l.end()});
   }
 
@@ -73,7 +73,7 @@ public:
    * @param input Input vector
    * @return Images<T> Resulting Images
    */
-  [[nodiscard]] static Images<T> fromvector(std::vector<T> input) {
+  [[nodiscard]] static Images<T> fromvector(const std::vector<T> input){
     return fromvector({static_cast<uint16_t>(input.size())}, input);
   }
   /**
@@ -83,8 +83,8 @@ public:
    * @param input Data vector
    * @return Images<T> Resulting images object
    */
-  [[nodiscard]] static Images<T> fromvector(std::vector<uint16_t> shape,
-                                            std::vector<T> input) {
+  [[nodiscard]] static Images<T> fromvector(const std::vector<uint16_t> shape,
+                                            const std::vector<T> input){
     return Images(shape, input);
   }
 
@@ -95,7 +95,7 @@ public:
    * @param input Input dequeue
    * @return Images<T> Resulting Images
    */
-  [[nodiscard]] static Images<T> fromdeque(std::deque<T> input) {
+  [[nodiscard]] static Images<T> fromdeque(const std::deque<T> input){
     return fromvector({static_cast<uint16_t>(input.size())},
                       {input.begin(), input.end()});
   }
@@ -107,8 +107,8 @@ public:
    * @param input Input dequeue
    * @return Images<T> Resulting Images
    */
-  [[nodiscard]] static Images<T> fromdeque(std::vector<uint16_t> shape,
-                                           std::deque<T> input) {
+  [[nodiscard]] static Images<T> fromdeque(const std::vector<uint16_t> shape,
+                                           const std::deque<T> input){
     return fromvector(shape, {input.begin(), input.end()});
   }
 
@@ -120,7 +120,7 @@ public:
    * @param input Input forward_list
    * @return Images<T> Resulting Images
    */
-  [[nodiscard]] static Images<T> fromforward_list(std::forward_list<T> input) {
+  [[nodiscard]] static Images<T> fromforward_list(const std::forward_list<T> input){
     return fromvector({static_cast<uint16_t>(input.size())},
                       {input.begin(), input.end()});
   }
@@ -132,8 +132,8 @@ public:
    * @param input Input forward_list
    * @return Images<T> Resulting Images
    */
-  [[nodiscard]] static Images<T> fromforward_list(std::vector<uint16_t> shape,
-                                                  std::forward_list<T> input) {
+  [[nodiscard]] static Images<T> fromforward_list(const std::vector<uint16_t> shape,
+                                                  const std::forward_list<T> input){
     return fromvector(shape, {input.begin(), input.end()});
   }
 
@@ -145,7 +145,7 @@ public:
    * @return Images<T> Resulting images object
    */
   [[nodiscard]] static Images<T>
-  fromexample(std::string image_name = "dot1_grey.png") {
+  fromexample(const std::string image_name = "dot1_grey.png"){
     return frompng("../data/" + image_name);
   }
 
@@ -156,7 +156,7 @@ public:
    * @param path path to file
    * @return Images<T> Resulting images object
    */
-  [[nodiscard]] static Images<T> frompath(std::string path) {
+  [[nodiscard]] static Images<T> frompath(const std::string path){
     cimg_library::CImg<T> img;
     if (!std::filesystem::exists(path))
       throw "Image not in path";
@@ -194,7 +194,7 @@ public:
    * @param path path to .tif file
    * @return Images<T> Resulting images object
    */
-  [[nodiscard]] static Images<T> fromtif(std::string path) {
+  [[nodiscard]] static Images<T> fromtif(const std::string path){
     return frompath(path);
   }
 
@@ -203,7 +203,7 @@ public:
    * @param path path to .png file
    * @return Images<T> Resulting images object
    */
-  [[nodiscard]] static Images<T> frompng(std::string path) {
+  [[nodiscard]] static Images<T> frompng(const std::string path){
     return frompath(path);
   }
 
@@ -214,7 +214,7 @@ public:
    * @return Images<T> Resulting images object
    */
   [[nodiscard]] static Images<T>
-  fromrandom(std::vector<uint16_t> shape = {10, 50, 50}, int seed = 42) {
+  fromrandom(const std::vector<uint16_t> shape = {10, 50, 50}, const int seed = 42){
     return ndarray<T>::fromrandom(shape, seed);
   }
 
@@ -227,7 +227,7 @@ public:
    * @return false
    */
   [[nodiscard]] bool has_suffix(const std::string &str,
-                                const std::string &suffix) {
+                                const std::string &suffix) const{
     return str.size() >= suffix.size() &&
            str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
   }
@@ -241,22 +241,22 @@ public:
    * @return NDArray<T> Square matrix transposed. Collapses all dimensions and
    * then last 2.
    */
-  [[nodiscard]] ndarray<T> prepareMat() {
+  [[nodiscard]] ndarray<T> prepareMat() const{
 
     // Saving previous dimensions for restoring them later
     std::vector<uint16_t> old_shape = ndarray<T>::getShape();
     // Collapses all dimensions but last
-    ndarray<T>::reshape(
+    ndarray<T> temp = ndarray<T>::reshape(
         {(uint16_t)count(),
          (uint16_t)(
              ndarray<T>::getShape()[ndarray<T>::getShape().size() - 1] *
              ndarray<T>::getShape()[ndarray<T>::getShape().size() - 2])});
 
     // Get the transpose
-    ndarray<T> temp = ndarray<T>::transpose(*this);
+    temp = ndarray<T>::transpose(temp);
 
     // Restore old dimensions
-    ndarray<T>::reshape(old_shape);
+    //ndarray<T>::reshape(old_shape);
 
     return temp;
   }
@@ -267,7 +267,7 @@ public:
    *
    * @return int Number of elements
    */
-  [[nodiscard]] int count() {
+  [[nodiscard]] int count() const{
 
     int output = 1;
 
@@ -285,7 +285,7 @@ public:
    * @param func Boolean function to use as filter
    * @return Images<T> Resulting images object
    */
-  [[nodiscard]] Images<T> filter(bool (*func)(T)) {
+  [[nodiscard]] const Images<T> filter(bool (*func)(T)) const{
     return static_cast<Images<T>>(ndarray<T>::filter(prepareMat(), func));
   }
 
@@ -295,7 +295,7 @@ public:
    *
    * @return Images<T> Contains maximum 2D matrix
    */
-  [[nodiscard]] Images<T> max() {
+  [[nodiscard]] Images<T> max() const{
     return static_cast<Images<T>>(ndarray<T>::max(prepareMat()));
   }
 
@@ -305,7 +305,7 @@ public:
    *
    * @return Images<T> Contains minimum 2D matrix
    */
-  [[nodiscard]] Images<T> min() {
+  [[nodiscard]] Images<T> min() const{
     return static_cast<Images<T>>(ndarray<T>::min(prepareMat()));
   }
 
@@ -315,7 +315,7 @@ public:
    *
    * @return Images<T> Contains sum of 2D matrices
    */
-  [[nodiscard]] Images<T> sum() {
+  [[nodiscard]] Images<T> sum() const{
     return static_cast<Images<T>>(ndarray<T>::sum(prepareMat()));
   }
 
@@ -325,7 +325,7 @@ public:
    *
    * @return Images<T> Contains mean of 2D matrices
    */
-  [[nodiscard]] Images<T> mean() {
+  [[nodiscard]] Images<T> mean() const{
     return static_cast<Images<T>>(ndarray<T>::mean(prepareMat()));
   }
 
@@ -335,7 +335,7 @@ public:
    *
    * @return Series<T> Serie of standard deviations
    */
-  [[nodiscard]] Images<T> std() {
+  [[nodiscard]] Images<T> std() const{
     return static_cast<Images<T>>(ndarray<T>::std(prepareMat()));
   }
 
@@ -345,7 +345,7 @@ public:
    *
    * @return Series<T> Serie of variances
    */
-  [[nodiscard]] Images<T> var() {
+  [[nodiscard]] Images<T> var() const{
     return static_cast<Images<T>>(ndarray<T>::var(prepareMat()));
   }
 };

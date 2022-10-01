@@ -14,7 +14,7 @@ template <class T> class Series : public ndarray<T> {
    * @param shape Series shape
    * @param input Input data vector
    */
-  Series(std::vector<uint16_t> shape, std::vector<T> input)
+  Series(const std::vector<uint16_t> shape, const std::vector<T> input)
       : ndarray<T>(shape, input) {}
 
 public:
@@ -27,25 +27,25 @@ public:
    * @return NDArray<T> Square matrix transposed. Collapses all dimensions
    * except last.
    */
-  [[nodiscard]] ndarray<T> prepareMat() {
+  [[nodiscard]] const ndarray<T> prepareMat() const{
 
     // Saving previous dimensions for restoring them later
     std::vector<uint16_t> old_shape = ndarray<T>::getShape();
     // Collapses all dimensions but last
-    ndarray<T>::reshape(
+    ndarray<T> temp = ndarray<T>::reshape(
         {(uint16_t)count(),
          ndarray<T>::getShape()[ndarray<T>::getShape().size() - 1]});
 
     // Get the transpose
-    ndarray<T> temp = ndarray<T>::transpose(*this);
+    temp = ndarray<T>::transpose(temp);
 
     // Restore old dimensions
-    ndarray<T>::reshape(old_shape);
+    //ndarray<T>::reshape(old_shape);
 
     return temp;
   }
 
-  [[nodiscard]] T getPosition(std::vector<uint16_t> indexes) {
+  [[nodiscard]] T getPosition(const std::vector<uint16_t> indexes) const{
 
     ndarray<T>::getPosition(indexes);
     return NULL;
@@ -59,8 +59,8 @@ public:
    * @param input Input array
    * @return Series<T> Resulting Series
    */
-  [[nodiscard]] static Series<T> fromarray(std::vector<uint16_t> shape,
-                                           T *input) {
+  [[nodiscard]] static Series<T> fromarray(const std::vector<uint16_t> shape,
+                                           const T *input) {
     // Multiplies all elements in lengths together
     uint64_t values_length = 1;
     for (auto i : shape)
@@ -75,7 +75,7 @@ public:
    * @param l Input list
    * @return Series<T> Resulting Series 1 by list length
    */
-  [[nodiscard]] static Series<T> fromlist(std::list<T> l) {
+  [[nodiscard]] static Series<T> fromlist(const std::list<T> l) {
     if (l.size() == 0)
       throw "List empty. Need to have a non empty list assigned.";
 
@@ -89,8 +89,8 @@ public:
    * @param l Input list
    * @return Series<T> Resulting Series
    */
-  [[nodiscard]] static Series<T> fromlist(std::vector<uint16_t> shape,
-                                          std::list<T> l) {
+  [[nodiscard]] static Series<T> fromlist(const std::vector<uint16_t> shape,
+                                          const std::list<T> l) {
     return fromvector(shape, {l.begin(), l.end()});
   }
 
@@ -101,7 +101,7 @@ public:
    * @param input Input vector
    * @return Series<T> Resulting Series
    */
-  [[nodiscard]] static Series<T> fromvector(std::vector<T> input) {
+  [[nodiscard]] static Series<T> fromvector(const std::vector<T> input) {
     return fromvector({static_cast<uint16_t>(input.size())}, input);
   }
   /**
@@ -111,8 +111,8 @@ public:
    * @param input Data vector
    * @return Series<T> Resulting Series object
    */
-  [[nodiscard]] static Series<T> fromvector(std::vector<uint16_t> shape,
-                                            std::vector<T> input) {
+  [[nodiscard]] static Series<T> fromvector(const std::vector<uint16_t> shape,
+                                            const std::vector<T> input) {
     return Series(shape, input);
   }
 
@@ -123,7 +123,7 @@ public:
    * @param input Input dequeue
    * @return Series<T> Resulting Series
    */
-  [[nodiscard]] static Series<T> fromdeque(std::deque<T> input) {
+  [[nodiscard]] static Series<T> fromdeque(const std::deque<T> input) {
     return fromvector({static_cast<uint16_t>(input.size())},
                       {input.begin(), input.end()});
   }
@@ -135,8 +135,8 @@ public:
    * @param input Input dequeue
    * @return Series<T> Resulting Series
    */
-  [[nodiscard]] static Series<T> fromdeque(std::vector<uint16_t> shape,
-                                           std::deque<T> input) {
+  [[nodiscard]] static Series<T> fromdeque(const std::vector<uint16_t> shape,
+                                           const std::deque<T> input) {
     return fromvector(shape, {input.begin(), input.end()});
   }
 
@@ -148,7 +148,7 @@ public:
    * @param input Input forward_list
    * @return Series<T> Resulting Series
    */
-  [[nodiscard]] static Series<T> fromforward_list(std::forward_list<T> input) {
+  [[nodiscard]] static Series<T> fromforward_list(const std::forward_list<T> input) {
     return fromvector({static_cast<uint16_t>(input.size())},
                       {input.begin(), input.end()});
   }
@@ -160,8 +160,8 @@ public:
    * @param input Input forward_list
    * @return Series<T> Resulting Series
    */
-  [[nodiscard]] static Series<T> fromforward_list(std::vector<uint16_t> shape,
-                                                  std::forward_list<T> input) {
+  [[nodiscard]] static Series<T> fromforward_list(const std::vector<uint16_t> shape,
+                                                  const std::forward_list<T> input) {
     return fromvector(shape, {input.begin(), input.end()});
   }
 
@@ -172,7 +172,7 @@ public:
    * @return Series<T> Resulting series object
    */
   [[nodiscard]] static Series<T>
-  fromrandom(std::vector<uint16_t> shape = {100, 10}, int seed = 42) {
+  fromrandom(const std::vector<uint16_t> shape = {100, 10}, const int seed = 42) {
     return static_cast<Series<T>>(ndarray<T>::fromrandom(shape, seed));
   }
 
@@ -183,7 +183,7 @@ public:
    * @param path Path to file to read
    * @return Series<T> Resulting series object
    */
-  [[nodiscard]] static Series<T> fromtext(std::string path) {
+  [[nodiscard]] static Series<T> fromtext(const std::string path) {
     std::vector<T> output;
     std::string line;
     std::ifstream text_file(path);
@@ -229,7 +229,7 @@ public:
    *
    * @return int Number of least dimensioned elements
    */
-  [[nodiscard]] int count() {
+  [[nodiscard]] int count() const {
 
     int output = 1;
 
@@ -247,7 +247,7 @@ public:
    * @param func Boolean function to use as filter
    * @return Series<T> Resulting series object
    */
-  [[nodiscard]] Series<T> filter(bool (*func)(T)) {
+  [[nodiscard]] Series<T> filter(bool (*func)(T)) const {
     return static_cast<Series<T>>(ndarray<T>::filter(prepareMat(), func));
   }
   /**
@@ -256,7 +256,7 @@ public:
    *
    * @return Series<T> Serie of max elements
    */
-  [[nodiscard]] Series<T> max() {
+  [[nodiscard]] Series<T> max() const {
     return static_cast<Series<T>>(ndarray<T>::max(prepareMat()));
   }
   /**
@@ -265,7 +265,7 @@ public:
    *
    * @return Series<T> Serie of min elements
    */
-  [[nodiscard]] Series<T> min() {
+  [[nodiscard]] Series<T> min() const {
     return static_cast<Series<T>>(ndarray<T>::min(prepareMat()));
   }
   /**
@@ -274,7 +274,7 @@ public:
    *
    * @return Series<T> Serie of sum elements
    */
-  [[nodiscard]] Series<T> sum() {
+  [[nodiscard]] Series<T> sum() const {
     return static_cast<Series<T>>(ndarray<T>::sum(prepareMat()));
   }
   /**
@@ -283,7 +283,7 @@ public:
    *
    * @return Series<T> Serie of means
    */
-  [[nodiscard]] Series<T> mean() {
+  [[nodiscard]] Series<T> mean() const {
     return static_cast<Series<T>>(ndarray<T>::mean(prepareMat()));
   }
   /**
@@ -292,7 +292,7 @@ public:
    *
    * @return Series<T> Serie of standard deviations
    */
-  [[nodiscard]] Series<T> std() {
+  [[nodiscard]] Series<T> std() const {
     return static_cast<Series<T>>(ndarray<T>::std(prepareMat()));
   }
   /**
@@ -301,7 +301,7 @@ public:
    *
    * @return Series<T> Serie of variances
    */
-  [[nodiscard]] Series<T> var() {
+  [[nodiscard]] Series<T> var() const {
     return static_cast<Series<T>>(ndarray<T>::var(prepareMat()));
   }
 };

@@ -22,13 +22,13 @@ template <class T> class ndarray {
 
 protected:
   // Constructors
-  ndarray(std::vector<std::uint16_t> lengths, T *values);
-  ndarray(std::vector<std::uint16_t> lengths, std::vector<T> values);
+  ndarray(const std::vector<std::uint16_t> lengths, const T *values);
+  ndarray(const std::vector<std::uint16_t> lengths, const std::vector<T> values);
 
 public:
   // Converters
-  explicit operator Images<T>();
-  explicit operator Series<T>();
+  explicit operator Images<T>() const;
+  explicit operator Series<T>() const;
 
   // Operator overload
   template <class OP, class K>
@@ -69,29 +69,29 @@ public:
 
 protected:
   [[nodiscard]] static ndarray<T> transpose(const ndarray<T> input);
-  void reshape(const std::vector<uint16_t> new_shape);
+  [[nodiscard]] ndarray<T> reshape(const std::vector<uint16_t> new_shape) const;
 
 public:
   // Initializers
   [[nodiscard]] static ndarray<T>
-  fromrandom(std::vector<uint16_t> shape = {2, 2}, int seed = 42);
-  [[nodiscard]] static ndarray<T> frombinary(std::vector<uint16_t> new_shape,
-                                             std::string path);
+  fromrandom(const std::vector<uint16_t> shape = {2, 2}, const int seed = 42);
+  [[nodiscard]] static ndarray<T> frombinary(const std::vector<uint16_t> new_shape,
+                                             const std::string path);
 
-  [[nodiscard]] static ndarray<T> fromarray(std::vector<uint16_t> shape,
-                                            T *input);
-  [[nodiscard]] static ndarray<T> fromlist(std::vector<uint16_t> shape,
-                                           std::list<T> l = {});
-  [[nodiscard]] static ndarray<T> fromlist(std::list<T> l = {});
-  [[nodiscard]] static ndarray<T> fromvector(std::vector<uint16_t> shape,
-                                             std::vector<T> input);
-  [[nodiscard]] static ndarray<T> fromvector(std::vector<T> input);
-  [[nodiscard]] static ndarray<T> fromdeque(std::vector<uint16_t> shape,
-                                            std::deque<T> input);
-  [[nodiscard]] static ndarray<T> fromdeque(std::deque<T> input);
-  [[nodiscard]] static ndarray<T> fromforward_list(std::vector<uint16_t> shape,
-                                                   std::forward_list<T> input);
-  [[nodiscard]] static ndarray<T> fromforward_list(std::forward_list<T> input);
+  [[nodiscard]] static ndarray<T> fromarray(const std::vector<uint16_t> shape,
+                                            const T *input);
+  [[nodiscard]] static ndarray<T> fromlist(const std::vector<uint16_t> shape,
+                                           const std::list<T> l = {});
+  [[nodiscard]] static ndarray<T> fromlist(const std::list<T> l = {});
+  [[nodiscard]] static ndarray<T> fromvector(const std::vector<uint16_t> shape,
+                                             const std::vector<T> input);
+  [[nodiscard]] static ndarray<T> fromvector(const std::vector<T> input);
+  [[nodiscard]] static ndarray<T> fromdeque(const std::vector<uint16_t> shape,
+                                            const std::deque<T> input);
+  [[nodiscard]] static ndarray<T> fromdeque(const std::deque<T> input);
+  [[nodiscard]] static ndarray<T> fromforward_list(const std::vector<uint16_t> shape,
+                                                   const std::forward_list<T> input);
+  [[nodiscard]] static ndarray<T> fromforward_list(const std::forward_list<T> input);
 
   // Functions
   // In place
@@ -99,23 +99,23 @@ public:
   void map(T (*func)(T));
 
   // Returning
-  [[nodiscard]] ndarray<T> filter(bool (*func)(T));
-  [[nodiscard]] ndarray<T> filter(ndarray<T> input, bool (*func)(T));
+  [[nodiscard]] ndarray<T> filter(bool (*func)(T)) const;
+  [[nodiscard]] ndarray<T> filter(const ndarray<T> input, bool (*func)(T)) const;
 
-  [[nodiscard]] ndarray<T> applyFunc(ndarray<T> input,
-                                     std::function<T(ndarray<T>)> func);
-  [[nodiscard]] ndarray<T> max();
-  [[nodiscard]] static ndarray<T> max(ndarray<T> input);
-  [[nodiscard]] ndarray<T> min();
-  [[nodiscard]] static ndarray<T> min(ndarray<T> input);
-  [[nodiscard]] ndarray<T> sum();
-  [[nodiscard]] static ndarray<T> sum(ndarray<T> input);
-  [[nodiscard]] ndarray<T> mean();
-  [[nodiscard]] static ndarray<T> mean(ndarray<T> input);
-  [[nodiscard]] ndarray<T> std();
-  [[nodiscard]] static ndarray<T> std(ndarray<T> input);
-  [[nodiscard]] ndarray<T> var();
-  [[nodiscard]] static ndarray<T> var(ndarray<T> input);
+  [[nodiscard]] ndarray<T> applyFunc(const ndarray<T> input,
+                                     std::function<T(ndarray<T>)> func) const;
+  [[nodiscard]] ndarray<T> max() const;
+  [[nodiscard]] static ndarray<T> max(const ndarray<T> input);
+  [[nodiscard]] ndarray<T> min() const;
+  [[nodiscard]] static ndarray<T> min(const ndarray<T> input);
+  [[nodiscard]] ndarray<T> sum() const;
+  [[nodiscard]] static ndarray<T> sum(const ndarray<T> input);
+  [[nodiscard]] ndarray<T> mean() const;
+  [[nodiscard]] static ndarray<T> mean(const ndarray<T> input);
+  [[nodiscard]] ndarray<T> std() const;
+  [[nodiscard]] static ndarray<T> std(const ndarray<T> input);
+  [[nodiscard]] ndarray<T> var() const;
+  [[nodiscard]] static ndarray<T> var(const ndarray<T> input);
 };
 
 #include "ndarray/ndarray_constructors.i.hpp"
