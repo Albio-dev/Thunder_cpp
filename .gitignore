@@ -1,8 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/c,c++,clion,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=c,c++,clion,visualstudiocode
 ### Personal folder ###
-data/*
-!data/.gitignore
 build/*
 !build/.gitignore
 bin/*
